@@ -9,10 +9,12 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
+import Navbar from './navbar/Navbar';
 
 function App() {
   return (
     <div>
+      <Navbar></Navbar>
       <Router>
         <Switch>
           <Route exact path='/' component={home} />

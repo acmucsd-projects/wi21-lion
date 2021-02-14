@@ -1,9 +1,16 @@
 import React from 'react'
 import './NavStyles.css'
 
-import { FaSchool as Classes, FaBasketballBall as Nsports, FaTableTennis as Csports } from 'react-icons/fa'; 
-import { BiNetworkChart as Aorgs } from 'react-icons/bi'; 
-import { BsFillPeopleFill as Sorgs } from 'react-icons/bs'; 
+
+import {ReactComponent as Classes} from './res/classes.svg';
+import {ReactComponent as Csports} from './res/csports.svg';
+import {ReactComponent as Nsports} from './res/nsports.svg';
+import {ReactComponent as Aorgs} from './res/aorgs.svg';
+import {ReactComponent as Sorgs} from './res/sorgs.svg';
+
+// import { FaSchool as Classes, FaBasketballBall as Nsports, FaTableTennis as Csports } from 'react-icons/fa'; 
+// import { BiNetworkChart as Aorgs } from 'react-icons/bi'; 
+// import { BsFillPeopleFill as Sorgs } from 'react-icons/bs'; 
 
 
 
@@ -30,7 +37,6 @@ export default function TabItem({ listItem, isActive, depth, handleTabItemClick 
 
   return (
     <li className={className} onClick={() => handleTabItemClick(id, name, depth)}> 
-      {/* this is hidden to the left by ddefault maybe */}
       {icon}
       <h2>{name}</h2>
     </li>
