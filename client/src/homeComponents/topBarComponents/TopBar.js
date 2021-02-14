@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import { Link } from "react-router-dom"
 import './TopBar.css'
-import {ReactComponent as ProfileSVG} from './profile.svg'
+import { ReactComponent as ProfileSVG } from './profile.svg'
+import { ReactComponent as CreateSVG } from './create.svg'
 
 import dummyCourses from './dummyCourses.json'
 
+/**
+ * 
+ * @param {*} courses 
+ * @param {*} query 
+ */
 const querySearch = (courses, query) => {
-    if(!query){
+    if (!query) {
         return []
     }
     return courses.filter((course) => {
@@ -15,55 +22,96 @@ const querySearch = (courses, query) => {
 }
 
 
-
-
 const SearchResults = (props) => {
 
-    const {query} = props
+    const { query} = props
+    let {showResults} = props
 
     const [results, setResults] = useState([])
     const [displayResults, setDisplayResults] = useState([])
     const [hideResults, setHideResults] = useState("none");
 
+    const [selected, setSelected] = useState()
+
+
+    const resultsWrapperRef = useRef(null);
+    useOutsideResultsAlerter(resultsWrapperRef);
+
+    /**
+     * Function to handle clicks outside 
+     * @param {*} ref 
+     */
+    function useOutsideResultsAlerter(ref) {
+        useEffect(() => {
+
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setHideResults("none")
+                }
+            }
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
+
+
     useEffect(() => {
         setResults(querySearch(dummyCourses, query))
-        if(!query || query.length === 0){
+        if (!query || query.length === 0) {
             setHideResults("none")
         } else {
             setHideResults("")
+            showResults = true
         }
     }, [query])
 
     useEffect(() => {
-        if(results.length === 0){
-            //add no results found text when query length is not 0 but no results are found
-            // setHideResults("none")
+        if (results.length === 0) {
+            //TODO: find a better solution for this 
             var noResults = [{
-                "department":"",
+                "department": "",
                 "code": "No Results Found"
             }]
             setDisplayResults(noResults)
         } else {
-            // setHideResults("")
             setDisplayResults(results)
+            setSelected(results[0])
         }
     }, [results])
 
-    return (
-        <div id="search-results-container">
-            <ul id="search-results" style={{display:hideResults}}>
-                {displayResults.map((course) =>
-                <li id="result-item">{course.code}</li>
-                )}
-            </ul>
-        </div>
-    ) 
+
+    useEffect(() => {
+        
+        if(showResults){
+            setHideResults("")
+        }
+
+    }, [showResults])
+
+
+    return (<div id="search-results-container" ref={resultsWrapperRef} >
+        <ul id="search-results" style={{ display: hideResults }}>
+            {displayResults.map((course) =>
+                <Link style={{ textDecoration: "none" }} to={course.department + "/" + course.code}>
+                    <li id="result-item">{course.code}</li>
+                </Link>
+            )}
+        </ul>
+    </div>)
 }
+
+
+
 
 const SearchBar = (props) => {
     const [query, setQuery] = useState("")
 
-    const {updateQuery} = props
+    const { updateQuery, showResultsFunc } = props
 
 
 
@@ -82,19 +130,14 @@ const SearchBar = (props) => {
     }, [query])
 
     return (
-        <div id="search-bar" className="topbar-item">
+        <div id="search-bar" className="topbar-item" onClick={showResultsFunc}>
             <input
                 type="text"
                 id="search-input"
                 placeholder="search"
-                name="search-input" 
+                name="search-input"
                 onInput={handleInput}
             />
-            {/* <ul id="search-results" style={{display:hideResults}}>
-                {results.map((course) => 
-                <li id="result-item">{course.code}</li>
-                )}
-            </ul> */}
         </div>
     )
 }
@@ -103,25 +146,27 @@ const TopBar = () => {
 
     const [searchQuery, setSearchQuery] = useState("")
 
+
     function updateQuery(query) {
-        console.log("Hello there")
         setSearchQuery(query)
     }
 
-    const topbarButtonClasses = 'topbar-item topbar-button'
 
 
     return (
         //TODO: search bar 20% from the left and profile button on the far right
         <div>
-        <div id="topbar-container">
-            <div>
-                <SearchBar updateQuery={updateQuery}/>
+            <div id="topbar-container">
+                <SearchBar updateQuery={updateQuery} />
+                <div className="topbar-buttons" style={{ marginRight: '2vw', paddingRight: '1vh', paddingLeft: '1vh' }}>
+                        <div className="topbar-button topbar-item">
+                            <CreateSVG className="topbar-item-svg" />
+                        </div>
+                        <div className="topbar-button topbar-item">
+                            <ProfileSVG className="topbar-item-svg" />
+                        </div>
+                </div>
             </div>
-            <div className={topbarButtonClasses} style={{marginRight:'2vw', paddingRight:'1vh', paddingLeft:'1vh'}}>
-                <ProfileSVG/>
-            </div>
-        </div>
             <SearchResults query={searchQuery}/>
         </div>
     )

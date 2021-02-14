@@ -20,7 +20,7 @@
     position: sticky;
 
     /* Misc */
-    background-color: darkblue;
+    background-color: #3771CD;
 
 }
 
@@ -65,6 +65,8 @@
 
     position: absolute;
 
+    offset-anchor: inherit;
+
     width: 27vw; 
 
     list-style-type: none;
@@ -74,7 +76,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
 
-    height: 15vh;
+    max-height: 15vh;
     z-index: 10;
     /* width: 100%; */
     padding: 2%;
@@ -82,12 +84,14 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 
-    max-height: 300px;
 
 }
 
 #result-item {
     /* background-color: rgb(233, 230, 230); */
+    text-decoration: none;
+    color: #000000;
+    padding: em;
 }
 
 #result-item:hover {
@@ -95,19 +99,42 @@
     background-color: rgb(206, 206, 206);
 }
 
+
+
 .topbar-item {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: center;
 	align-items: stretch;
+    align-content: flex-start;
+
+}
+
+.topbar-item-svg {
+    height: 47%;
+}
+
+.topbar-buttons {
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
 	align-content: flex-start;
 }
 
 .topbar-button {
-    background-color: darkblue;
+    background-color: #3771CD;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    margin-left: 1vw;
 }
 
 .topbar-button:hover {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
     filter: brightness(1.5);
+    cursor: pointer;
+    border-radius: 5px;
 }
