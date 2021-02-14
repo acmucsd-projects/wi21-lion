@@ -1,0 +1,100 @@
+:root {
+  --top-nav-blue: #182B49;
+  --nav-list-blue: #121F34;
+  --ucsd-yellow: #FFCD00;
+}
+
+
+#navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: fit-content;
+  display: flex;
+  margin: 0px;
+  color: var(--ucsd-yellow);
+}
+
+@keyframes open {
+  100% {
+    margin-left: 0;
+  }
+}
+
+
+/* main navbar wrapper */
+#navbar ul {
+  z-index: 999;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+/* side lists */
+#navbar ul:nth-child(n+2) {
+  z-index: 0;
+  margin-left: -200px;
+  animation: open .3s forwards;
+  background-color: var(--nav-list-blue);
+}
+
+#navbar ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  height: 50px;
+  transition-duration: .2s;
+}
+
+#navbar ul li.active {
+  color: #FFF;
+}
+
+
+
+/* header of side list */
+#navbar ul:nth-child(n+2) li:nth-child(1) {
+  background-color: var(--top-nav-blue);
+}
+
+/* all clickable list items */
+#navbar ul:nth-child(n+2) li:nth-child(n+2):hover, #navbar ul:nth-child(1) li:hover {
+  background-color: var(--ucsd-yellow);
+  color: var(--nav-list-blue);
+  box-shadow: 0 0 5px 0 #000;
+}
+
+#navbar ul li h2 {
+  margin: 0px 2px;
+  padding: 0 5px;
+  font-size: 14px;
+}
+
+/* top nav */
+#top-nav {
+  transition-duration: .2s;
+  width: auto;
+  background-color: var(--top-nav-blue);
+}
+
+#navbar #top-nav li {
+  justify-content: flex-start;
+}
+
+#top-nav h2 {
+  transition-duration: .4s;
+  opacity: 1;
+}
+
+
+#top-nav.shrink h2 {
+  margin-left: -100px;
+  opacity: 0;
+}
+
+
+#top-nav .icon {
+  padding-left: 20px;
+}
