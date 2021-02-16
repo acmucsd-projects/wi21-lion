@@ -26,8 +26,7 @@ const SearchResults = (props) => {
 
     const { query, updateShowResults } = props;
 
-    const [bottomSearchPos, setBottomSearchPos] = useState()
-    const [searchWidth, setSearchWidth] = useState()
+
 
     const [results, setResults] = useState([]);
     const [displayResults, setDisplayResults] = useState([]);
@@ -84,8 +83,6 @@ const SearchResults = (props) => {
         } else {
             setDisplayResults(results);
             setSelected(results[0]);
-            setBottomSearchPos(document.getElementById("search-input").getBoundingClientRect().bottom);
-            setSearchWidth(document.getElementById("search-input").getBoundingClientRect().width);
         }
     }, [results]);
 
@@ -99,7 +96,7 @@ const SearchResults = (props) => {
 
     return (
         <div id="search-results-container" ref={resultsWrapperRef} >
-            <ul id="search-results" style={{ display: hideResults, top:bottomSearchPos }}>
+            <ul id="search-results" style={{display: hideResults}}>
                 {displayResults.map((course) =>
                     <Link id="result-item-link" to={course.department + "/" + course.code}>
                         <li id="result-item">{course.code}</li>
