@@ -8,16 +8,42 @@
         "longDescription": "Accelerated introductory programming including an object-oriented approach. Covers basic programming topics from CSE 8A including variables, conditionals, loops, functions/methods, structured data storage, and mutation. Also covers topics from CSE 8B including the Java programming language, class design, interfaces, basic class hierarchies, recursion, event-based programming, and file I/O. Basics of command-line navigation for file management and running programs. Zero units of credit offered for CSE 11 if CSE 8B taken previously or concurrently. Recommended preparation: Significant prior programming experience (for example, high school AP CSA). Students should consult the “CSE Course Placement Advice” web page for assistance in choosing a first CSE course. Prerequisites: restricted to undergraduates. Graduate students will be allowed as space permits.",
         "sections": [
             {
-                "class":"1234567890",
+                "class":"1",
                 "quarter":"Fall",
                 "year":2020,
                 "professor":"Gary",
                 "letter":"A",
-                "webiste": "www.canvas.com",
+                "website": "www.canvas.com",
+                "canvas": "www.canvas.com",
+                "discord": "www.discord.gg/3c",
                 "additionalLinks":[
+                ]
+            },
+            {
+                "class":"2",
+                "quarter":"Fall",
+                "year":2020,
+                "professor":"Cao",
+                "letter":"B",
+                "website": "www.canvas.com",
+                "canvas": "www.canvas.com",
+                "discord": "www.discord.gg/3c",
+                "additionalLinks":[
+                ]
+            },
+            {
+                "class":"3",
+                "quarter":"Fall",
+                "year":2020,
+                "professor":"Miranda",
+                "letter":"C",
+                "website": "www.canvas.com",
+                "canvas": "www.canvas.com",
+                "discord": "www.discord.gg/3c",
+                "additionalLinks": [
                     {
-                        "name":"Discord",
-                        "url":"www.discord.com"
+                        "name":"Gradescope",
+                        "url":"www.gradescope.com"
                     }
                 ]
             }

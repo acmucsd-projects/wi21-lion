@@ -1,0 +1,11 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+    padding: 10%;
+    background-color: #4e4d4d;
+    transition: filter 300ms;
+}
+
+.dropdown:hover {
+    filter: brightness(2);
+}
