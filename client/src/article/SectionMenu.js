@@ -1,13 +1,13 @@
 import React from 'react'
-import './SectionMenu.css'
+import './Article.css'
 
 import dummyCourses from './dummyArticle.json'
 
-function SectionItem(props){
+function SectionItem(props) {
     const { sectionID, updateSelectedID } = props;
     return (
         <div className="section-item" onClick={() => updateSelectedID(sectionID)} >
-            {props.children} 
+            {props.children}
         </div>
     );
 }
@@ -20,7 +20,7 @@ function SectionMenu(props) {
     function updateSelectedID(sectionID) {
         for (let index = 0; index < dummyCourses[0].sections.length; index++) {
             const element = dummyCourses[0].sections[index];
-            if (element.class === sectionID){
+            if (element.class === sectionID) {
                 updateSelectedSection(element);
                 break;
             }

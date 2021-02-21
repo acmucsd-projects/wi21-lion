@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './Article.css'
 
-import {ReactComponent as CarrotSVG} from './icons/carrot.svg';
+import { ReactComponent as CarrotSVG } from './icons/carrot.svg';
 
 function PathItem(props) {
 
@@ -36,7 +36,7 @@ function PathItem(props) {
 
     return (
         <li className="path-item" onClick={() => setOpen(!open)} style={{ backgroundColor: (open && props.children ? '#C4C4C4' : 'white') }}>
-            <div id={(props.children) ? "section-path-item"  : ""} >
+            <div id={(props.children) ? "section-path-item" : ""} >
                 {name}
             </div>
             <div className="path-item-after" style={{ borderLeftColor: (open && props.children ? '#C4C4C4' : 'white') }} />
