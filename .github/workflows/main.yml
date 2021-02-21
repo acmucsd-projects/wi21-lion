@@ -24,6 +24,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
     - name: Install modules
+      working-directory: ./client
       run: yarn
     - name: run client 
       working-directory: ./client
