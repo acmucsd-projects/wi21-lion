@@ -36,10 +36,9 @@ function PathItem(props) {
 
     return (
         <li className="path-item" onClick={() => setOpen(!open)} style={{ backgroundColor: (open && props.children ? '#C4C4C4' : 'white') }}>
-            {/* <div id="section-name"> */}
+            <div id={(props.children) ? "section-path-item"  : ""} >
                 {name}
-                {/* {props.children && carrot} */}
-            {/* </div> */}
+            </div>
             <div className="path-item-after" style={{ borderLeftColor: (open && props.children ? '#C4C4C4' : 'white') }} />
             <div ref={dropdownWrapper} className="">
                 {open && props.children}

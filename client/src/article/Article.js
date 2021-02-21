@@ -57,9 +57,8 @@ function Article(props) {
                             <PathItem name={selectedSectionName}>
                                 <SectionMenu updateSelectedSection={updateSelectedSection}></SectionMenu>
                             </PathItem>
-                            {/* clear class button */}
                         {selectedSection && 
-                        <button className="enroll-button" onClick={() => updateSelectedSection(null)}>
+                        <button className="reset-section-button" onClick={() => updateSelectedSection(null)}>
                             <span>Reset Section</span>
                         </button>}
                         </ul>

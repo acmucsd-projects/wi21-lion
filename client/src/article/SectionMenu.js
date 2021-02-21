@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './SectionMenu.css'
 
 import dummyCourses from './dummyArticle.json'

@@ -8,8 +8,11 @@ function Section(props) {
     return (
         <div id="section-content" >
             <div>
-                <h4>{`Section: ${section.letter}`}</h4>
-                <h4>{`Instructor: ${section.professor}`}</h4>        
+                <div id="section-info">
+                    <h3> Section: <span>{section.letter}</span></h3>
+                    <h3>Instructor: <span>{section.professor}</span></h3>
+                    <h3>Lecture: <span>{`${section.lectureDays} ${section.lectureTime}`}</span></h3>
+                </div>
                 <button className="enroll-button">
                     <span>Enroll</span>
                 </button>

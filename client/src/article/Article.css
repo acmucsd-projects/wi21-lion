@@ -52,16 +52,20 @@
 }
 .article-path li:nth-last-child(2) {
   /* background-color: cyan; */
-  margin-right: 2vw;
+  /* margin-right: 2vw; */
 }
 
 .article-path li:last-child {
-  width: 15vw;
+  /* width: auto; */
   transition: background-color 200ms;
 }
 
 .article-path li:last-child:hover {
   cursor: pointer;
+}
+
+#section-path-item {
+  /* width: auto; */
 }
 
 .path-item{
@@ -109,6 +113,47 @@
   z-index: 1;
 }
 
+.reset-section-button {
+  transition: all 500ms;
+  display: inline-block;
+  background-color: var(--ucsd-yellow); 
+  color: #000000;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  /* margin: 5px; */
+  border-radius: 10px;
+  border: 0;
+}
+.reset-section-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.reset-section-button span:after {
+  right: 0;
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+.reset-section-button:hover {
+ background-color: #ff6956; 
+ color: #FFFFFF;
+}
+
+.reset-section-button:hover span {
+  padding-right: 25px;
+}
+
+.reset-section-button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
 .dropdown-container {
   /* left: 0%; */
 	position: absolute; 
@@ -123,8 +168,8 @@
   color: #000000;
   text-align: center;
   cursor: pointer;
-  padding: 10px;
-  /* margin: 5px; */
+  padding: 3%;
+  margin: 2%;
   border-radius: 10px;
   border: 0;
 }
@@ -155,6 +200,16 @@
 .enroll-button:hover span:after {
   opacity: 1;
   right: 0;
+}
+
+#section-info {
+  display: grid;
+  grid-template-columns: 30% 30% auto;
+
+}
+
+#section-info span {
+  font-weight: normal;
 }
 
 .section-description {
@@ -191,6 +246,16 @@
   border-style: solid; 
   width: 40%;
   min-width: 30%;
+  margin-left: 5%;
+}
+
+.link-entry {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	align-content: center;
 }
 
 #link-name {
@@ -199,6 +264,11 @@
   margin: 5% 10% 5% 10% ;
   padding: 5px;
   word-wrap: break-word;
+}
+
+.link-glyph {
+  height: 20px;
+  /* background-size: 10px 10px; */
 }
 
 .link {
