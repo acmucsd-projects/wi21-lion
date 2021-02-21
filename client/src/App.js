@@ -1,8 +1,8 @@
 import React from 'react';
 import createPage from './homeComponents/createPage';
-
+import TopBar from './topBarComponents/TopBar'
+import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
-
 import {
   BrowserRouter as Router, 
   Switch, 
@@ -10,13 +10,13 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-import Navbar from './navbar/Navbar';
 
 function App() {
   return (
     <div>
-      <Navbar></Navbar>
       <Router>
+          <TopBar />
+          <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
           <Route exact path='/createPage' component={createPage} />
