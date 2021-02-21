@@ -18,14 +18,13 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  lint:
+  compiles:
     if: github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'testing'
     runs-on: ubuntu-latest
-    steps:
+    steps: 
     - uses: actions/checkout@v2
     - name: Install modules
       run: yarn
-    - name: Accessing client folder
-      run: cd client
     - name: run client 
+      working-directory: ./client
       run: yarn start
