@@ -41,19 +41,6 @@
 .article-path li:first-child {
   margin-left: 5vw;
 }
-.article-path li:first-child:before {
-	/* border-top: 0 solid transparent;
-	border-bottom: 0 solid transparent;
-	border-left: 0 solid white; */
-}
-
-.article-path li:nth-child(2){
-  /* background-color: red; */
-}
-.article-path li:nth-last-child(2) {
-  /* background-color: cyan; */
-  /* margin-right: 2vw; */
-}
 
 .article-path li:last-child {
   /* width: auto; */
@@ -62,10 +49,6 @@
 
 .article-path li:last-child:hover {
   cursor: pointer;
-}
-
-#section-path-item {
-  /* width: auto; */
 }
 
 .path-item{
@@ -249,7 +232,7 @@
   width: 40%;
   min-width: 30%;
   margin-left: 5%;
-  padding: 2%;
+  padding: 1%;
 }
 
 .link-entry {

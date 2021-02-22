@@ -1,8 +1,12 @@
-import React from 'react'
+import React from 'react';
 import LinksPanel from './LinksPanel';
 
-import './Article.css'
+import './Article.css';
 
+/**
+ * React component for each courses' sections 
+ * @param {*} props 
+ */
 function Section(props) {
     const { section } = props;
     return (
@@ -22,7 +26,7 @@ function Section(props) {
             </div>
             <LinksPanel section={section} />
         </div>
-    )
+    );
 }
 
 export default Section

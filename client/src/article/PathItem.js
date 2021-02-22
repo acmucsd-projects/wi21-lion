@@ -1,8 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
-import './Article.css'
+import React, { useState, useRef, useEffect } from 'react';
+import './Article.css';
 
-import { ReactComponent as CarrotSVG } from './icons/carrot.svg';
+// import { ReactComponent as CarrotSVG } from './icons/carrot.svg';
 
+/**
+ * React component for each item in the path banner  
+ * @param {*} props 
+ */
 function PathItem(props) {
 
     const { name } = props;
@@ -12,10 +16,10 @@ function PathItem(props) {
     const dropdownWrapper = useRef(null);
     useOutsideDropdownAlerter(dropdownWrapper);
 
-    const carrot = <CarrotSVG />;
+    // const carrot = <CarrotSVG />;
 
     /**
-     * Function to handle clicks outside 
+     * Function to handle clicks outside the section dropdown menu 
      * @param {*} ref 
      */
     function useOutsideDropdownAlerter(ref) {
@@ -36,9 +40,7 @@ function PathItem(props) {
 
     return (
         <li className="path-item" onClick={() => setOpen(!open)} style={{ backgroundColor: (open && props.children ? '#C4C4C4' : 'white') }}>
-            <div id={(props.children) ? "section-path-item" : ""} >
-                {name}
-            </div>
+            {name}
             <div className="path-item-after" style={{ borderLeftColor: (open && props.children ? '#C4C4C4' : 'white') }} />
             <div ref={dropdownWrapper} className="">
                 {open && props.children}

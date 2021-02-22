@@ -1,5 +1,3 @@
-//google calendar?
-
 import React, { useEffect, useState } from 'react';
 
 import './Article.css';
@@ -9,7 +7,11 @@ import PathItem from './PathItem';
 import Section from './Section';
 import SectionMenu from './SectionMenu';
 
-
+/**
+ * General course article template.
+ *  
+ * @param {*} props 
+ */
 function Article(props) {
 
     const { course } = props;
@@ -17,7 +19,7 @@ function Article(props) {
     const [selectedSection, setSelectedSection] = useState(null);
     const [selectedSectionName, setSelectedSectionName] = useState("Select a section...");
 
-    const testPath = "Classes/CSE/CSE11/Dropdown(Gary)"
+    // "Classes/CSE/CSE11/Dropdown(Gary)"
 
     function updateSelectedSection(section) {
         setSelectedSection(section);
@@ -61,7 +63,7 @@ function Article(props) {
                 </p>
             </div>
         </div>
-    )
+    );
 }
 
 export default Article

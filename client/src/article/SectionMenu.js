@@ -1,8 +1,12 @@
-import React from 'react'
-import './Article.css'
+import React from 'react';
+import './Article.css';
 
-import dummyCourses from './dummyArticle.json'
+import dummyCourses from './dummyArticle.json';
 
+/**
+ * A single item of the section dropdown menu 
+ * @param {*} props 
+ */
 function SectionItem(props) {
     const { sectionID, updateSelectedID } = props;
     return (
@@ -12,6 +16,10 @@ function SectionItem(props) {
     );
 }
 
+/**
+ * Section dropdown selection menu 
+ * @param {*} props 
+ */
 function SectionMenu(props) {
 
     const { updateSelectedSection } = props;
@@ -35,7 +43,7 @@ function SectionMenu(props) {
                 </SectionItem>
             ))}
         </div>
-    )
+    );
 }
 
 export default SectionMenu

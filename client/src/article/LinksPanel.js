@@ -1,11 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import './Article.css'
+import './Article.css';
 
 import { ReactComponent as DiscordSVG } from './icons/discord.svg';
 import { ReactComponent as WebsiteSVG } from './icons/website.svg';
 
-
+/**
+ * Single link area that exists under a section's link panel 
+ * @param {*} props 
+ */
 function LinkEntry(props) {
     const { name, url, icon } = props
     return (
@@ -17,9 +20,13 @@ function LinkEntry(props) {
                 </div>
             </a>
         </div>
-    )
+    );
 }
 
+/**
+ * Panel of useful links that corresponds to a specific class section 
+ * @param {*} props 
+ */
 function LinksPanel(props) {
     const { section } = props;
     return (
@@ -32,7 +39,7 @@ function LinksPanel(props) {
                 <LinkEntry name={link.name} url={link.url} />
             ))}
         </div>
-    )
+    );
 }
 
 export default LinksPanel
