@@ -1,23 +1,24 @@
 import React from 'react';
-
-import home from './homeComponents/home'
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
+import createPage from './homeComponents/createPage';
+import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
-import Article from './article/Article';
+import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
+import Article from './article/Article';
+import {
+  BrowserRouter as Router, 
+  Switch, 
+  Route, 
+  // Link,
+  // Redirect,
+} from 'react-router-dom';
 
 function App() {
   return (
     <div>
-      {/* <Navbar></Navbar> */}
       <Router>
+          <TopBar />
+          <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
           {dummyArticles.map((course) => (
@@ -26,6 +27,7 @@ function App() {
               children={<Article course={course}></Article>}>
             </Route>
           ))}
+          <Route exact path='/createPage' component={createPage} />
         </Switch>
       </Router>
     </div>

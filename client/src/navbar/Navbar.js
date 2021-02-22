@@ -67,7 +67,7 @@ function useOutsideAlerter(ref, handleTabClick) {
           // Unbind the event listener on clean up
           document.removeEventListener("mousedown", handleClickOutside);
       };
-  }, [ref]);
+  }, [ref, handleTabClick]);
 }
 
 
@@ -100,6 +100,8 @@ export default function Navbar() {
       case 1: queryData = sectionsLow[id];
       break;
       case 2: queryData = dynamicDepth['gang'];
+      break;
+      default: queryData = undefined;
     } 
 
     // check if query data returned a list
