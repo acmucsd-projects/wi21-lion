@@ -5,7 +5,9 @@ name: CI
 # Controls when the action will run. 
 on:
   pull_request:
-    branches: [ testing, main ]
+    branches:
+      - testing/*
+      - main
   push:
     branches: [ testing, main ]
 
