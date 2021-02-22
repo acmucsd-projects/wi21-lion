@@ -31,7 +31,7 @@ function Article(props) {
         } else {
             setSelectedSectionName(selectedSection.professor);
         }
-    }, [selectedSection]);
+    }, [selectedSection, setSelectedSectionName]);
 
     const sectionContent = (
         <Section section={selectedSection} />
