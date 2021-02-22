@@ -32,8 +32,7 @@ const SearchResults = (props) => {
     const [displayResults, setDisplayResults] = useState([]);
     const [hideResults, setHideResults] = useState("none");
 
-    //not used for now so commented out to avoid eslint errors, see also line 86
-    //const [selected, setSelected] = useState();
+    const [selected, setSelected] = useState();
 
 
     const resultsWrapperRef = useRef(null);
@@ -71,7 +70,7 @@ const SearchResults = (props) => {
             setHideResults("");
             updateShowResults(true);
         }
-    }, [query, updateShowResults]);
+    }, [query]);
 
     useEffect(() => {
         if (results.length === 0) {
@@ -83,14 +82,14 @@ const SearchResults = (props) => {
             setDisplayResults(noResults);
         } else {
             setDisplayResults(results);
-            // setSelected(results[0]);
+            setSelected(results[0]);
         }
     }, [results]);
 
 
     useEffect(() => {
         updateShowResults(!hideResults);
-    }, [hideResults, updateShowResults]);
+    }, [hideResults]);
 
 
 
