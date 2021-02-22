@@ -20,13 +20,13 @@ const SearchBar = (props) => {
 
     useEffect(() => {
         updateQuery(query);
-    }, [query, updateQuery]);
+    }, [query]);
 
     useLayoutEffect(() => {
         if (targetRef.current) {
             updateBottomSearchPos(targetRef.current.bottom)
         }
-      }, [updateBottomSearchPos]);
+      }, []);
 
     return (
         <div id="search-bar" className="topbar-item">
