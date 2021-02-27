@@ -5,6 +5,8 @@ import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
 import Article from './article/Article';
+import CourseContent from './article/CourseContent';
+import SectionContent from './article/SectionContent';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,12 +14,6 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-import Navbar from './navbar/Navbar';
-import Article from './article/Article';
-import dummyArticles from './article/dummyArticle.json';
-import Section from './article/SectionContent';
-import CourseContent from './article/CourseContent';
-import SectionContent from './article/SectionContent';
 
 function App() {
   return (
