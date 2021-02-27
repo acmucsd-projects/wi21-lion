@@ -1,0 +1,366 @@
+[
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE11"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE12"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE15L"
+    },
+    {  
+        "department":"CSE", 
+        "code": "CSE20"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20A"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20B"
+    },
+    {
+        "department":"MATH",
+        "code": "MATH20C"
+    }
+]
