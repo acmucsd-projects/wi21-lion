@@ -12,7 +12,7 @@ const SearchBar = (props) => {
     }
 
     const handleClick = event => {
-        if(event.current){
+        if (event.current) {
             updateClickOnInput(true)
 
         }
@@ -20,13 +20,13 @@ const SearchBar = (props) => {
 
     useEffect(() => {
         updateQuery(query);
-    }, [query]);
+    }, [query, updateQuery]);
 
     useLayoutEffect(() => {
         if (targetRef.current) {
             updateBottomSearchPos(targetRef.current.bottom)
         }
-      }, []);
+    }, [updateBottomSearchPos]);
 
     return (
         <div id="search-bar" className="topbar-item">

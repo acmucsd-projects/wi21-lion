@@ -32,9 +32,6 @@ const SearchResults = (props) => {
     const [displayResults, setDisplayResults] = useState([]);
     const [hideResults, setHideResults] = useState("none");
 
-    const [selected, setSelected] = useState();
-
-
     const resultsWrapperRef = useRef(null);
     useOutsideResultsAlerter(resultsWrapperRef);
 
@@ -70,7 +67,7 @@ const SearchResults = (props) => {
             setHideResults("");
             updateShowResults(true);
         }
-    }, [query]);
+    }, [query, updateShowResults]);
 
     useEffect(() => {
         if (results.length === 0) {
@@ -82,21 +79,20 @@ const SearchResults = (props) => {
             setDisplayResults(noResults);
         } else {
             setDisplayResults(results);
-            setSelected(results[0]);
         }
-    }, [results]);
+    }, [results, updateShowResults]);
 
 
     useEffect(() => {
         updateShowResults(!hideResults);
-    }, [hideResults]);
+    }, [hideResults, updateShowResults]);
 
 
 
 
     return (
         <div id="search-results-container" ref={resultsWrapperRef} >
-            <ul id="search-results" style={{display: hideResults}}>
+            <ul id="search-results" style={{ display: hideResults }}>
                 {displayResults.map((course) =>
                     <Link id="result-item-link" to={course.department + "/" + course.code}>
                         <li id="result-item">{course.code}</li>
