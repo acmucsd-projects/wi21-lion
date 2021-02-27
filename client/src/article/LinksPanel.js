@@ -3,7 +3,14 @@ import React from 'react';
 import './Article.css';
 
 import { ReactComponent as DiscordSVG } from './icons/discord.svg';
+// import { ReactComponent as CanvasPNG } from './icons/canvas.png';
 import { ReactComponent as WebsiteSVG } from './icons/website.svg';
+
+import CanvasPNG from './icons/canvas.png'
+
+const CanvasIMG  = (
+    <img src={CanvasPNG} alt='canvas' className="link-glyph"></img>
+)
 
 /**
  * Single link area that exists under a section's link panel 
@@ -15,8 +22,12 @@ function LinkEntry(props) {
         <div>
             <a href={url} className="link">
                 <div id="link-container">
-                    <h4 id="link-name"> {name}</h4>
-                    {icon}
+                    <h2>
+                        {name}
+                    </h2>
+                    <div>
+                        {icon}
+                    </div>
                 </div>
             </a>
         </div>
@@ -33,11 +44,11 @@ function LinksPanel(props) {
         <div id="links-container">
             <h3 id="link-name">Useful Links</h3>
             <LinkEntry name="Website" url={section.website} icon={<WebsiteSVG className="link-glyph" />} />
-            <LinkEntry name="Canvas" url={section.canvas} />
-            <LinkEntry name="Discord" url={section.discord} icon={<DiscordSVG />} />
-            {section.additionalLinks.map((link) => (
+            <LinkEntry name="Canvas" url={section.canvas} icon={CanvasIMG} />
+            <LinkEntry name="Discord" url={section.discord} icon={<DiscordSVG className="link-glyph" />} />
+            {/* {section.additionalLinks.map((link) => (
                 <LinkEntry name={link.name} url={link.url} />
-            ))}
+            ))} */}
         </div>
     );
 }

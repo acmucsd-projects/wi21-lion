@@ -48,6 +48,10 @@
                     {
                         "name": "Gradescope",
                         "url": "www.gradescope.com"
+                    },
+                    {
+                        "name": "Piazza",
+                        "url": "www.gradescope.com"
                     }
                 ]
             }

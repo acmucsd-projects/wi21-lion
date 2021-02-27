@@ -171,6 +171,7 @@
   right: -20px;
   transition: 0.5s;
 }
+
 .enroll-button:hover {
  background-color: #3771CD; 
  color: #FFFFFF;
@@ -186,9 +187,17 @@
 }
 
 #section-info {
-  display: grid;
-  grid-template-columns: 30% 30% auto;
+  max-width: auto;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap; 
+	justify-content: space-between;
+	align-items: stretch;
+	align-content: center;
+}
 
+#section-info h3 {
+  padding: 2%;
 }
 
 #section-info span {
@@ -198,6 +207,13 @@
 .section-description {
   margin: 0 2% 0 2%;
   word-wrap: break-word;
+}
+
+.section-calendar {
+  background-color: #f7f7f7;
+  margin: 5%;
+  border-radius: 10px;
+  font-family: sans-serif; 
 }
 
 .article-body {
@@ -213,7 +229,7 @@
   margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
 	display: flex;
 	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-wrap: nowrap; 
 	justify-content: space-between;
 	align-items: flex-start;
 	align-content: stretch;
@@ -229,8 +245,8 @@
   border-color: #3771CD; 
   background-color: #C4C4C4;
   border-style: solid; 
-  width: 40%;
-  min-width: 30%;
+  /* width: 40%; */
+  min-width: 25%;
   margin-left: 5%;
   padding: 1%;
 }
@@ -244,16 +260,10 @@
 	align-content: center;
 }
 
-#link-name {
-  position: relative;
-  border-radius: 10px;
-  margin: 5% 10% 5% 10% ;
-  /* padding: 5px; */
-  word-wrap: break-word;
-}
-
 .link-glyph {
-  height: 20px;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
   /* background-size: 10px 10px; */
 }
 
@@ -264,17 +274,18 @@
 
 #link-container {
   position: relative;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   margin: 5% 10% 5% 10%;
-  padding: 2px;
+  /* padding: 100px; */
+  padding: 5% 10% 5% 10% ;
   word-wrap: break-word;
   transition: color 300ms;
   color: black;
 
 	display: flex;
 	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: flex-start;
+	flex-wrap: wrap;
+	justify-content: space-between; 
 	align-items: center;
 	align-content: center;
 }
@@ -282,6 +293,7 @@
 #link-container:hover {
   /* color: #ff6961; */
   cursor:pointer;
+  background-color: #aaaaaa;
 }
 
 #link-container:before {

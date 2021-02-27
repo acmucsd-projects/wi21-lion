@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Article.css';
 
 import dummyCourses from './dummyArticle.json';
@@ -46,4 +47,37 @@ function SectionMenu(props) {
     );
 }
 
-export default SectionMenu
+// export default SectionMenu
+
+function PathDropdownItem(props) {
+
+    const { element, selectionCallback } = props;
+    return (
+        <div className="section-item" onClick={() => selectionCallback(element)}>
+            {props.children}
+        </div>
+    );
+
+}
+
+function PathDropdownMenu(props) {
+
+    const { list, type, updateSelection } = props;
+
+    console.log(list)
+    return (
+        <div className="section-dropdown">
+            {list.map((element) => (
+                // <Link to={element}>
+                    <PathDropdownItem element={element} selectionCallback={updateSelection}>
+                        {element[type]}
+                    </PathDropdownItem>
+                // </Link>
+
+            ))}
+
+        </div>
+    )
+}
+
+export default PathDropdownMenu
