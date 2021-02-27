@@ -3,12 +3,11 @@ import React from 'react';
 import './Article.css';
 
 import { ReactComponent as DiscordSVG } from './icons/discord.svg';
-// import { ReactComponent as CanvasPNG } from './icons/canvas.png';
 import { ReactComponent as WebsiteSVG } from './icons/website.svg';
 
 import CanvasPNG from './icons/canvas.png'
 
-const CanvasIMG  = (
+const CanvasIMG = (
     <img src={CanvasPNG} alt='canvas' className="link-glyph"></img>
 )
 

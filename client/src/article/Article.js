@@ -4,9 +4,7 @@ import './Article.css';
 
 import banner from './icons/ded 1.jpg';
 import PathItem from './PathItem';
-import Section from './SectionContent';
-import PathDropdownMenu from './SectionMenu';
-import SectionMenu from './SectionMenu';
+import PathDropdownMenu from './PathDropdownMenu';
 
 import dummyArticles from './dummyArticle.json';
 
@@ -17,9 +15,8 @@ import dummyArticles from './dummyArticle.json';
  */
 function Article(props) {
 
-    const { course } = props;
+    const { section, course } = props;
     //TODO: make the selected section stay after browser refresh
-    const [selectedSection, setSelectedSection] = useState(null);
     const [selectedSectionName, setSelectedSectionName] = useState("Select a section...");
 
     // "Classes/CSE/CSE11/Dropdown(Gary)"
@@ -35,27 +32,18 @@ function Article(props) {
         window.location = `/courses/${element.department}/${element.name}`;
     }
 
-    function updateSelectedSection(section) {
-        // setSelectedSection(section);
-        window.location = `/courses/${course.department}/${course.name}/${section.professor}`;
+    function updateSelectedSection(sectionParam) {
+        window.location = `/courses/${course.department}/${course.name}/${sectionParam.professor}`;
     }
 
 
     useEffect(() => {
-        if (!selectedSection) {
+        if (!section) {
             setSelectedSectionName("Select a section ...");
         } else {
-            setSelectedSectionName(selectedSection.professor);
+            setSelectedSectionName(section.professor);
         }
-    }, [selectedSection, setSelectedSectionName]);
-
-    const sectionContent = (
-        <Section section={selectedSection} />
-    );
-
-    const departmentList = ["CSE", "ECE"];
-
-    const courseList = ["cse11", "cse12"];
+    }, [section, setSelectedSectionName]);
 
     //TODO: make the banner/header its own component
     return (
@@ -64,32 +52,36 @@ function Article(props) {
             <div className="article-header">
                 <ul className="article-path">
                     <PathItem name="Classes">
-                        <PathDropdownMenu list={[{"type": "courses"}, {"type": "orgs"}]} type={"type"} updateSelection={updateSelectedArticleType}></PathDropdownMenu>
+                        <PathDropdownMenu
+                            list={[{ "type": "courses" }, { "type": "orgs" }]}
+                            type={"type"}
+                            updateSelection={updateSelectedArticleType}
+                            selectedItem={"courses"} />
                     </PathItem>
                     <PathItem name={course.department}>
-                        <PathDropdownMenu list={dummyArticles} type={"department"} updateSelection={updateSelectedDepartment}></PathDropdownMenu>
+                        <PathDropdownMenu
+                            list={dummyArticles}
+                            type={"department"}
+                            updateSelection={updateSelectedDepartment}
+                            selectedItem={course.department} />
                     </PathItem>
                     <PathItem name={course.name}>
-                        <PathDropdownMenu list={dummyArticles} type={"name"} updateSelection={updateSelectedCourse}></PathDropdownMenu>
+                        <PathDropdownMenu
+                            list={dummyArticles}
+                            type={"name"}
+                            updateSelection={updateSelectedCourse}
+                            selectedItem={course.name} />
                     </PathItem>
                     <PathItem name={selectedSectionName}>
-                        {/* <SectionMenu updateSelectedSection={updateSelectedSection}></SectionMenu> */}
-                        <PathDropdownMenu list={course.sections} type={"professor"} updateSelection={updateSelectedSection}></PathDropdownMenu>
+                        <PathDropdownMenu
+                            list={course.sections}
+                            type={"professor"}
+                            updateSelection={updateSelectedSection}
+                            selectedItem={selectedSectionName} />
                     </PathItem>
-                    {/* {selectedSection &&
-                        <button className="reset-section-button" onClick={() => updateSelectedSection(null)}>
-                            <span>Reset Section</span>
-                        </button>} */}
                 </ul>
             </div>
             {props.children}
-            {/* <h1 className="article-body">{course.name + ": " + course.shortDescription}</h1>
-            {selectedSection && sectionContent}
-            <div className="article-body">
-                <p className="long-description">
-                    {course.longDescription}
-                </p>
-            </div> */}
         </div>
     );
 }

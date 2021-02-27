@@ -38,17 +38,17 @@ function SectionContent(props) {
                     <p className="section-description">
                         CSE11 UCSD Cao science computer Cao section Objectorientedlanguage Cao CSE11 Miranda Objectorientedlanguage. Cao Gary Winter Fall Cao 2021 CSE11 discussion section. Winter Miranda Cao Java Cao 2021 Gary Cao Java Miranda Cao Miranda discussion. Cao 2020 CSE11 UCSD Cao Gary UCSD. Fall 2021 2020 UCSD section computer Cao section Fall Cao CSE11 computer 2020 2021?
                 </p>
-                <div className="section-calendar">
-                    <Calendar
-                        localizer={localizer}
-                        events={sectionEvents}
-                        startAccessor="start"
-                        endAccessor="end"
-                        style={{ height: 500 }}
-                        view="week"
-                        defaultView="week"
-                        views={['week']}
-                    />
+                    <div className="section-calendar">
+                        <Calendar
+                            localizer={localizer}
+                            events={sectionEvents}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ height: 500 }}
+                            view="week"
+                            defaultView="week"
+                            views={['week']}
+                        />
                     </div>
                 </div>
                 <LinksPanel section={section} />

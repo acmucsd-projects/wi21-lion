@@ -11,8 +11,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  Redirect,
+  // Link,
+  // Redirect,
 } from 'react-router-dom';
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
             course.sections.map((section) => (
               <Route exact
                 path={`/courses/${course.department}/${course.name}/${section.professor}`}
-                children={<Article course={course}>
+                children={<Article section={section} course={course} >
                   <SectionContent section={section} course={course}></SectionContent>
                 </Article>}>
               </Route>
