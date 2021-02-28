@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Section = require('./Section');
 const Schema = mongoose.Schema;
 
 const ClassSchema = new Schema({
@@ -8,6 +9,15 @@ const ClassSchema = new Schema({
     },
     description: {
         type: String,
+    },
+    image: {
+        type: String
+    },
+    sections: {
+        type: Section
+    },
+    previous_sections: {
+        type: Section
     }
 });
 

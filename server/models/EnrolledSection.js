@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
+const Section = require('./Section');
 const Schema = mongoose.Schema;
 
 const EnrolledSectionSchema = new Schema({
     section: {
-        type: Schema.Types.ObjectId,
-        ref: 'Section',
+        type: Section,
         required: true
     },
     lecture_zoom: {
