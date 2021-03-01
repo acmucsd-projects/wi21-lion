@@ -94,7 +94,7 @@ const SearchResults = (props) => {
         <div id="search-results-container" ref={resultsWrapperRef} >
             <ul id="search-results" style={{ display: hideResults }}>
                 {displayResults.map((course) =>
-                    <Link id="result-item-link" to={course.department + "/" + course.code}>
+                    <Link id="result-item-link" to={`/courses/${course.department}/${course.code}`}>
                         <li id="result-item">{course.code}</li>
                     </Link>
                 )}
