@@ -59,14 +59,43 @@ router.get('/profile', userAuth.authenticateUser, function(req, res, next) {
   }
 });
 
-/*
+
 router.put('/changePassword', userAuth.authenticateUser, function(req, res, next) {
   try {
     const { user_email } = res;
-
+    const { new_password } = res.body;
+    const user = User.findOne({email : user_email});
+    user.password = new_password;
+    user.save()
+    return res.status(200).json({user : user});
   } catch (err) {
-
+    return res.status(401).json({error : "Could not change password."});
   }
-});*/
+});
+
+router.put('/enroll', userAuth.authenticateUser, function(req, res, next){
+  try {
+    const { user_email } = res;
+    const { section_id } = res.body;
+    const user = User.findOne({email : user_email});
+    user.enrolled_sections.append({ section : section_id });
+    return res.status(200).json({ user : user});
+  }
+  catch (err) {
+    return res.status(401).json({error : "Could not enroll in section."});
+  }
+});
+
+router.patch('/edit_section', userAuth.authenticateUser, function(req, res, next) {
+  try {
+    const { user_email } = res;
+    User.update({ email : user_email }, res.body);
+    return res.status(200).json({ user : user });
+  } catch (err) {
+    return res.status(401).json({error : "Could not edit enrolled section."});
+  }
+})
+
+router.put('')
 
 module.exports = router;

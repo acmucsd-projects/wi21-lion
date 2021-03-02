@@ -13,11 +13,11 @@ const ClassSchema = new Schema({
     image: {
         type: String
     },
-    sections: {
-        type: Section
-    },
+    sections: [{
+        type: Schema.Types.ObjectId
+    }],
     previous_sections: {
-        type: Section
+        type: Schema.Types.ObjectId
     }
 });
 

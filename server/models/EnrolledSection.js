@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const EnrolledSectionSchema = new Schema({
     section: {
-        type: Section,
+        type: Schema.Types.ObjectId,
         required: true
     },
     lecture_zoom: {

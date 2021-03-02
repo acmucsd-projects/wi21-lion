@@ -21,18 +21,36 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    enrolled_sections: {
-        type: [
-            EnrolledSection
-        ],
-        default: []
-    },
-    previous_sections: {
-        type: [
-            EnrolledSection
-        ],
-        default: []
-    }
+    enrolled_sections: [{
+        section: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        lecture_zoom: {
+            type: String,
+            default: ""
+        },
+        discussion_zoom: {
+            type: String,
+            default: ""
+        },
+        lab_zoom: {
+            type: String,
+            default: ""
+        },
+        oh_zoom: {
+            type: String,
+            default: ""
+        },
+        piazza: {
+            type: String,
+            default: ""
+        },
+        gradescope: {
+            type: String,
+            default: ""
+        }
+    }]
 });
 
 UserSchema.pre('save', function () {

@@ -7,6 +7,9 @@ const DepartmentSchema = new Schema({
         type: String,
         required: true
     },
+    classes: [{
+        type: Schema.Types.ObjectId
+    }]
 });
 
 modules.export = mongoose.model('Department', DepartmentSchema);
