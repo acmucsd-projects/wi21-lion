@@ -12,4 +12,4 @@ const DepartmentSchema = new Schema({
     }]
 });
 
-modules.export = mongoose.model('Department', DepartmentSchema);
+module.export = mongoose.model('Department', DepartmentSchema);

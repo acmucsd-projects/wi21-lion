@@ -21,4 +21,4 @@ const ClassSchema = new Schema({
     }
 });
 
-modules.export = mongoose.model('Class', ClassSchema);
+module.export = mongoose.model('Class', ClassSchema);

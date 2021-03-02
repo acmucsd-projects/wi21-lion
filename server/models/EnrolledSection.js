@@ -27,4 +27,4 @@ const EnrolledSectionSchema = new Schema({
     }
 });
 
-modules.export = mongoose.model('EnrolledSection', EnrolledSectionSchema);
+module.export = mongoose.model('EnrolledSection', EnrolledSectionSchema);
