@@ -18,11 +18,7 @@ const StudentOrganizationSchema = new Schema({
     },
     picture: {
         type: String
-    },
-    additional_links: {
-        type: Array,
-        default: []
     }
 });
 
-modules.export = mongoose.model('StudentOrganization', StudentOrganizationSchema);
+module.export = mongoose.model('StudentOrganization', StudentOrganizationSchema);

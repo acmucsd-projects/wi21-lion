@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
+const Section = require('./Section');
 const Schema = mongoose.Schema;
 
 const EnrolledSectionSchema = new Schema({
     section: {
         type: Schema.Types.ObjectId,
-        ref: 'Section',
         required: true
     },
     lecture_zoom: {
@@ -27,4 +27,4 @@ const EnrolledSectionSchema = new Schema({
     }
 });
 
-modules.export = mongoose.model('EnrolledSection', EnrolledSectionSchema);
+module.export = mongoose.model('EnrolledSection', EnrolledSectionSchema);
