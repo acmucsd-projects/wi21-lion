@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const EnrolledSection = require('./EnrolledSection');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -12,24 +14,51 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique = true
     },
     password: {
         type: String,
         required: true
     },
-    classes: {
-        type: [
-            {type: Schema.Types.ObjectId, ref: 'EnrolledSection'}
-        ],
-        default: []
-    },
-    previous_classes: {
-        type: [
-            {type: Schema.Types.ObjectId, ref: 'EnrolledSection'}
-        ],
-        default: []
-    }
+    enrolled_sections: [{
+        section: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        lecture_zoom: {
+            type: String,
+            default: ""
+        },
+        discussion_zoom: {
+            type: String,
+            default: ""
+        },
+        lab_zoom: {
+            type: String,
+            default: ""
+        },
+        oh_zoom: {
+            type: String,
+            default: ""
+        },
+        piazza: {
+            type: String,
+            default: ""
+        },
+        gradescope: {
+            type: String,
+            default: ""
+        }
+    }]
 });
+
+UserSchema.pre('save', function () {
+    this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync());
+})
+
+UserSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 modules.export = mongoose.model('User', UserSchema);

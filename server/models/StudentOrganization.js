@@ -18,10 +18,6 @@ const StudentOrganizationSchema = new Schema({
     },
     picture: {
         type: String
-    },
-    additional_links: {
-        type: Array,
-        default: []
     }
 });
 
