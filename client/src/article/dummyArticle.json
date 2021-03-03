@@ -9,8 +9,19 @@
         "sections": [
             {
                 "class": "1",
-                "quarter": "Fall",
-                "year": 2020,
+                "quarter": "fa20",
+                "professor": "Gary",
+                "letter": "A",
+                "lectureTime": "8:00-8:50",
+                "lectureDays": "MWF",
+                "website": "https://www.ucsd.edu",
+                "canvas": "www.canvas.com",
+                "discord": "www.discord.gg/3c",
+                "additionalLinks": []
+            },
+            {
+                "class": "1",
+                "quarter": "wi21",
                 "professor": "Gary",
                 "letter": "A",
                 "lectureTime": "8:00-8:50",
@@ -22,8 +33,7 @@
             },
             {
                 "class": "2",
-                "quarter": "Fall",
-                "year": 2020,
+                "quarter": "fa20",
                 "professor": "Cao",
                 "letter": "B",
                 "lectureTime": "8:00-8:50",
@@ -35,8 +45,7 @@
             },
             {
                 "class": "3",
-                "quarter": "Fall",
-                "year": 2020,
+                "quarter": "fa20",
                 "professor": "Miranda",
                 "letter": "C",
                 "lectureTime": "8:00-8:50",
@@ -67,8 +76,7 @@
         "sections": [
             {
                 "class": "1",
-                "quarter": "Fall",
-                "year": 2020,
+                "quarter": "fa20",
                 "professor": "Gary",
                 "letter": "A",
                 "lectureTime": "8:00-8:50",
@@ -80,8 +88,19 @@
             },
             {
                 "class": "2",
-                "quarter": "Fall",
-                "year": 2020,
+                "quarter": "fa20",
+                "professor": "Cao",
+                "letter": "B",
+                "lectureTime": "8:00-8:50",
+                "lectureDays": "MWF",
+                "website": "www.canvas.com",
+                "canvas": "www.canvas.com",
+                "discord": "www.discord.gg/3c",
+                "additionalLinks": []
+            },
+            {
+                "class": "2",
+                "quarter": "wi21",
                 "professor": "Cao",
                 "letter": "B",
                 "lectureTime": "8:00-8:50",
@@ -93,8 +112,7 @@
             },
             {
                 "class": "3",
-                "quarter": "Fall",
-                "year": 2020,
+                "quarter": "fa20",
                 "professor": "Miranda",
                 "letter": "C",
                 "lectureTime": "8:00-8:50",

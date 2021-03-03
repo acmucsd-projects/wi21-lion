@@ -35,7 +35,7 @@ function App() {
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
               <Route exact
-                path={`/courses/${course.department}/${course.name}/${section.professor}`}
+                path={`/courses/${course.department}/${course.name}/${section.quarter}/${section.professor}`}
                 children={<Article section={section} course={course} >
                   <SectionContent section={section} course={course}></SectionContent>
                 </Article>}>
