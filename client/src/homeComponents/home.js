@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { LoginDialog, DeleteDialog } from '../popups/dialogs.js';
 
-
 const Home = () => {
 
     const [loginDialogShown, setShowLoginDialog] = useState(true);
