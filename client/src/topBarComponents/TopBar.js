@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TopBar.css';
 import { ReactComponent as ProfileSVG } from './profile.svg';
 import { ReactComponent as CreateSVG } from './create.svg';
@@ -27,7 +27,6 @@ const TopBar = () => {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [displayResults, setDisplayResults] = useState(false);
-    const [bottomSearchPos, setBottomSearchPos] = useState(0);
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
 
 
@@ -39,35 +38,46 @@ const TopBar = () => {
         setDisplayResults(showResults);
     }
 
-    function updateBottomSearchPos(pos) {
-        setBottomSearchPos(pos);
-    }
-
-    function updateClickOnInput(didClick) {
-        setDisplayResults(didClick);
-    }
-
     function toggleProfileDropdown(event) {
-        console.log(event.relatedTarget)
         if (!event.relatedTarget) {
             setDisplayProfileDropdown(!displayProfileDropdown);
         }
     }
 
+    function toggleResultsDropdown(event) {
+        // if(event.relatedTarget && event.relatedTarget.id === "result-item-link") {
+        //     // setDisplayResults(false);
+        //     return;
+        // }
+        if (!event.relatedTarget) {
+            setDisplayResults(!displayResults);
+        }
+    }
+
+    useEffect(() => {
+        if (searchQuery && searchQuery != "") {
+            setDisplayResults(true);
+        }
+    }, [searchQuery])
+
     return (
         <div>
-            <div id="topbar-container">
-                <SearchBar updateQuery={updateQuery} displayResults={displayResults} updateBottomSearchPos={updateBottomSearchPos} />
+            <div className="topbar-container">
+                <div className="topbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="0">
+                    <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
+                </div>
                 <div id="topbar-buttons">
-                    <div className="topbar-button topbar-item">
+                    <Link to="/createPage" className="topbar-button topbar-item">
                         <CreateSVG className="topbar-item-svg" />
-                    </div>
+                    </Link>
                     <div className="topbar-button topbar-item" onBlur={toggleProfileDropdown} onFocus={toggleProfileDropdown} tabIndex="0">
                         <ProfileSVG className="topbar-item-svg" />
                     </div>
                 </div>
             </div>
-            <SearchResults query={searchQuery} updateShowResults={updateShowResults} bottomSearchPos={bottomSearchPos} updateClickOnInput={updateClickOnInput} />
+            {displayResults &&
+                <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
+            }
             {displayProfileDropdown && <ProfileDropdown></ProfileDropdown>}
         </div>
     );

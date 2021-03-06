@@ -1,4 +1,4 @@
-#topbar-container {
+.topbar-container {
     /* FlexBox CSS for the entire top bar */
     display: flex;
     flex-direction: row;
@@ -29,6 +29,7 @@
     border-color: transparent;
     font-size: large;
     min-height: 20px;
+    width: 30vw;
     padding-left: 0.5vw;
     font-family: Hind;
 }
@@ -55,7 +56,8 @@
 }
 
 #search-results {
-    top: -1.8vh;
+    /* top: -2.2vh; */
+    top: -20px;
     font-family: Hind;
     position: absolute;
     list-style-type: none;
