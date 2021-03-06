@@ -34,8 +34,10 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
           <form>
             <h2>Are you sure you want to delete this page?</h2>
             <p>once a post is deleted it cannot be restored</p>
-            <button onClick={hide}>cancel</button>
-            <button onClick={onSubmit}>confirm</button>
+            <div>
+              <button onClick={hide}>cancel</button>
+              <button onClick={onSubmit}>confirm</button>
+            </div>
           </form>
         </div>
       </div> 
