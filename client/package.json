@@ -7,7 +7,10 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "immer": "^8.0.1",
+    "moment": "^2.29.1",
+    "moment-range": "^4.0.2",
     "react": "^17.0.1",
+    "react-big-calendar": "^0.32.0",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -18,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "eslintConfig": {
     "extends": [
@@ -37,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.6"
   }
 }
