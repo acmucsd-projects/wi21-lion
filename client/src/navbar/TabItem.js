@@ -26,6 +26,7 @@ function getIcon(id) {
       return <Aorgs className="icon"/>;
     case "sorgs":
       return <Sorgs className="icon"/>;
+    default: return id + "icon";
   }
 }
 
