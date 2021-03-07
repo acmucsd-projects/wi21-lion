@@ -16,11 +16,13 @@ import {
 } from 'react-router-dom';
 
 function App() {
+
   return (
     <div>
       <Router>
         <TopBar />
-        {/* <Navbar /> */}
+        <div className="main-container">
+        <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
           {dummyArticles.map((course) => (
@@ -44,6 +46,7 @@ function App() {
           ))}
           <Route exact path='/createPage' component={createPage} />
         </Switch>
+        </div>
       </Router>
     </div>
   );
