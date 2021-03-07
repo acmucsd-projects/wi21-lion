@@ -25,7 +25,7 @@ function SectionContent(props) {
     return (
         <div>
             <h1 className="article-body">{course.name}: {section.professor} {section.letter}</h1>
-            <div id="section-content" >
+            <div id="section-content">
                 <div>
                     <div id="section-info">
                         <h3>Section: <span>{section.letter}</span></h3>

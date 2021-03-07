@@ -13,7 +13,7 @@ import dummyArticles from './dummyArticle.json';
  *  
  * @param {*} props 
  */
-function Article(props) {
+function CourseArticle(props) {
 
     const { section, course } = props;
     const [selectedQuarter, setSelectedQuarter] = useState(null);
@@ -244,4 +244,4 @@ function Article(props) {
     );
 }
 
-export default Article
+export default CourseArticle 

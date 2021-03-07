@@ -38,18 +38,31 @@ function LinkEntry(props) {
  * @param {*} props 
  */
 function LinksPanel(props) {
-    const { section } = props;
-    return (
-        <div id="links-container">
-            <h3 id="link-name">Useful Links</h3>
-            <LinkEntry name="Website" url={section.website} icon={<WebsiteSVG className="link-glyph" />} />
-            <LinkEntry name="Canvas" url={section.canvas} icon={CanvasIMG} />
-            <LinkEntry name="Discord" url={section.discord} icon={<DiscordSVG className="link-glyph" />} />
-            {/* {section.additionalLinks.map((link) => (
+    const { section, org } = props;
+    if (section) {
+        return (
+            <div id="links-container">
+                <h4 id="link-name">Useful Links</h4>
+                <LinkEntry name="Website" url={section.website} icon={<WebsiteSVG className="link-glyph" />} />
+                <LinkEntry name="Canvas" url={section.canvas} icon={CanvasIMG} />
+                <LinkEntry name="Discord" url={section.discord} icon={<DiscordSVG className="link-glyph" />} />
+                {/* {section.additionalLinks.map((link) => (
                 <LinkEntry name={link.name} url={link.url} />
             ))} */}
-        </div>
-    );
+            </div>
+        );
+    }
+    if (org) {
+        return (
+            <div id="links-container">
+                <LinkEntry name="Website" url={org.website} icon={<WebsiteSVG className="link-glyph" />} />
+            </div>
+        );
+    }
+
+    return (<div id="links-container">
+        Error with loading links
+    </div>)
 }
 
 export default LinksPanel
