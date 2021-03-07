@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const userAuth = require('../middleware/userAuth');
+const EnrolledSection = require('../models/EnrolledSection');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -20,7 +21,7 @@ router.post('/register', function(req, res, next) {
       user_entry = new User(user);
       user_entry.save();
     } catch(err) {
-      return res.status(409).json({ error : 'Could not add user to database.'})
+      return res.status(400).json({ error : 'Could not add user to database.'})
     }
     return res.status(200).json({ user : user_entry });
   }
@@ -73,12 +74,12 @@ router.put('/changePassword', userAuth.authenticateUser, function(req, res, next
   }
 });
 
-router.put('/enroll', userAuth.authenticateUser, function(req, res, next){
+router.post('/enrolled_sections/:section_id', userAuth.authenticateUser, function(req, res, next){
   try {
     const { user_email } = res;
-    const { section_id } = res.body;
     const user = User.findOne({email : user_email});
-    user.enrolled_sections.append({ section : section_id });
+    const newEnrolledSection = new EnrolledSection({section_id : req.params.section_id});
+    user.enrolled_sections.append(newEnrolledSection._id);
     return res.status(200).json({ user : user});
   }
   catch (err) {
@@ -86,16 +87,34 @@ router.put('/enroll', userAuth.authenticateUser, function(req, res, next){
   }
 });
 
-router.patch('/edit_section', userAuth.authenticateUser, function(req, res, next) {
+router.get('/enrolled_sections', userAuth.authenticateUser, function(req, res, next) {
   try {
     const { user_email } = res;
-    User.update({ email : user_email }, res.body);
-    return res.status(200).json({ user : user });
-  } catch (err) {
-    return res.status(401).json({error : "Could not edit enrolled section."});
+    const user = User.findOne({email : user_email});
+    return res.status(200).json({enrolled_sections : user.enrolled_sections});
+  } catch(err) {
+    return res.status(400).json({error : "Could not retrieve user's enrolled sections"});
   }
 })
 
-router.put('')
+router.get('/enrolled_sections/:enrolled_id', userAuth.authenticateUser, function(req, res, next) {
+  try {
+    const enrolledSection = EnrolledSection.findById(req.params.enrolled_id);
+    return res.status(200).json(enrolledSection);
+  } catch(err) {
+    return res.status(400).json({error : "Could not retrieve user's enrolled sections"});
+  }
+})
+
+router.patch('/enrolled_sections/:enrolled_id', userAuth.authenticateUser, function(req, res, next) {
+  try {
+    const updateEnrolled = EnrolledSection.findByIdAndUpdate(req.params.enrolled_id, req.body);
+    return res.status(200).json(updateEnrolled);
+  } catch (err) {
+    return res.status(401).json({error : "Could not edit enrolled section."});
+  }
+});
+
+// add deleting enrolled section
 
 module.exports = router;

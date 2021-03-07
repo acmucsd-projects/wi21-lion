@@ -19,6 +19,6 @@ function authenticateUser(req, res, next) {
     }
 };
 
-modules.export = {
+module.exports = {
     authenticateUser
 };

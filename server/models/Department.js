@@ -5,11 +5,12 @@ const Schema = mongoose.Schema;
 const DepartmentSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     classes: [{
         type: Schema.Types.ObjectId
     }]
 });
 
-modules.export = mongoose.model('Department', DepartmentSchema);
+module.exports = mongoose.model('Department', DepartmentSchema);

@@ -3,8 +3,8 @@ const Class = require('./Class');
 const Schema = mongoose.Schema;
 
 const SectionSchema = new Schema({
-    class: {
-        type: Class,
+    class_id: {
+        type: Schema.Types.ObjectId,
         required: true
     },
     quarter: {
@@ -41,4 +41,4 @@ const SectionSchema = new Schema({
     }
 });
 
-modules.export = mongoose.model('Section', SectionSchema);
+module.exports = mongoose.model('Section', SectionSchema);

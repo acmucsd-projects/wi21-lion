@@ -21,4 +21,4 @@ const StudentOrganizationSchema = new Schema({
     }
 });
 
-modules.export = mongoose.model('StudentOrganization', StudentOrganizationSchema);
+module.exports = mongoose.model('StudentOrganization', StudentOrganizationSchema);

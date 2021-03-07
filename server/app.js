@@ -7,6 +7,9 @@ const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const classRouter = require('./routes/class');
+const sectionRouter = require('./routes/section');
+const departmentRouter = require('./routes/department');
 
 const app = express();
 
@@ -18,6 +21,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/class', classRouter);
+app.use('/section', sectionRouter);
+app.use('/department', departmentRouter);
+
 console.log(process.env.DB_URL);
 mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,

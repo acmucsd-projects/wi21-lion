@@ -15,41 +15,15 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique = true
+        unique : true
     },
     password: {
         type: String,
         required: true
     },
     enrolled_sections: [{
-        section: {
-            type: Schema.Types.ObjectId,
-            required: true
-        },
-        lecture_zoom: {
-            type: String,
-            default: ""
-        },
-        discussion_zoom: {
-            type: String,
-            default: ""
-        },
-        lab_zoom: {
-            type: String,
-            default: ""
-        },
-        oh_zoom: {
-            type: String,
-            default: ""
-        },
-        piazza: {
-            type: String,
-            default: ""
-        },
-        gradescope: {
-            type: String,
-            default: ""
-        }
+        type: Schema.Types.ObjectId,
+        required: true
     }]
 });
 
@@ -61,4 +35,4 @@ UserSchema.methods.validatePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-modules.export = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

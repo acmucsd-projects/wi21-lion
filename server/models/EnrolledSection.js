@@ -3,7 +3,7 @@ const Section = require('./Section');
 const Schema = mongoose.Schema;
 
 const EnrolledSectionSchema = new Schema({
-    section: {
+    section_id: {
         type: Schema.Types.ObjectId,
         required: true
     },
@@ -27,4 +27,4 @@ const EnrolledSectionSchema = new Schema({
     }
 });
 
-modules.export = mongoose.model('EnrolledSection', EnrolledSectionSchema);
+module.exports = mongoose.model('EnrolledSection', EnrolledSectionSchema);
