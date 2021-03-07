@@ -4,7 +4,7 @@ import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
-import Article from './article/Article';
+import CourseArticle from './article/CourseArticle';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
 import {
@@ -26,19 +26,19 @@ function App() {
           {dummyArticles.map((course) => (
             <Route exact
               path={`/courses/${course.department}/${course.name}`}
-              children={<Article course={course}>
+              children={<CourseArticle course={course}>
                 <CourseContent course={course}></CourseContent>
-              </Article>}>
+              </CourseArticle>}>
             </Route>
           ))}
 
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
               <Route exact
-                path={`/courses/${course.department}/${course.name}/${section.quarter}/${section.professor}`}
-                children={<Article section={section} course={course} >
+                path={`/courses/${course.department}/${course.name}/${section.quarter}/${section.letter}`}
+                children={<CourseArticle section={section} course={course} >
                   <SectionContent section={section} course={course}></SectionContent>
-                </Article>}>
+                </CourseArticle>}>
               </Route>
             ))
           ))}
