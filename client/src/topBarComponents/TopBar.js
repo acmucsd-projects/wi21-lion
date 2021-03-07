@@ -55,7 +55,7 @@ const TopBar = () => {
     }
 
     useEffect(() => {
-        if (searchQuery && searchQuery != "") {
+        if (searchQuery && searchQuery !== "") {
             setDisplayResults(true);
         }
     }, [searchQuery])
