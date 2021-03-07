@@ -22,7 +22,6 @@ function App() {
       <Router>
         <TopBar />
         <div className="main-container">
-        <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
           {dummyArticles.map((course) => (
