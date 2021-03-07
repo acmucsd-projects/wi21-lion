@@ -6,8 +6,10 @@
 
 
 #navbar {
-  position: sticky;
-  top: 0;
+  /* position: sticky; */
+  position: absolute;
+  top: 7vh;
+  z-index: 200;
   left: 0;
   width: fit-content;
   display: flex;

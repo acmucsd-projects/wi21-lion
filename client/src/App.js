@@ -16,10 +16,12 @@ import {
 } from 'react-router-dom';
 
 function App() {
+
   return (
     <div>
       <Router>
         <TopBar />
+        <div className="main-container">
         <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
@@ -44,6 +46,7 @@ function App() {
           ))}
           <Route exact path='/createPage' component={createPage} />
         </Switch>
+        </div>
       </Router>
     </div>
   );
