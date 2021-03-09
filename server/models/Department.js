@@ -9,8 +9,12 @@ const DepartmentSchema = new Schema({
         unique: true
     },
     classes: [{
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: "Classes",
     }]
 });
 
-module.exports = mongoose.model('Department', DepartmentSchema);
+const Department = mongoose.model('Department', DepartmentSchema);
+module.exports = {
+    Department
+};

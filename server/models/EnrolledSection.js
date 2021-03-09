@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const EnrolledSectionSchema = new Schema({
     section_id: {
         type: Schema.Types.ObjectId,
+        ref: "Section",
         required: true
     },
     lecture_zoom: {
@@ -27,4 +28,7 @@ const EnrolledSectionSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('EnrolledSection', EnrolledSectionSchema);
+const EnrolledSection = mongoose.model('EnrolledSection', EnrolledSectionSchema);
+module.exports = {
+    EnrolledSection
+};

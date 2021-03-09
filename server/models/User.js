@@ -23,16 +23,19 @@ const UserSchema = new Schema({
     },
     enrolled_sections: [{
         type: Schema.Types.ObjectId,
-        required: true
+        ref: 'EnrolledSection',
     }]
 });
 
-UserSchema.pre('save', function () {
-    this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync());
+UserSchema.pre('save', async function () {
+    this.password = await bcrypt.hash(this.password, bcrypt.genSaltSync());
 })
 
-UserSchema.methods.validatePassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+UserSchema.methods.validatePassword = async function(password) {
+    return await bcrypt.compare(password, this.password);
 };
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+module.exports = {
+    User
+}

@@ -15,8 +15,12 @@ const ClassSchema = new Schema({
         type: String
     },
     sections: [{
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: "Section"
     }],
 });
 
-module.exports = mongoose.model('Class', ClassSchema);
+const Class = mongoose.model('Class', ClassSchema);
+module.exports = {
+    Class
+};

@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const classRouter = require('./routes/class');
 const sectionRouter = require('./routes/section');
 const departmentRouter = require('./routes/department');
+const organizationRouter = require('./routes/organization');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/users', usersRouter);
 app.use('/class', classRouter);
 app.use('/section', sectionRouter);
 app.use('/department', departmentRouter);
+app.use('/organization', organizationRouter);
 
 console.log(process.env.DB_URL);
 mongoose.connect(process.env.DB_URL, {
@@ -31,5 +33,6 @@ mongoose.connect(process.env.DB_URL, {
     useUnifiedTopology: true }).then(() => {
   console.log('Connected to MongoDB database');
 });
+mongoose.set("useCreateIndex", true);
 
 module.exports = app;
