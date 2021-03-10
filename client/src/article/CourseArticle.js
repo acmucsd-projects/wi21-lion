@@ -16,6 +16,7 @@ import dummyArticles from './dummyArticle.json';
 function CourseArticle(props) {
 
     const { section, course } = props;
+    const [departmentList, setDepartmentList] = useState([]);
     const [selectedQuarter, setSelectedQuarter] = useState(null);
     const [quarterList, setQuarterList] = useState([]);
     const [selectedQuarterName, setSelectedQuarterName] = useState("Select a quarter...");
@@ -35,6 +36,7 @@ function CourseArticle(props) {
      * Called when department is changed
      */
     function updateSelectedDepartment() {
+
     }
 
     /**
@@ -61,7 +63,7 @@ function CourseArticle(props) {
         window.location = `/courses/${course.department}/${course.name}/${sectionParam.season}${sectionParam.year}/${sectionParam.letter}`;
     }
 
-    function compareQuarters(quarter1, quarter2) {
+    const compareQuarters = useCallback((quarter1, quarter2) => {
         const quarter1Arry = quarter1.split(" ");
         const year1 = quarter1Arry[1];
         const quarter2Arry = quarter2.split(" ");
@@ -83,8 +85,7 @@ function CourseArticle(props) {
         } else {
             return -1;
         }
-
-    }
+    },[])
 
     function getSeasonVal(season) {
         switch (season) {
@@ -136,7 +137,7 @@ function CourseArticle(props) {
         }
 
         return quarterObjs;
-    }, [course.sections]);
+    }, [course.sections, compareQuarters]);
 
     /**
      * Retrives the available sections for the current course and a given quarter 
@@ -175,16 +176,14 @@ function CourseArticle(props) {
     }, [course, getListOfQuarters]);
 
     useEffect(() => {
-        // if(!selectedQuarter) {
-        //     setSelectedQuarter("Select a quarter");
-        // } else {
-        //     setSelectedQuarterName()
-        // }
         if (selectedQuarter) {
             setSectionList(getListOfSections(selectedQuarter));
             updateSelectedQuarter(selectedQuarter);
+            if(section && selectedQuarter !== `${section.season} ${section.year}`) {
+                setSelectedSectionName("Select a Section ...");
+            }
         }
-    }, [selectedQuarter, getListOfSections]);
+    }, [selectedQuarter, section, getListOfSections]);
 
     useEffect(() => {
         if (!section) {
@@ -202,27 +201,38 @@ function CourseArticle(props) {
         formatSectionList();
     }, [sectionList, formatSectionList]);
 
-    // useEffect(() => {
-    //     formatQuarterList();
-    // }, [quarterList, formatQuarterList]);
+    useEffect(() => {
+        let departments = [];
+        dummyArticles.forEach(element => {
+            const department = element["department"];
+            if(!departments.includes(department)) {
+                departments.push(department);
+            }
+        });
+        let departmentsObjs = [];
+        departments.forEach(element => {
+            const obj = {"department": element};
+            departmentsObjs.push(obj);
+        })
+        setDepartmentList(departmentsObjs);
+    }, []);
 
-    // setSelectedSectionName, getListOfQuarters, getListOfSections
     //TODO: make the banner/header its own component
     return (
         <div id="article">
             <img className="article-banner" src={banner} alt={course.name + " banner"}></img>
             <div className="article-header">
                 <ul className="article-path">
-                    <PathItem name="Classes">
+                    <PathItem name="Courses">
                         <PathDropdownMenu
-                            list={[{ "type": "courses" }, { "type": "orgs" }]}
+                            list={[{ "type": "Courses" }, { "type": "Orgs" }]}
                             type={"type"}
                             updateSelection={updateSelectedArticleType}
-                            selectedItem={"courses"} />
+                            selectedItem={"Courses"} />
                     </PathItem>
                     <PathItem name={course.department}>
                         <PathDropdownMenu
-                            list={dummyArticles}
+                            list={departmentList}
                             type={"department"}
                             updateSelection={updateSelectedDepartment}
                             selectedItem={course.department} />
