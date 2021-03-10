@@ -11,6 +11,7 @@ const classRouter = require('./routes/class');
 const sectionRouter = require('./routes/section');
 const departmentRouter = require('./routes/department');
 const organizationRouter = require('./routes/organization');
+const enrollRouter = require('./routes/enroll');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/class', classRouter);
 app.use('/section', sectionRouter);
 app.use('/department', departmentRouter);
 app.use('/organization', organizationRouter);
+app.use('/enrolled_section', enrollRouter);
 
 console.log(process.env.DB_URL);
 mongoose.connect(process.env.DB_URL, {

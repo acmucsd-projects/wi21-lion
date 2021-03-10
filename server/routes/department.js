@@ -8,7 +8,7 @@ router.post('/', userAuth.authenticateUser, async function(req, res, next) {
         const { name } = req.body
         const dep = new Department({ name : name });
         await dep.save();
-        return res.status(200).json({department : dep});
+        return res.status(200).json(dep);
     }
     catch (err) {
         console.log(err.message);
@@ -30,10 +30,10 @@ router.get('/:dep', async function(req, res, next) {
     try {
         const department_name = req.params.dep;
         const department = await Department.findOne({name : department_name});
-        return res.status(200).json({classes : department.classes})
+        return res.status(200).json(department)
     } catch(err) {
         console.log(err.message);
-        return res.status(401).json({error : "Failed to retrieve classes"});
+        return res.status(401).json({error : "Failed to retrieve department."});
     }
 });
 

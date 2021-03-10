@@ -30,7 +30,7 @@ router.post('/:dep', userAuth.authenticateUser, async function(req, res, next) {
 router.patch('/:class_id', userAuth.authenticateUser, async function(req, res, next) {
     try {
         const updateClass = await Class.findByIdAndUpdate(req.params.class_id, req.body);
-        return res.status(200).json(updateClass);
+        return res.status(200).json({message : "Updated class."});
     } catch(err) {
         console.log(err.message);
         return res.status(401).json({error : "Failed to update class."});
@@ -40,7 +40,7 @@ router.patch('/:class_id', userAuth.authenticateUser, async function(req, res, n
 router.get('/:class_id', async function(req, res, next) {
     try {
         const getClass = await Class.findById(req.params.class_id);
-        return res.status(200).json({getClass});
+        return res.status(200).json(getClass);
     } catch(err) {
         console.log(err.message);
         return res.status(401).json({error : "Failed to retrieve class"});

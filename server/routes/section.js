@@ -32,7 +32,7 @@ router.post('/:class_id', userAuth.authenticateUser, async function(req, res, ne
 router.patch('/:section_id', userAuth.authenticateUser, async function(req, res, next) {
     try {
         const updateSection = await Section.findByIdAndUpdate(req.params.section_id, req.body);
-        return res.status(200).json(updateSection);
+        return res.status(200).json({message : "Updated section."});
     } catch (err) {
         console.log(err.message);
         return res.status(400).json({error : "Failed to update section"});
