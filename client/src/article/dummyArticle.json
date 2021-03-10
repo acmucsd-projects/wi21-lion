@@ -9,7 +9,8 @@
         "sections": [
             {
                 "class": "1",
-                "quarter": "fa20",
+                "season": "Fall",
+                "year": "2020",
                 "professor": "Gary",
                 "letter": "A",
                 "lectureTime": "8:00-8:50",
@@ -21,7 +22,8 @@
             },
             {
                 "class": "1",
-                "quarter": "wi21",
+                "season": "Winter",
+                "year": "2021",
                 "professor": "Gary",
                 "letter": "A",
                 "lectureTime": "8:00-8:50",
@@ -33,7 +35,8 @@
             },
             {
                 "class": "2",
-                "quarter": "fa20",
+                "season": "Fall",
+                "year": "2020",
                 "professor": "Cao",
                 "letter": "B",
                 "lectureTime": "8:00-8:50",
@@ -45,7 +48,8 @@
             },
             {
                 "class": "3",
-                "quarter": "fa20",
+                "season": "Fall",
+                "year": "2020",
                 "professor": "Miranda",
                 "letter": "C",
                 "lectureTime": "8:00-8:50",
@@ -76,7 +80,8 @@
         "sections": [
             {
                 "class": "1",
-                "quarter": "fa20",
+                "season": "Fall",
+                "year": "2020",
                 "professor": "Gary",
                 "letter": "A",
                 "lectureTime": "8:00-8:50",
@@ -88,7 +93,8 @@
             },
             {
                 "class": "2",
-                "quarter": "fa20",
+                "season": "Fall",
+                "year": "2020",
                 "professor": "Cao",
                 "letter": "B",
                 "lectureTime": "8:00-8:50",
@@ -100,7 +106,8 @@
             },
             {
                 "class": "2",
-                "quarter": "wi21",
+                "season": "Winter",
+                "year": "2021",
                 "professor": "Cao",
                 "letter": "B",
                 "lectureTime": "8:00-8:50",
@@ -112,7 +119,8 @@
             },
             {
                 "class": "3",
-                "quarter": "fa20",
+                "season": "Fall",
+                "year": "2020",
                 "professor": "Miranda",
                 "letter": "C",
                 "lectureTime": "8:00-8:50",

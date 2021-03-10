@@ -50,29 +50,57 @@ function CourseArticle(props) {
      * @param {*} element 
      */
     function updateSelectedQuarter(element) {
-        setSelectedQuarter(element.quarter);
-        let quarterSeason = element.quarter.substring(0, 2);
-        let quarterYear = element.quarter.substring(2, element.quarter.length);
-        switch (quarterSeason) {
-            case "fa":
-                setSelectedQuarterName(`Fall 20${quarterYear}`);
-                break;
-            case "wi":
-                setSelectedQuarterName(`Winter 20${quarterYear}`);
-                break;
-            case "sp":
-                setSelectedQuarterName(`Spring 20${quarterYear}`);
-                break;
-
-            default:
-                break;
+        const quarter = element.quarter
+        if(quarter) {
+            setSelectedQuarter(quarter);
+            setSelectedQuarterName(quarter)
         }
     }
 
     function updateSelectedSection(sectionParam) {
-        window.location = `/courses/${course.department}/${course.name}/${sectionParam.quarter}/${sectionParam.letter}`;
+        window.location = `/courses/${course.department}/${course.name}/${sectionParam.season}${sectionParam.year}/${sectionParam.letter}`;
     }
 
+    function compareQuarters(quarter1, quarter2) {
+        const quarter1Arry = quarter1.split(" ");
+        const year1 = quarter1Arry[1];
+        const quarter2Arry = quarter2.split(" ");
+        const year2 = quarter2Arry[1];
+
+        if(year1 > year2) {
+            return 1;
+        } else if(year1 < year2) {
+            return -1;
+        } 
+
+        const season1 = quarter1Arry[0];
+        const season2 = quarter2Arry[0];
+
+        const season1Val = getSeasonVal(season1);
+        const season2Val = getSeasonVal(season2);
+        if(season1Val > season2Val) {
+            return 1;
+        } else {
+            return -1;
+        }
+
+    }
+
+    function getSeasonVal(season) {
+        switch (season) {
+            case "Winter":
+                return 1;
+       
+            case "Spring":
+                return 2;
+
+            case "Fall":
+                return 3;
+
+            default:
+                return 0
+        }
+    }
 
     /**
      * Retrieves an array of quarters available for the current course
@@ -82,16 +110,29 @@ function CourseArticle(props) {
         let quarterObjs = [];
         for (let index = 0; index < course.sections.length; index++) {
             const tmpSection = course.sections[index];
-            if (Object.hasOwnProperty.call(tmpSection, "quarter")) {
-                const quarter = tmpSection["quarter"];
+            if (Object.hasOwnProperty.call(tmpSection, "season") && Object.hasOwnProperty.call(tmpSection, "year")) {
+                const season = tmpSection["season"];
+                const year = tmpSection["year"];
+                const quarter = `${season} ${year}`
                 if (!quarters.includes(quarter)) {
-                    quarters.push(quarter);
+                    quarters.push(quarter)
                 }
             }
         }
         for (let index = 0; index < quarters.length; index++) {
             const element = quarters[index];
             quarterObjs.push({ "quarter": element });
+        }
+        let i, key, j;
+        for(i = 1; i < quarterObjs.length; i++) {
+            key = quarterObjs[i].quarter;
+            j = i -1;
+
+            while(j>=0 && compareQuarters(quarterObjs[j].quarter, key)) {
+                quarterObjs[j + 1].quarter = quarterObjs[j].quarter;
+                j = j -1;
+            }
+            quarterObjs[j + 1].quarter = key;
         }
 
         return quarterObjs;
@@ -106,7 +147,8 @@ function CourseArticle(props) {
 
 
         course.sections.forEach(element => {
-            if (element.quarter === quarter) {
+            const sectionQuarter = `${element.season} ${element.year}`
+            if (sectionQuarter === quarter) {
                 sections.push(element)
             }
         });
@@ -127,35 +169,6 @@ function CourseArticle(props) {
         return formattedSections;
     }, [sectionList])
 
-    const formatQuarterList  = useCallback(() => {
-        let formattedQuarters = [];
-
-        quarterList.forEach(element => {
-            let quarterSeason = element.quarter.substring(0, 2);
-            let quarterYear = element.quarter.substring(2, element.quarter.length);
-            switch (quarterSeason) {
-                case "fa":
-                    element.formattedVersion = `Fall 20${quarterYear}`;
-                    break;
-                case "wi":
-                    element.formattedVersion = `Winter 20${quarterYear}`;
-                    break;
-                case "sp":
-                    element.formattedVersion = `Spring 20${quarterYear}`;
-                    break;
-
-                default:
-                    break;
-            }
-            formattedQuarters.push(element);
-        })
-
-        return formattedQuarters;
-    },[quarterList])
-
-    // useEffect(() => {
-    //update departments when the page is loaded and there is a new course 
-    // }, []);
 
     useEffect(() => {
         setQuarterList(getListOfQuarters());
@@ -169,6 +182,7 @@ function CourseArticle(props) {
         // }
         if (selectedQuarter) {
             setSectionList(getListOfSections(selectedQuarter));
+            updateSelectedQuarter(selectedQuarter);
         }
     }, [selectedQuarter, getListOfSections]);
 
@@ -177,10 +191,10 @@ function CourseArticle(props) {
             setSelectedSectionName("Select a section ...");
         } else {
             setSelectedSectionName(section.professor);
-            setSelectedQuarter(section.quarter);
-            updateSelectedQuarter(section)
-            setQuarterList(getListOfQuarters())
-            setSectionList(getListOfSections(section.quarter))
+            setSelectedQuarter(`${section.season} ${section.year}`);
+            setSelectedQuarterName(`${section.season} ${section.year}`);
+            setQuarterList(getListOfQuarters());
+            // setSectionList(getListOfSections(selectedQuarter));
         }
     }, [section, getListOfQuarters, getListOfSections]);
 
@@ -188,9 +202,9 @@ function CourseArticle(props) {
         formatSectionList();
     }, [sectionList, formatSectionList]);
 
-    useEffect(() => {
-        formatQuarterList();
-    }, [quarterList, formatQuarterList]);
+    // useEffect(() => {
+    //     formatQuarterList();
+    // }, [quarterList, formatQuarterList]);
 
     // setSelectedSectionName, getListOfQuarters, getListOfSections
     //TODO: make the banner/header its own component
@@ -223,10 +237,9 @@ function CourseArticle(props) {
                     <PathItem name={selectedQuarterName}>
                         <PathDropdownMenu
                             list={quarterList}
-                            type={"formattedVersion"}
+                            type={"quarter"}
                             updateSelection={updateSelectedQuarter}
-                            selectedItem={selectedQuarterName}
-                        />
+                            selectedItem={selectedQuarterName} />
                     </PathItem>
                     {selectedQuarter &&
                         <PathItem name={selectedSectionName}>
