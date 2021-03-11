@@ -5,7 +5,7 @@ import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
 import dummyOrgs from './article/dummyOrgs.json';
-import CourseArticle from './article/CourseArticle';
+import CourseArticle, { BlankCourse } from './article/CourseArticle';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
 import OrgArticle from './article/OrgArticle';
@@ -26,6 +26,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
+          <Route exact path={`/courses`} children={<BlankCourse></BlankCourse>}></Route>
           {dummyArticles.map((course) => (
             <Route exact
               path={`/courses/${course.department}/${course.name}`}
@@ -44,6 +45,7 @@ function App() {
               </Route>
             ))
           ))}
+          <Route exact path={`/orgs`} children={<OrgArticle></OrgArticle>}></Route>
           {dummyOrgs.map((org) => (
             <Route exact 
               path={`/orgs/${org.name}`}

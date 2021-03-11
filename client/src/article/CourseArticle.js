@@ -9,6 +9,24 @@ import PathDropdownMenu from './PathDropdownMenu';
 import dummyArticles from './dummyArticle.json';
 
 /**
+ * Called when article type is changed
+ */
+function updateSelectedArticleType(element) {
+    if(element.type === "Orgs"){
+        window.location = `/orgs`;
+    } else {
+        window.location = `/courses`;
+    }
+}
+
+    /**
+     * Called when a new course is selected. Current URL is updated accordingly 
+     * @param {*} element 
+     */
+    function updateSelectedCourse(element) {
+        window.location = `/courses/${element.department}/${element.name}`;
+    }
+/**
  * General course article template.
  *  
  * @param {*} props 
@@ -25,12 +43,8 @@ function CourseArticle(props) {
 
 
 
-    /**
-     * Called when article type is changed
-     */
-    function updateSelectedArticleType() {
 
-    }
+
 
     /**
      * Called when department is changed
@@ -39,13 +53,6 @@ function CourseArticle(props) {
 
     }
 
-    /**
-     * Called when a new course is selected. Current URL is updated accordingly 
-     * @param {*} element 
-     */
-    function updateSelectedCourse(element) {
-        window.location = `/courses/${element.department}/${element.name}`;
-    }
 
     /**
      * Update the currently selected quarter 
@@ -217,6 +224,33 @@ function CourseArticle(props) {
         setDepartmentList(departmentsObjs);
     }, []);
 
+    // if(!course) {
+    //     return (
+    //     <div id="article">
+    //         <img className="article-banner" src={banner} alt={course.name + " banner"}></img>
+    //         <div className="article-header">
+    //             <ul className="article-path">
+    //                 <PathItem name="Courses">
+    //                     <PathDropdownMenu
+    //                         list={[{ "type": "Courses" }, { "type": "Orgs" }]}
+    //                         type={"type"}
+    //                         updateSelection={updateSelectedArticleType}
+    //                         selectedItem={"Courses"} />
+    //                 </PathItem>
+    //                 <PathItem name={"Select a department ..."}>
+    //                     <PathDropdownMenu
+    //                         list={departmentList}
+    //                         type={"department"}
+    //                         updateSelection={updateSelectedDepartment}
+    //                         selectedItem={""} />
+    //                 </PathItem>
+    //             </ul>
+    //         </div>
+    //         <h3 className="article-body">Select a Course from the dropdown, search bar or navbar.</h3>
+    //     </div>
+    //     )
+    // }
+
     //TODO: make the banner/header its own component
     return (
         <div id="article">
@@ -268,3 +302,75 @@ function CourseArticle(props) {
 }
 
 export default CourseArticle 
+
+
+export function BlankCourse() {
+
+    const [departmentList, setDepartmentList] = useState([]);
+    const [selectedDepartment, setSelectedDepartment] = useState()
+    const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...")
+    // /**
+    //  * Called when article type is changed
+    //  */
+    // function updateSelectedArticleType(element) {
+    //     if(element.type === "Orgs"){
+    //         window.location = `/orgs`
+    //     }
+    // }
+
+    /**
+     * Called when department is changed
+     */
+    function updateSelectedDepartment(element) {
+        setSelectedDepartment(element.department)
+        setSelectedDepartmentName(element.department)
+    }
+
+    useEffect(() => {
+        let departments = [];
+        dummyArticles.forEach(element => {
+            const department = element["department"];
+            if(!departments.includes(department)) {
+                departments.push(department);
+            }
+        });
+        let departmentsObjs = [];
+        departments.forEach(element => {
+            const obj = {"department": element};
+            departmentsObjs.push(obj);
+        })
+        setDepartmentList(departmentsObjs);
+    }, []);
+
+    return (
+        <div id="article">
+            <img className="article-banner" src={banner} alt={"banner"}></img>
+            <div className="article-header">
+                <ul className="article-path">
+                    <PathItem name="Courses">
+                        <PathDropdownMenu
+                            list={[{ "type": "Courses" }, { "type": "Orgs" }]}
+                            type={"type"}
+                            updateSelection={updateSelectedArticleType}
+                            selectedItem={"Courses"} />
+                    </PathItem>
+                    <PathItem name={selectedDepartmentName}>
+                        <PathDropdownMenu
+                            list={departmentList}
+                            type={"department"}
+                            updateSelection={updateSelectedDepartment}
+                            selectedItem={selectedDepartment} />
+                    </PathItem>
+                    {selectedDepartment && <PathItem name={"Select a course ..."}>
+                        <PathDropdownMenu
+                            list={dummyArticles}
+                            type={"name"}
+                            updateSelection={updateSelectedCourse}
+                            selectedItem={""} />
+                    </PathItem>}
+                </ul>
+            </div>
+            <h3 className="article-body">Select a department and a course from the dropdown, search bar or navbar.</h3>
+        </div>
+    );
+}

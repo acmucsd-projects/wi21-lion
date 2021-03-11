@@ -207,7 +207,7 @@
 }
 
 #section-info h3 {
-    padding: 2%;
+    padding: 1%;
 }
 
 #section-info span {
@@ -249,6 +249,7 @@
 
 #section-content {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+    min-width: fit-content;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -263,12 +264,10 @@
 #links-container {
     border-radius: 10px;
     border-width: 3px;
-    /* border-color: var(--ucsd-yellow); */
     border-color: #3771CD;
     background-color: #C4C4C4;
     border-style: solid;
-    /* width: 40%; */
-    min-width: 25%;
+    min-width: 200px; 
     margin-left: 5%;
     padding: 1%;
 }
