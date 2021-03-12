@@ -9,7 +9,7 @@ function OrgContent(props) {
         <div>
             <h1 className="article-body">{org.name}</h1>
             <div className="org-body">
-                <img className="org-img" src={dummyImg} alt="Org image"></img>
+                <img className="org-img" src={dummyImg} alt={org.name}></img>
                 <p>{org.description}</p>
                 <LinksPanel org={org} />
             </div>

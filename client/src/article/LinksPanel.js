@@ -18,18 +18,10 @@ const CanvasIMG = (
 function LinkEntry(props) {
     const { name, url, icon } = props
     return (
-        <div>
-            <a href={url} className="link">
-                <div id="link-container">
-                    <h2>
-                        {name}
-                    </h2>
-                    <div>
-                        {icon}
-                    </div>
-                </div>
+            <a href={url} id="link-container">
+                <i>{icon}</i>
+                {name}
             </a>
-        </div>
     );
 }
 

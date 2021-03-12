@@ -10,11 +10,6 @@ import './Article.css';
 
 const localizer = momentLocalizer(moment)
 
-let sectionEvents = [{
-    start: moment("08:00 AM 2021-02-24", "hh:mm A YYYY-MM-DD").toDate(),
-    end: moment("09:00 AM 2021-02-24", "hh:mm A YYYY-MM-DD").toDate(),
-    title: "Lecture"
-}];
 
 /**
  * React component for each courses' sections 
@@ -22,6 +17,15 @@ let sectionEvents = [{
  */
 function SectionContent(props) {
     const { section, course } = props;
+    let sectionEvents = [];
+    let initWeek = 2;
+    for (let index = initWeek; index < initWeek + 10; index++) {
+        sectionEvents.push({
+            start: moment(`08:00 AM Mon ${index}`, "hh:mm A ddd w").toDate(),
+            end: moment(`09:00 AM Mon ${index}`, "hh:mm A ddd w").toDate(),
+            title: "Lecture"
+        })
+    }
     return (
         <div>
             <h1 className="article-body">{course.name}: {section.professor} {section.letter}</h1>
@@ -37,7 +41,8 @@ function SectionContent(props) {
                     </button>
                     <p className="section-description">
                         CSE11 UCSD Cao science computer Cao section Objectorientedlanguage Cao CSE11 Miranda Objectorientedlanguage. Cao Gary Winter Fall Cao 2021 CSE11 discussion section. Winter Miranda Cao Java Cao 2021 Gary Cao Java Miranda Cao Miranda discussion. Cao 2020 CSE11 UCSD Cao Gary UCSD. Fall 2021 2020 UCSD section computer Cao section Fall Cao CSE11 computer 2020 2021?
-                </p>
+                    </p>
+                    <h2 className="section-schedule">Schedule:</h2>
                     <div className="section-calendar">
                         <Calendar
                             localizer={localizer}
