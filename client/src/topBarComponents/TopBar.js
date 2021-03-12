@@ -13,8 +13,8 @@ const ProfileDropdown = () => {
             <Link exact to='/profile' className="profile-item">
                 Profile
                 </Link>
-            <Link exact to='/settings' className="profile-item">
-                Settings
+            <Link exact to='/login' className="profile-item">
+                Login
             </Link>
             <Link className="profile-item" onClick={() => alert("signed out")}>
                 Sign Out
@@ -39,8 +39,13 @@ const TopBar = () => {
     }
 
     function toggleProfileDropdown(event) {
-        if (!event.relatedTarget) {
+        if (!event.relatedTarget ) {
             setDisplayProfileDropdown(!displayProfileDropdown);
+            return;
+        }
+        if(event.relatedTarget.className !== "profile-item") {
+            setDisplayProfileDropdown(!displayProfileDropdown);
+
         }
     }
 
@@ -49,9 +54,9 @@ const TopBar = () => {
         //     // setDisplayResults(false);
         //     return;
         // }
-        if (!event.relatedTarget) {
+        // if (!event.relatedTarget) {
             setDisplayResults(!displayResults);
-        }
+        // }
     }
 
     useEffect(() => {
@@ -63,7 +68,7 @@ const TopBar = () => {
     return (
         <div>
             <div className="topbar-container">
-                <div className="topbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="0">
+                <div className="searchbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="1">
                     <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
                 <div id="topbar-buttons">
