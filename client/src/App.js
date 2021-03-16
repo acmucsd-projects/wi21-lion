@@ -2,13 +2,11 @@ import React from 'react';
 import createPageOrg from './homeComponents/createPageOrg';
 import createPageClass from './homeComponents/createPageClass';
 import Navbar from './navbar/Navbar';
-
 import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
 import Article from './article/Article';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
-import createPage from './homeComponents/createPage';
 import TopBar from './topBarComponents/TopBar';
 import {
   BrowserRouter as Router,
