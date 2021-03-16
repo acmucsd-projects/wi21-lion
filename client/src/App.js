@@ -1,5 +1,7 @@
 import React from 'react';
-import createPage from './homeComponents/createPage';
+
+import createPageOrg from './homeComponents/createPageOrg';
+import createPageClass from './homeComponents/createPageClass';
 import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
@@ -7,6 +9,7 @@ import dummyArticles from './article/dummyArticle.json';
 import Article from './article/Article';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,6 +28,8 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path='/' component={home} />
+          <Route exact path='/createPageClass' component={createPageClass} />
+          <Route exact path='/createPageOrg' component={createPageOrg} />
           {dummyArticles.map((course) => (
             <Route exact
               path={`/courses/${course.department}/${course.name}`}
@@ -44,7 +49,6 @@ function App() {
               </Route>
             ))
           ))}
-          <Route exact path='/createPage' component={createPage} />
         </Switch>
         </div>
       </Router>
