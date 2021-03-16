@@ -1,91 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './TopBar.css';
 import { ReactComponent as ProfileSVG } from './profile.svg';
 import { ReactComponent as CreateSVG } from './create.svg';
 
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
-import { Link } from 'react-router-dom';
 
-const ProfileDropdown = () => {
-    return (
-        <ul className="profile-dropdown">
-            <Link exact to='/profile' className="profile-item">
-                Profile
-                </Link>
-            <Link exact to='/login' className="profile-item">
-                Login
-            </Link>
-            <Link className="profile-item" onClick={() => alert("signed out")}>
-                Sign Out
-            </Link>
-        </ul>
-    );
-}
 
 const TopBar = () => {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [displayResults, setDisplayResults] = useState(false);
-    const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
-
+    const [bottomSearchPos, setBottomSearchPos] = useState(0);
 
     function updateQuery(query) {
         setSearchQuery(query);
     }
 
-    function updateShowResults(showResults) {
+    function updateShowResults(showResults){
         setDisplayResults(showResults);
     }
 
-    function toggleProfileDropdown(event) {
-        if (!event.relatedTarget ) {
-            setDisplayProfileDropdown(!displayProfileDropdown);
-            return;
-        }
-        if(event.relatedTarget.className !== "profile-item") {
-            setDisplayProfileDropdown(!displayProfileDropdown);
-
-        }
+    function updateBottomSearchPos(pos) {
+        setBottomSearchPos(pos);
     }
 
-    function toggleResultsDropdown(event) {
-        // if(event.relatedTarget && event.relatedTarget.id === "result-item-link") {
-        //     // setDisplayResults(false);
-        //     return;
-        // }
-        // if (!event.relatedTarget) {
-            setDisplayResults(!displayResults);
-        // }
+    function updateClickOnInput(didClick) {
+        setDisplayResults(didClick);
     }
-
-    useEffect(() => {
-        if (searchQuery && searchQuery !== "") {
-            setDisplayResults(true);
-        }
-    }, [searchQuery])
 
     return (
         <div>
-            <div className="topbar-container">
-                <div className="searchbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="1">
-                    <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
-                </div>
+            <div id="topbar-container">
+                <SearchBar updateQuery={updateQuery} displayResults={displayResults} updateBottomSearchPos={updateBottomSearchPos}/>
                 <div id="topbar-buttons">
-                    <Link to="/createPage" className="topbar-button topbar-item">
-                        <CreateSVG className="topbar-item-svg" />
-                    </Link>
-                    <div className="topbar-button topbar-item" onBlur={toggleProfileDropdown} onFocus={toggleProfileDropdown} tabIndex="0">
-                        <ProfileSVG className="topbar-item-svg" />
+                    <div className="topbar-button topbar-item">
+                        <CreateSVG className="topbar-item-svg"/>
+                    </div>
+                    <div className="topbar-button topbar-item">
+                        <ProfileSVG className="topbar-item-svg"/>
                     </div>
                 </div>
             </div>
-            {displayResults &&
-                <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
-            }
-            {displayProfileDropdown && <ProfileDropdown></ProfileDropdown>}
+            <SearchResults query={searchQuery} updateShowResults={updateShowResults} bottomSearchPos={bottomSearchPos} updateClickOnInput={updateClickOnInput}/>
         </div>
     );
 }
 
 export default TopBar
+
+
+//TODO: dropdown for profile button
+//Fix gap between bar and results
