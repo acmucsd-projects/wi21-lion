@@ -49,7 +49,6 @@ function App() {
               </Route>
             ))
           ))}
-          <Route exact path='/createPage' component={createPage} />
         </Switch>
         </div>
       </Router>

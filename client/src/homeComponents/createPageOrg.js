@@ -5,7 +5,7 @@ function createPageOrg(){
     function handleSubmit(){
         let titleInput = document.getElementById("titleInput");
         let contentInput = document.getElementById("contentInput");
-        let imagesInput = document.getElementById("imagesInput");
+        // let imagesInput = document.getElementById("imagesInput");
         console.log(titleInput.value);
         console.log(contentInput.toSource());
 
