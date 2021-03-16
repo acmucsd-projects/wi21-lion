@@ -1,0 +1,48 @@
+.spacing {
+    margin: 10px 0;
+}
+button {
+    padding: 5px 10px; 
+}
+
+.textbox {
+    width: 10;
+    border: 2px solid #FFCD00;
+    box-sizing: border-box;
+    border-radius: 3px;
+
+}
+
+.publish-button:hover {
+    border-color: #00F16F;
+    color: #00F16F;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.saveforlater-button:hover {
+    border-color: #42F3E9;
+    color: #42F3E9;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.previewpage-button:hover {
+    border-color: #414141;
+    color: #414141;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+#largetextbox {
+    height: 30%;
+}
+
+#buttonsDiv {
+    
+
+}
+
+#formDiv {
+    
+}
