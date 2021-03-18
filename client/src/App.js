@@ -18,38 +18,42 @@ import {
   // Redirect,
 } from 'react-router-dom';
 
+import './App.css';
+
 function App() {
 
   return (
-    <div>
+    <div className="app-container">
       <Router>
         <TopBar />
         <div className="main-container">
-        <Navbar />
-        <Switch>
-          <Route exact path='/' component={home} />
-          <Route exact path='/createPageClass' component={createPageClass} />
-          <Route exact path='/createPageOrg' component={createPageOrg} />
-          {dummyArticles.map((course) => (
-            <Route exact
-              path={`/courses/${course.department}/${course.name}`}
-              children={<Article course={course}>
-                <CourseContent course={course}></CourseContent>
-              </Article>}>
-            </Route>
-          ))}
+          <Navbar />
+          <div className="page-container">
+            <Switch>
+              <Route exact path='/' component={home} />
+              <Route exact path='/createPageClass' component={createPageClass} />
+              <Route exact path='/createPageOrg' component={createPageOrg} />
+              {dummyArticles.map((course) => (
+                <Route exact
+                  path={`/courses/${course.department}/${course.name}`}
+                  children={<Article course={course}>
+                    <CourseContent course={course}></CourseContent>
+                  </Article>}>
+                </Route>
+              ))}
 
-          {dummyArticles.map((course) => (
-            course.sections.map((section) => (
-              <Route exact
-                path={`/courses/${course.department}/${course.name}/${section.professor}`}
-                children={<Article section={section} course={course} >
-                  <SectionContent section={section} course={course}></SectionContent>
-                </Article>}>
-              </Route>
-            ))
-          ))}
-        </Switch>
+              {dummyArticles.map((course) => (
+                course.sections.map((section) => (
+                  <Route exact
+                    path={`/courses/${course.department}/${course.name}/${section.professor}`}
+                    children={<Article section={section} course={course} >
+                      <SectionContent section={section} course={course}></SectionContent>
+                    </Article>}>
+                  </Route>
+                ))
+              ))}
+            </Switch>
+          </div>
         </div>
       </Router>
     </div>
