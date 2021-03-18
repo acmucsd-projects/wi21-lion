@@ -1,5 +1,7 @@
 import React from 'react';
-import createPage from './homeComponents/createPage';
+
+import createPageOrg from './homeComponents/createPageOrg';
+import createPageClass from './homeComponents/createPageClass';
 import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
@@ -29,6 +31,8 @@ function App() {
         <Switch>
           <Route exact path='/' component={home} />
           <Route exact path={`/courses`} children={<BlankCourse></BlankCourse>}></Route>
+          <Route exact path='/createPageClass' component={createPageClass} />
+          <Route exact path='/createPageOrg' component={createPageOrg} />
           {dummyArticles.map((course) => (
             <Route exact
               path={`/courses/${course.department}/${course.name}`}

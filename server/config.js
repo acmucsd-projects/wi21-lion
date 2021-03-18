@@ -1,9 +1,9 @@
 require('dotenv').config();
 
 const authentication = {
-    JWT_SECRET = process.env.JWT_SECRET
+    JWT_SECRET : process.env.JWT_SECRET || 'ACM_LION'
 };
 
-modules.export = {
+module.exports = {
     authentication
 };

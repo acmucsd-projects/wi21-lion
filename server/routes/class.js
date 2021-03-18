@@ -8,21 +8,43 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/departments', function(req, res, next) {
+router.post('/:dep', userAuth.authenticateUser, async function(req, res, next) {
     try {
-        return res.status(200).json({departments : Department.find({})});
-    }
-    catch (err) {
-        return res.status(401).json({error : "Failed to retrieve departments."})
+        const { name, description, image } = req.body
+        if(!name){
+            return res.status(400).json({error : "Must provide name of class."});
+        }
+        const department_name = req.params.dep;
+        const department = await Department.findOne({name : department_name});
+        const newClass = new Class({name : name, description : description, image : image});
+        await department.classes.push(newClass._id);
+        await newClass.save();
+        await department.save()
+        return res.status(200).json(newClass);
+    } catch(err) {
+        console.log(err.message);
+        return res.status(401).json({error : "Failed to add class."});
     }
 });
 
-router.get('/department/classes', function(req, res, next) {
+router.patch('/:class_id', userAuth.authenticateUser, async function(req, res, next) {
     try {
-        const { department_name } = res.body;
-        const department = Department.findOne({name : department_name});
-        return res.status(200).json({classes : department.classes})
+        const updateClass = await Class.findByIdAndUpdate(req.params.class_id, req.body);
+        return res.status(200).json({message : "Updated class."});
     } catch(err) {
-        return res.status(401).json({error : "Failed to retrieve classes"});
+        console.log(err.message);
+        return res.status(401).json({error : "Failed to update class."});
     }
-})
+});
+
+router.get('/:class_id', async function(req, res, next) {
+    try {
+        const getClass = await Class.findById(req.params.class_id);
+        return res.status(200).json(getClass);
+    } catch(err) {
+        console.log(err.message);
+        return res.status(401).json({error : "Failed to retrieve class"});
+    }
+});
+
+module.exports = router;

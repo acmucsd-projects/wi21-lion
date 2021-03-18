@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const ClassSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,
@@ -14,11 +15,12 @@ const ClassSchema = new Schema({
         type: String
     },
     sections: [{
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: "Section"
     }],
-    previous_sections: {
-        type: Schema.Types.ObjectId
-    }
 });
 
-module.export = mongoose.model('Class', ClassSchema);
+const Class = mongoose.model('Class', ClassSchema);
+module.exports = {
+    Class
+};
