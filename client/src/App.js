@@ -11,6 +11,7 @@ import CourseArticle, { BlankCourse } from './article/CourseArticle';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
 import OrgArticle from './article/OrgArticle';
+import OrgContent from './article/OrgContent';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,7 +19,6 @@ import {
   // Link,
   // Redirect,
 } from 'react-router-dom';
-import OrgContent from './article/OrgContent';
 
 function App() {
 
@@ -60,7 +60,7 @@ function App() {
               </OrgArticle>}>
               </Route>
           ))}
-          <Route exact path='/createPage' component={createPage} />
+          {/* <Route exact path='/createPage' component={createPage} /> */}
         </Switch>
         </div>
       </Router>
