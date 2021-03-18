@@ -1,0 +1,27 @@
+.spacing {
+    margin: 10px 0;
+}
+button {
+    padding: 5px 10px; 
+}
+
+.textbox {
+    width: 10;
+    border: 2px solid #FFCD00;
+    box-sizing: border-box;
+    border-radius: 3px;
+
+}
+
+#largetextbox {
+    height: 30%;
+}
+
+#buttonsDiv {
+    
+
+}
+
+#formDiv {
+    
+}
