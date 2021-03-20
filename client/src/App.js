@@ -20,10 +20,12 @@ import {
   // Redirect,
 } from 'react-router-dom';
 
+import './App.css';
+
 function App() {
 
   return (
-    <div>
+    <div className="app-container">
       <Router>
         <TopBar />
         <div className="main-container">
