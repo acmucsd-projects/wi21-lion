@@ -50,13 +50,9 @@ const TopBar = () => {
     }
 
     function toggleResultsDropdown(event) {
-        // if(event.relatedTarget && event.relatedTarget.id === "result-item-link") {
-        //     // setDisplayResults(false);
-        //     return;
-        // }
-        // if (!event.relatedTarget) {
+        if (!event.relatedTarget) {
             setDisplayResults(!displayResults);
-        // }
+        }
     }
 
     useEffect(() => {
