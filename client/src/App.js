@@ -19,6 +19,7 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
+import UserProfile from './userProfile/UserProfile';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
               <Route exact path='/' component={home} />
               <Route exact path='/createPageClass' component={createPageClass} />
               <Route exact path='/createPageOrg' component={createPageOrg} />
+              <Route exact patch='/userProfile' component={UserProfile} />
               {dummyArticles.map((course) => (
                 <Route exact
                   path={`/courses/${course.department}/${course.name}`}
