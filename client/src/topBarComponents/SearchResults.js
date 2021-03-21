@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './TopBar.css';
 
@@ -26,52 +26,9 @@ const SearchResults = (props) => {
 
     const { query, updateShowResults } = props;
 
-
-
     const [results, setResults] = useState([]);
     const [displayResults, setDisplayResults] = useState([]);
-    const [hideResults, setHideResults] = useState("none");
 
-    //not used for now so commented out to avoid eslint errors, see also line 86
-    //const [selected, setSelected] = useState();
-
-
-    const resultsWrapperRef = useRef(null);
-    useOutsideResultsAlerter(resultsWrapperRef);
-
-    /**
-     * Function to handle clicks outside 
-     * @param {*} ref 
-     */
-    function useOutsideResultsAlerter(ref) {
-        useEffect(() => {
-
-            function handleClickOutside(event) {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    setHideResults("none");
-                }
-            }
-            // Bind the event listener
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-                // Unbind the event listener on clean up
-                document.removeEventListener("mousedown", handleClickOutside);
-            };
-        }, [ref]);
-    }
-
-
-
-    useEffect(() => {
-        setResults(querySearch(dummyCourses, query))
-        if (!query || query.length === 0) {
-            setHideResults("none");
-            updateShowResults(false);
-        } else {
-            setHideResults("");
-            updateShowResults(true);
-        }
-    }, [query, updateShowResults]);
 
     useEffect(() => {
         if (results.length === 0) {
@@ -83,23 +40,25 @@ const SearchResults = (props) => {
             setDisplayResults(noResults);
         } else {
             setDisplayResults(results);
-            // setSelected(results[0]);
         }
-    }, [results]);
+    }, [results, updateShowResults]);
+
 
 
     useEffect(() => {
-        updateShowResults(!hideResults);
-    }, [hideResults, updateShowResults]);
-
-
-
+        setResults(querySearch(dummyCourses, query))
+        if (!query || query.length === 0) {
+            updateShowResults(false);
+        } else {
+            updateShowResults(true);
+        }
+    }, [query, updateShowResults]);
 
     return (
-        <div id="search-results-container" ref={resultsWrapperRef} >
-            <ul id="search-results" style={{display: hideResults}}>
+        <div id="search-results-container"  >
+            <ul id="search-results">
                 {displayResults.map((course) =>
-                    <Link id="result-item-link" to={course.department + "/" + course.code}>
+                    <Link id="result-item-link" to={`/courses/${course.department}/${course.code}`} onClick={(() => updateShowResults(false))} >
                         <li id="result-item">{course.code}</li>
                     </Link>
                 )}
