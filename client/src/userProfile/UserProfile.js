@@ -51,13 +51,13 @@ export default function UserProfile() {
 
 function ClassList() {
 
-  function ClassItem() {
-    return (
-      <div>
+  // function ClassItem() {
+  //   return (
+  //     <div>
 
-      </div>
-    )
-  }
+  //     </div>
+  //   )
+  // }
 
 
   return (
