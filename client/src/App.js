@@ -24,7 +24,7 @@ import UserProfile from './userProfile/UserProfile';
 function App() {
 
   return (
-    <div className="app-container">
+    <div>
       <Router>
         <TopBar />
         <div className="main-container">
@@ -44,18 +44,18 @@ function App() {
                 </Route>
               ))}
 
-              {dummyArticles.map((course) => (
-                course.sections.map((section) => (
-                  <Route exact
-                    path={`/courses/${course.department}/${course.name}/${section.professor}`}
-                    children={<Article section={section} course={course} >
-                      <SectionContent section={section} course={course}></SectionContent>
-                    </Article>}>
-                  </Route>
-                ))
-              ))}
-            </Switch>
-          </div>
+          {dummyArticles.map((course) => (
+            course.sections.map((section) => (
+              <Route exact
+                path={`/courses/${course.department}/${course.name}/${section.professor}`}
+                children={<Article section={section} course={course} >
+                  <SectionContent section={section} course={course}></SectionContent>
+                </Article>}>
+              </Route>
+            ))
+          ))}
+        </Switch>
+        </div>
         </div>
       </Router>
     </div>
