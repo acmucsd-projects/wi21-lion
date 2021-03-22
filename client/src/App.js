@@ -18,6 +18,9 @@ import {
   // Redirect,
 } from 'react-router-dom';
 
+import './App.css';
+import UserProfile from './userProfile/UserProfile';
+
 function App() {
 
   return (
@@ -25,19 +28,21 @@ function App() {
       <Router>
         <TopBar />
         <div className="main-container">
-        <Navbar />
-        <Switch>
-          <Route exact path='/' component={home} />
-          <Route exact path='/createPageClass' component={createPageClass} />
-          <Route exact path='/createPageOrg' component={createPageOrg} />
-          {dummyArticles.map((course) => (
-            <Route exact
-              path={`/courses/${course.department}/${course.name}`}
-              children={<Article course={course}>
-                <CourseContent course={course}></CourseContent>
-              </Article>}>
-            </Route>
-          ))}
+          <Navbar />
+          <div className="page-container">
+            <Switch>
+              <Route exact path='/' component={home} />
+              <Route exact path='/createPageClass' component={createPageClass} />
+              <Route exact path='/createPageOrg' component={createPageOrg} />
+              <Route exact patch='/userProfile' component={UserProfile} />
+              {dummyArticles.map((course) => (
+                <Route exact
+                  path={`/courses/${course.department}/${course.name}`}
+                  children={<Article course={course}>
+                    <CourseContent course={course}></CourseContent>
+                  </Article>}>
+                </Route>
+              ))}
 
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
@@ -50,6 +55,7 @@ function App() {
             ))
           ))}
         </Switch>
+        </div>
         </div>
       </Router>
     </div>
