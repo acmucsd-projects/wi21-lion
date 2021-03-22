@@ -51,13 +51,14 @@ export default function UserProfile() {
 
 function ClassList() {
 
-  function ClassItem() {
-    return (
-      <div>
+  // I commented this out because it was causing a linting error
+  // function ClassItem() {
+  //   return (
+  //     <div>
 
-      </div>
-    )
-  }
+  //     </div>
+  //   )
+  // }
 
 
   return (
