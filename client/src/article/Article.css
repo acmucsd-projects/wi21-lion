@@ -1,5 +1,5 @@
 :root {
-    --article-margin: 0%;
+    --article-margin: 10vw;
 }
 
 #article {
@@ -8,17 +8,16 @@
 
 .article-banner {
     object-fit: cover;
-    /* width: calc(100% - var(--article-margin)*2); */
-    max-width: 100%;
+    width: calc(100vw - var(--article-margin)*2);
     height: 200px;
     /* filter: blur(2px); */
-    /* margin: 0 var(--article-margin) 0 var(--article-margin); */
+    margin: 0 var(--article-margin) 0 var(--article-margin);
 }
 
 .article-header {
-    /* width: calc(100% - var(--article-margin)*2); */
+    width: calc(100vw - var(--article-margin)*2);
     background-color: var(--ucsd-yellow);
-    margin: -5px 0 5vh 0;
+    margin: -5px var(--article-margin) 5vh var(--article-margin);
     z-index: 100;
     font-weight: 600;
 }
@@ -41,7 +40,7 @@
 }
 
 .article-path li:first-child {
-    margin-left: 5%
+    margin-left: 5vw;
 }
 
 .article-path li:last-child {
