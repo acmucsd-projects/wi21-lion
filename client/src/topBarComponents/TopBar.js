@@ -23,10 +23,24 @@ const ProfileDropdown = () => {
     );
 }
 
+const CreatePageDropdown = () => {
+    return (
+        <ul className="create-page-dropdown">
+            <Link exact to='/createPageClass' className="create-page-item">
+                New Class Page
+            </Link>
+            <Link exact to='/createPageOrg' className="create-page-item">
+                New Org Page
+            </Link>
+        </ul>
+    );
+}
+
 const TopBar = () => {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [displayResults, setDisplayResults] = useState(false);
+    const [displayCreatePageDropdown, setCreatePageDropdown] = useState(false);
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
 
 
@@ -45,7 +59,16 @@ const TopBar = () => {
         }
         if(event.relatedTarget.className !== "profile-item") {
             setDisplayProfileDropdown(!displayProfileDropdown);
+        }
+    }
 
+    function toggleCreatePageDropdown(event) {
+        if (!event.relatedTarget ) {
+            setCreatePageDropdown(!displayCreatePageDropdown);
+            return;
+        }
+        if(event.relatedTarget.className !== "create-page-item") {
+            setCreatePageDropdown(!displayCreatePageDropdown);
         }
     }
 
@@ -64,13 +87,13 @@ const TopBar = () => {
     return (
         <div>
             <div className="topbar-container">
-                <div className="searchbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="1">
+                <div className="searchbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
                     <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
-                <div id="topbar-buttons">
-                    <Link to="/createPage" className="topbar-button topbar-item">
+                <div id="topbar-buttons" >
+                    <div className="topbar-button topbar-item" onBlur={toggleCreatePageDropdown} onFocus={toggleCreatePageDropdown} tabIndex="1">
                         <CreateSVG className="topbar-item-svg" />
-                    </Link>
+                    </div>
                     <div className="topbar-button topbar-item" onBlur={toggleProfileDropdown} onFocus={toggleProfileDropdown} tabIndex="0">
                         <ProfileSVG className="topbar-item-svg" />
                     </div>
@@ -79,7 +102,8 @@ const TopBar = () => {
             {displayResults &&
                 <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
             }
-            {displayProfileDropdown && <ProfileDropdown></ProfileDropdown>}
+            {displayCreatePageDropdown && <CreatePageDropdown />}
+            {displayProfileDropdown && <ProfileDropdown />}
         </div>
     );
 }

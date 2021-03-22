@@ -140,6 +140,18 @@
     border-radius: 5px;
 }
 
+.create-page-dropdown {
+    position: absolute;
+    right: 5vw; 
+    top: 65px;
+    width: auto;
+    min-width: 100px;
+    border-radius: 5px;
+    padding: 1rem;
+    overflow: hidden;
+    z-index: 51;
+}
+
 .profile-dropdown {
     position: absolute;
     right: 0;
@@ -152,15 +164,15 @@
     z-index: 50;
 }
 
-.profile-dropdown :first-child {
+.profile-dropdown, .create-page-dropdown :first-child {
     border-radius: 5px 5px 0 0;
 }
 
-.profile-dropdown :last-child {
+.profile-dropdown, .create-page-dropdown :last-child {
     border-radius: 0 0 5px 5px;
 }
 
-.profile-item {
+.profile-item, .create-page-item {
     height: 30px;
     display: flex;
     align-items: center;
@@ -174,7 +186,7 @@
     color: black;
 }
 
-.profile-item:hover {
+.profile-item:hover, .create-page-item:hover {
     background-color: #3771CD;
     cursor: pointer;
 }
