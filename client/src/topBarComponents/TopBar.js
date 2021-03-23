@@ -10,9 +10,9 @@ import { Link } from 'react-router-dom';
 const ProfileDropdown = () => {
     return (
         <ul className="profile-dropdown">
-            <Link exact to='/profile' className="profile-item">
+            <Link exact to='/userProfile' className="profile-item">
                 Profile
-                </Link>
+            </Link>
             <Link exact to='/login' className="profile-item">
                 Login
             </Link>
