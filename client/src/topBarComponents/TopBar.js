@@ -7,10 +7,11 @@ import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom';
 
-const ProfileDropdown = () => {
+const ProfileDropdown = (props) => {
+    const { hideProfileDropdown } = props;
     return (
-        <ul className="profile-dropdown">
-            <Link exact to='/userProfile' className="profile-item">
+        <ul className="profile-dropdown" onClick={() => hideProfileDropdown()}>
+            <Link exact to='/userProfile' className="profile-item" >
                 Profile
             </Link>
             <Link exact to='/login' className="profile-item">
@@ -23,9 +24,10 @@ const ProfileDropdown = () => {
     );
 }
 
-const CreatePageDropdown = () => {
+const CreatePageDropdown = (props) => {
+    const { hideCreatePageDropdown } = props;
     return (
-        <ul className="create-page-dropdown">
+        <ul className="create-page-dropdown" onClick={() => hideCreatePageDropdown()}>
             <Link exact to='/createPageClass' className="create-page-item">
                 New Class Page
             </Link>
@@ -44,6 +46,14 @@ const TopBar = () => {
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
 
 
+    function hideProfileDropdown() {
+        setDisplayProfileDropdown(false);
+    }
+
+    function hideCreatePageDropdown() {
+        setCreatePageDropdown(false);
+    }
+
     function updateQuery(query) {
         setSearchQuery(query);
     }
@@ -55,8 +65,10 @@ const TopBar = () => {
     function toggleProfileDropdown(event) {
         if (!event.relatedTarget ) {
             setDisplayProfileDropdown(!displayProfileDropdown);
+            // if(displayProfileDropdown)
             return;
         }
+        console.log(event);
         if(event.relatedTarget.className !== "profile-item") {
             setDisplayProfileDropdown(!displayProfileDropdown);
         }
@@ -102,8 +114,8 @@ const TopBar = () => {
             {displayResults &&
                 <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
             }
-            {displayCreatePageDropdown && <CreatePageDropdown />}
-            {displayProfileDropdown && <ProfileDropdown />}
+            {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
+            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown}/>}
         </div>
     );
 }
