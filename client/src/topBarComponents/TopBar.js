@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './TopBar.css';
-import { ReactComponent as ProfileSVG } from './profile.svg';
-import { ReactComponent as CreateSVG } from './create.svg';
+import { ReactComponent as HomeSVG } from './res/home.svg';
+import { ReactComponent as ProfileSVG } from './res/profile.svg';
+import { ReactComponent as CreateSVG } from './res/create.svg';
 
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom';
 
-const ProfileDropdown = () => {
+const ProfileDropdown = (props) => {
+    const { hideProfileDropdown } = props;
     return (
-        <ul className="profile-dropdown">
-            <Link exact to='/profile' className="profile-item">
+        <ul className="profile-dropdown" onClick={() => hideProfileDropdown()}>
+            <Link exact to='/userProfile' className="profile-item" >
                 Profile
-                </Link>
+            </Link>
             <Link exact to='/login' className="profile-item">
                 Login
             </Link>
@@ -23,9 +25,10 @@ const ProfileDropdown = () => {
     );
 }
 
-const CreatePageDropdown = () => {
+const CreatePageDropdown = (props) => {
+    const { hideCreatePageDropdown } = props;
     return (
-        <ul className="create-page-dropdown">
+        <ul className="create-page-dropdown" onClick={() => hideCreatePageDropdown()}>
             <Link exact to='/createPageClass' className="create-page-item">
                 New Class Page
             </Link>
@@ -44,6 +47,14 @@ const TopBar = () => {
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
 
 
+    function hideProfileDropdown() {
+        setDisplayProfileDropdown(false);
+    }
+
+    function hideCreatePageDropdown() {
+        setCreatePageDropdown(false);
+    }
+
     function updateQuery(query) {
         setSearchQuery(query);
     }
@@ -55,8 +66,10 @@ const TopBar = () => {
     function toggleProfileDropdown(event) {
         if (!event.relatedTarget ) {
             setDisplayProfileDropdown(!displayProfileDropdown);
+            // if(displayProfileDropdown)
             return;
         }
+        console.log(event);
         if(event.relatedTarget.className !== "profile-item") {
             setDisplayProfileDropdown(!displayProfileDropdown);
         }
@@ -87,7 +100,10 @@ const TopBar = () => {
     return (
         <div>
             <div className="topbar-container">
-                <div className="searchbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
+                    <Link className="home-button topbar-item" exact to='' >
+                        <HomeSVG className="topbar-home-svg" />
+                    </Link>
+                <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
                     <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
                 <div id="topbar-buttons" >
@@ -102,8 +118,8 @@ const TopBar = () => {
             {displayResults &&
                 <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
             }
-            {displayCreatePageDropdown && <CreatePageDropdown />}
-            {displayProfileDropdown && <ProfileDropdown />}
+            {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
+            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown}/>}
         </div>
     );
 }

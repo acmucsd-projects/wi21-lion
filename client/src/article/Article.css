@@ -1,5 +1,5 @@
 :root {
-    --article-margin: 5%;
+    --article-margin: 0%;
 }
 
 #article {
@@ -8,10 +8,10 @@
 
 .article-banner {
     object-fit: cover;
-    width: 100%;
+    /* width: calc(100% - var(--article-margin)*2); */
     max-width: 100%;
     height: 200px;
-    filter: blur(0.5px);
+    /* filter: blur(2px); */
     /* margin: 0 var(--article-margin) 0 var(--article-margin); */
 }
 
