@@ -7,7 +7,7 @@ import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
 import dummyOrgs from './article/dummyOrgs.json';
-import CourseArticle from './article/CourseArticle';
+import CourseArticle, { BlankCourse } from './article/CourseArticle';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
 import OrgArticle from './article/OrgArticle';
@@ -36,7 +36,8 @@ function App() {
               <Route exact path='/' component={home} />
               <Route exact path='/createPageClass' component={createPageClass} />
               <Route exact path='/createPageOrg' component={createPageOrg} />
-              <Route exact path='/userProfile' component={UserProfile} />
+              <Route exact path={'/courses'} component={BlankCourse} />
+              {<Route exact path='/userProfile' component={UserProfile} />}
               {dummyArticles.map((course) => (
                 <Route exact
                   path={`/courses/${course.department}/${course.name}`}
@@ -55,7 +56,7 @@ function App() {
               </Route>
             ))
           ))}
-          <Route exact path={`/orgs`} children={<OrgArticle></OrgArticle>}></Route>
+          <Route exact path={`/orgs`} component={OrgArticle} />
           {dummyOrgs.map((org) => (
             <Route exact 
               path={`/orgs/${org.name}`}

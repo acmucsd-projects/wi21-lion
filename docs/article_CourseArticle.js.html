@@ -62,7 +62,12 @@ function updateSelectedArticleType(element) {
 function CourseArticle(props) {
 
     const { section, course } = props;
+    const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...");
     const [departmentList, setDepartmentList] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [selectedCourseName, setSelectedCourseName] = useState("Select a course...");
+    const [courseList, setCourseList] = useState([]);
     const [selectedQuarter, setSelectedQuarter] = useState(null);
     const [quarterList, setQuarterList] = useState([]);
     const [selectedQuarterName, setSelectedQuarterName] = useState("Select a quarter...");
@@ -77,10 +82,10 @@ function CourseArticle(props) {
     /**
      * Called when department is changed
      */
-    function updateSelectedDepartment() {
-
+    function updateSelectedDepartment(element) {
+        setSelectedDepartment(element.department)
+        setSelectedDepartmentName(element.department)
     }
-
 
     /**
      * Update the currently selected quarter 
@@ -211,6 +216,21 @@ function CourseArticle(props) {
     }, [course, getListOfQuarters]);
 
     useEffect(() => {
+        if(selectedDepartment) {
+            setCourseList(dummyArticles.filter(course => course.department===selectedDepartment));
+        }
+        if(course &amp;&amp; selectedDepartment !== course.department) {
+            setSelectedCourse(null);
+            setSelectedCourseName("Select a Course ...");
+            setSelectedQuarter(null);
+            setSelectedSectionName(null);
+        } else {
+            setSelectedCourse(course);
+            setSelectedCourseName(course.name);
+        }
+    }, [selectedDepartment, course]);
+
+    useEffect(() => {
         if (selectedQuarter) {
             setSectionList(getListOfSections(selectedQuarter));
             updateSelectedQuarter(selectedQuarter);
@@ -237,6 +257,15 @@ function CourseArticle(props) {
     }, [sectionList, formatSectionList]);
 
     useEffect(() => {
+        if(course) {
+            setSelectedDepartment(course.department);
+            setSelectedDepartmentName(course.department);
+            setSelectedCourse(course);
+            setSelectedCourseName(course.name);
+        }
+    }, [course])
+
+    useEffect(() => {
         let departments = [];
         dummyArticles.forEach(element => {
             const department = element["department"];
@@ -251,6 +280,7 @@ function CourseArticle(props) {
         })
         setDepartmentList(departmentsObjs);
     }, []);
+
 
     // if(!course) {
     //     return (
@@ -292,27 +322,27 @@ function CourseArticle(props) {
                             updateSelection={updateSelectedArticleType}
                             selectedItem={"Courses"} />
                     &lt;/PathItem>
-                    &lt;PathItem name={course.department}>
+                    &lt;PathItem name={selectedDepartmentName}>
                         &lt;PathDropdownMenu
                             list={departmentList}
                             type={"department"}
                             updateSelection={updateSelectedDepartment}
-                            selectedItem={course.department} />
+                            selectedItem={selectedDepartmentName} />
                     &lt;/PathItem>
-                    &lt;PathItem name={course.name}>
+                    &lt;PathItem name={selectedCourseName}>
                         &lt;PathDropdownMenu
-                            list={dummyArticles}
+                            list={courseList}
                             type={"name"}
                             updateSelection={updateSelectedCourse}
-                            selectedItem={course.name} />
+                            selectedItem={selectedCourseName} />
                     &lt;/PathItem>
-                    &lt;PathItem name={selectedQuarterName}>
+                    {selectedCourse &amp;&amp; &lt;PathItem name={selectedQuarterName}>
                         &lt;PathDropdownMenu
                             list={quarterList}
                             type={"quarter"}
                             updateSelection={updateSelectedQuarter}
                             selectedItem={selectedQuarterName} />
-                    &lt;/PathItem>
+                    &lt;/PathItem>}
                     {selectedQuarter &amp;&amp;
                         &lt;PathItem name={selectedSectionName}>
                             &lt;PathDropdownMenu
@@ -337,6 +367,7 @@ export function BlankCourse() {
     const [departmentList, setDepartmentList] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState()
     const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...")
+    const [courseList, setCourseList] = useState([]);
     // /**
     //  * Called when article type is changed
     //  */
@@ -370,6 +401,12 @@ export function BlankCourse() {
         setDepartmentList(departmentsObjs);
     }, []);
 
+    useEffect(() => {
+        if(selectedDepartment) {
+            setCourseList(dummyArticles.filter(course => course.department===selectedDepartment));
+        }
+    }, [selectedDepartment]);
+
     return (
         &lt;div id="article">
             &lt;img className="article-banner" src={banner} alt={"banner"}>&lt;/img>
@@ -391,7 +428,7 @@ export function BlankCourse() {
                     &lt;/PathItem>
                     {selectedDepartment &amp;&amp; &lt;PathItem name={"Select a course ..."}>
                         &lt;PathDropdownMenu
-                            list={dummyArticles}
+                            list={courseList}
                             type={"name"}
                             updateSelection={updateSelectedCourse}
                             selectedItem={""} />
@@ -418,7 +455,7 @@ export function BlankCourse() {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Tue Mar 23 2021 20:08:57 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Tue Mar 23 2021 22:31:24 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
