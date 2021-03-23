@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './TopBar.css';
-import { ReactComponent as ProfileSVG } from './profile.svg';
-import { ReactComponent as CreateSVG } from './create.svg';
+import { ReactComponent as HomeSVG } from './res/home.svg';
+import { ReactComponent as ProfileSVG } from './res/profile.svg';
+import { ReactComponent as CreateSVG } from './res/create.svg';
 
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
@@ -99,6 +100,9 @@ const TopBar = () => {
     return (
         <div>
             <div className="topbar-container">
+                    <Link className="home-button topbar-item" exact to='' >
+                        <HomeSVG className="topbar-home-svg" />
+                    </Link>
                 <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
                     <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
