@@ -5,11 +5,16 @@ const Schema = mongoose.Schema;
 const DepartmentSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     classes: [{
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: "Classes",
     }]
 });
 
-module.export = mongoose.model('Department', DepartmentSchema);
+const Department = mongoose.model('Department', DepartmentSchema);
+module.exports = {
+    Department
+};

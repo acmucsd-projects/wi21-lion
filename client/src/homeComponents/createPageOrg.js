@@ -1,7 +1,28 @@
 import React from 'react'
 import "./createPage.css";
-function createPage(){
+function createPageOrg(){
     
+    function handleSubmit(){
+        let titleInput = document.getElementById("titleInput");
+        let contentInput = document.getElementById("contentInput");
+        // let imagesInput = document.getElementById("imagesInput");
+        console.log(titleInput.value);
+        console.log(contentInput.toSource());
+
+        let postBody = {
+            Name: titleInput.value,
+            Date: new Date.getTime()/1000,
+            Description: contentInput.value
+        }
+
+        fetch("https..", {
+            method: 'POST', 
+            //headers: {
+           //     'Content-Type': 'application/json'
+            //},
+            body: JSON.stringify(postBody) 
+        }).then(response => {console.log(response)});
+    }
 
     return(
         
@@ -19,7 +40,6 @@ function createPage(){
                     <label class="spacing">
                         Page Type
                         <select class="textbox">
-                            <option>Class</option>
                             <option>Club Sport</option>
                             <option>NCAA Sport</option>
                             <option>Academic Org</option>
@@ -28,20 +48,20 @@ function createPage(){
                     </label>
 
                     <label id="largetextbox" class="spacing">Title</label>
-                    <input class="textbox" style={{type: "text"}}></input>
+                    <input id="titleInput" class="textbox" style={{type: "text"}}></input>
 
                     <label class="spacing">Content</label>
-                    <textarea class="textbox" style={{height: "392px"}}/>
+                    <textarea id="contentInput" class="textbox" style={{height: "392px"}}/>
 
                     <label class="spacing">Images</label>
-                    <textarea class="textbox" style={{height: "156px"}}/>
+                    <textarea id="imagesInput" class="textbox" style={{height: "156px"}}/>
                 </form>
 
                 <div class="spacing" style={{float: "right"}}>
                     <button style={{backgroundColor: "#42F3E9", margin: "0px 20px", color: "#FFFFFF", border: "none"}}>
                         Save For Later
                     </button>
-                    <button style={{backgroundColor: "#00F16F", color: "#FFFFFF", border: "none"}}>
+                    <button ckass="publish-button" onClick={handleSubmit} style={{backgroundColor: "#00F16F", color: "#FFFFFF", border: "none"}}>
                         Publish
                     </button>
                 </div>
@@ -50,4 +70,4 @@ function createPage(){
     );
 }
 
-export default createPage;
+export default createPageOrg;
