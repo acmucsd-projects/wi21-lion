@@ -21,7 +21,7 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
-import UserProfile from './userProfile/UserProfile';
+// import UserProfile from './userProfile/UserProfile';
 
 function App() {
 
