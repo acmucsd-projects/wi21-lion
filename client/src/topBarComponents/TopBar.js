@@ -7,15 +7,16 @@ import { ReactComponent as CreateSVG } from './res/create.svg';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom';
+import { LoginDialog } from '../popups/dialogs';
 
 const ProfileDropdown = (props) => {
-    const { hideProfileDropdown } = props;
+    const { hideProfileDropdown, showLogin } = props;
     return (
         <ul className="profile-dropdown" onClick={() => hideProfileDropdown()}>
             <Link exact to='/userProfile' className="profile-item" >
                 Profile
             </Link>
-            <Link exact to='/login' className="profile-item">
+            <Link className="profile-item" onClick={() => showLogin()}>
                 Login
             </Link>
             <Link className="profile-item" onClick={() => alert("signed out")}>
@@ -45,6 +46,7 @@ const TopBar = () => {
     const [displayResults, setDisplayResults] = useState(false);
     const [displayCreatePageDropdown, setCreatePageDropdown] = useState(false);
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
+    const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
 
 
     function hideProfileDropdown() {
@@ -53,6 +55,10 @@ const TopBar = () => {
 
     function hideCreatePageDropdown() {
         setCreatePageDropdown(false);
+    }
+
+    function showLogin() {
+        setDisplayLoginPrompt(true);
     }
 
     function updateQuery(query) {
@@ -119,7 +125,10 @@ const TopBar = () => {
                 <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
             }
             {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
-            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown}/>}
+            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin}/>}
+            <div className="login-wrapper">
+                {displayLoginPrompt && <LoginDialog show={true} hide={false}></LoginDialog>}
+            </div>
         </div>
     );
 }
