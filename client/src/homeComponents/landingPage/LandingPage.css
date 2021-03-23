@@ -3,7 +3,7 @@
 	font-family: 'Montserrat';
 }
 
-.landing-container :nth-child(2) {
+.landing-container h1 {
 	padding: 0 0 5% 0;
 }
 
@@ -30,6 +30,10 @@
 	text-decoration: none;
 	transition: all 300ms;
 	color: black;
+	background-color: rgb(201, 201, 201);
+	padding: 10px;
+	border-radius: 5px;
+	border: 2px solid #3771CD;
 }
 
 .landing-icon-container a:hover {
