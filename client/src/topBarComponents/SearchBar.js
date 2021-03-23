@@ -1,10 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './TopBar.css';
 
 const SearchBar = (props) => {
     const targetRef = useRef();
     const [query, setQuery] = useState("");
-    const { updateQuery, displayResults, updateBottomSearchPos, updateClickOnInput } = props;
+    const { updateQuery, displayResults, updateClickOnInput } = props;
 
 
     const handleInput = event => {
@@ -12,7 +12,7 @@ const SearchBar = (props) => {
     }
 
     const handleClick = event => {
-        if(event.current){
+        if (event.current) {
             updateClickOnInput(true)
 
         }
@@ -21,12 +21,6 @@ const SearchBar = (props) => {
     useEffect(() => {
         updateQuery(query);
     }, [query, updateQuery]);
-
-    useLayoutEffect(() => {
-        if (targetRef.current) {
-            updateBottomSearchPos(targetRef.current.bottom)
-        }
-      }, [updateBottomSearchPos]);
 
     return (
         <div id="search-bar" className="topbar-item">
