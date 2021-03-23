@@ -99,7 +99,7 @@ const TopBar = () => {
     return (
         <div>
             <div className="topbar-container">
-                <div className="searchbar-container" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
+                <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
                     <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
                 <div id="topbar-buttons" >

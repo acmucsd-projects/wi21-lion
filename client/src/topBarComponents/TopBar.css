@@ -10,20 +10,11 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    /* height: 75px; */
-    height: 7vh;
+    height: 75px;
+    /* height: 7vh; */
     position: sticky;
     /* Misc */
     background-color: #3771CD;
-}
-
-.searchbar-container {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 75px;
-    position: sticky;
 }
 
 #search-bar {

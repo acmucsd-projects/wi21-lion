@@ -8,7 +8,7 @@
 #navbar {
   /* position: sticky; */
   position: absolute;
-  top: 7vh;
+  top: 75px;
   z-index: 200;
   left: 0;
   width: fit-content;
