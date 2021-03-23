@@ -1,5 +1,7 @@
 import React from 'react';
-import createPage from './homeComponents/createPage';
+
+import createPageOrg from './homeComponents/createPageOrg';
+import createPageClass from './homeComponents/createPageClass';
 import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
@@ -7,6 +9,7 @@ import dummyArticles from './article/dummyArticle.json';
 import Article from './article/Article';
 import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,22 +18,31 @@ import {
   // Redirect,
 } from 'react-router-dom';
 
+import './App.css';
+import UserProfile from './userProfile/UserProfile';
+
 function App() {
+
   return (
     <div>
       <Router>
         <TopBar />
-        <Navbar />
-        <Switch>
-          <Route exact path='/' component={home} />
-          {dummyArticles.map((course) => (
-            <Route exact
-              path={`/courses/${course.department}/${course.name}`}
-              children={<Article course={course}>
-                <CourseContent course={course}></CourseContent>
-              </Article>}>
-            </Route>
-          ))}
+        <div className="main-container">
+          <Navbar />
+          <div className="page-container">
+            <Switch>
+              <Route exact path='/' component={home} />
+              <Route exact path='/createPageClass' component={createPageClass} />
+              <Route exact path='/createPageOrg' component={createPageOrg} />
+              <Route exact patch='/userProfile' component={UserProfile} />
+              {dummyArticles.map((course) => (
+                <Route exact
+                  path={`/courses/${course.department}/${course.name}`}
+                  children={<Article course={course}>
+                    <CourseContent course={course}></CourseContent>
+                  </Article>}>
+                </Route>
+              ))}
 
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
@@ -42,8 +54,9 @@ function App() {
               </Route>
             ))
           ))}
-          <Route exact path='/createPage' component={createPage} />
         </Switch>
+        </div>
+        </div>
       </Router>
     </div>
   );
