@@ -7,12 +7,15 @@
 
 #navbar {
   position: absolute;
-  top: 0;
+  top: 7vh;
+  height: 93vh; /* check if height should be 100% or fit */
+  z-index: 200;
   left: 0;
   width: fit-content;
   display: flex;
   margin: 0px;
   color: var(--ucsd-yellow);
+  overflow: hidden;
 }
 
 @keyframes open {
@@ -28,7 +31,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  /* height: max-content; */
+  box-shadow: 0 0 10px -5px #000;
 }
 
 /* side lists */
@@ -81,6 +85,7 @@
   transition-duration: .2s;
   width: auto;
   background-color: var(--top-nav-blue);
+  height: 100vh;
 }
 
 #navbar #top-nav li {
@@ -101,6 +106,6 @@
 
 
 #top-nav .icon {
-  padding-right: 5px;
-  padding-left: 25px;
+  margin-left: 15px;
+  height: 25px;
 }
