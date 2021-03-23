@@ -30,20 +30,21 @@ function App() {
       <Router>
         <TopBar />
         <div className="main-container">
-        <Navbar />
-        <Switch>
-          <Route exact path='/' component={home} />
-          <Route exact path={`/courses`} children={<BlankCourse></BlankCourse>}></Route>
-          <Route exact path='/createPageClass' component={createPageClass} />
-          <Route exact path='/createPageOrg' component={createPageOrg} />
-          {dummyArticles.map((course) => (
-            <Route exact
-              path={`/courses/${course.department}/${course.name}`}
-              children={<CourseArticle course={course}>
-                <CourseContent course={course} />
-              </CourseArticle>}>
-            </Route>
-          ))}
+          <Navbar />
+          <div className="page-container">
+            <Switch>
+              <Route exact path='/' component={home} />
+              <Route exact path='/createPageClass' component={createPageClass} />
+              <Route exact path='/createPageOrg' component={createPageOrg} />
+              <Route exact path='/userProfile' component={UserProfile} />
+              {dummyArticles.map((course) => (
+                <Route exact
+                  path={`/courses/${course.department}/${course.name}`}
+                  children={<Article course={course}>
+                    <CourseContent course={course}></CourseContent>
+                  </Article>}>
+                </Route>
+              ))}
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
               <Route exact
