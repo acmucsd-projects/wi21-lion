@@ -61,6 +61,10 @@ const TopBar = () => {
         setDisplayLoginPrompt(true);
     }
 
+    function hideLogin() {
+        setDisplayLoginPrompt(false);
+    }
+
     function updateQuery(query) {
         setSearchQuery(query);
     }
@@ -127,7 +131,7 @@ const TopBar = () => {
             {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
             {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin}/>}
             <div className="login-wrapper">
-                {displayLoginPrompt && <LoginDialog show={true} hide={false}></LoginDialog>}
+                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin}></LoginDialog>}
             </div>
         </div>
     );
