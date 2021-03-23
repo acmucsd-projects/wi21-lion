@@ -1,10 +1,4 @@
 
-.app-container {
-  height: 100vh;
-  width: 100vw;
-  overflow-y: hidden;
-}
-
 .main-container {
   display: flex;
   flex-direction: row;
@@ -17,8 +11,8 @@
 }
 
 .page-container {
-  margin-left: 15%;
-  width: 85%;
+  margin-left: 10%;
+  width: 90%;
   height: 150%; /* TODO FIX THIS TO SCALE WITH PAGE SIZE */
   padding: 0;
   display: flex;
@@ -27,12 +21,11 @@
   background: url('./appRes/appBkg.jpg');
   background-size: auto;
   background-repeat: repeat;
-  background-position-x: fixed;
 }
 
 .page-container > div {
   position: static;
-  width: 80%;
+  width: 70%;
   margin: 0 !important;
   background-color: #FFF;
   padding: 100px;

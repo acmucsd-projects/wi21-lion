@@ -21,11 +21,12 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
+import UserProfile from './userProfile/UserProfile';
 
 function App() {
 
   return (
-    <div className="app-container">
+    <div>
       <Router>
         <TopBar />
         <div className="main-container">
