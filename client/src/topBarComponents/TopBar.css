@@ -195,3 +195,9 @@
     background-color: #3771CD;
     cursor: pointer;
 }
+
+.login-wrapper {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
