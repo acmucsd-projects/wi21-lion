@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './userProfile.css';
 
+import testSections from './testSections.json';
+import { ReactComponent as InfoDots } from './res/info-dots.svg';
+
 const Lists = [
   <ClassList />,
   <PageList />,
@@ -51,18 +54,42 @@ export default function UserProfile() {
 
 function ClassList() {
 
-  function ClassItem() {
-    return (
-      <div>
+  const [sections, setSections] = useState([]);
 
-      </div>
+  function ClassItem({ section }) {
+    return (
+      <li id="class-item">
+        <div>
+          <h2>{ section.class }</h2>
+          <p>{ section.professor }</p>
+        </div>
+        <div>
+          <p></p>
+          <p></p>
+          <InfoDots/>
+        </div>
+        <ul id="links"></ul>
+      </li>
     )
   }
+
+  useEffect(() => {
+    // make request for classes
+    // let sections = testSections.map(section => (
+    //   JSON.parse(section)
+    // ));
+    // console.log(sections);
+    setSections(testSections);
+  }, [])
 
 
   return (
     <li>
-      classlist
+      { sections.map(section => {
+        console.log(section);
+        return <ClassItem section={section}/>
+      }
+      ) }
     </li>
   )
 }
