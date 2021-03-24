@@ -8,6 +8,8 @@ import PathDropdownMenu from './PathDropdownMenu';
 
 import dummyArticles from './dummyArticle.json';
 
+const rootBackendURL = "http://localhost:5000"
+
 /**
  * Called when article type is changed
  */
@@ -47,6 +49,25 @@ function CourseArticle(props) {
     const [sectionList, setSectionList] = useState([]);
 
 
+    async function fetchDepartments() {
+        await fetch(`${rootBackendURL}/department/`)
+        .then(response => {
+            console.log(response.json());
+            return response.json();
+        })
+        .catch(error => {
+            console.log(error)
+        });
+    } 
+
+    async function fetchClassesOfDep(departmentName) {
+        await fetch(`${rootBackendURL}/${departmentName}`)
+        .then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
 
 
 
@@ -235,9 +256,10 @@ function CourseArticle(props) {
             setSelectedCourse(course);
             setSelectedCourseName(course.name);
         }
-    }, [course])
+    }, [course]);
 
     useEffect(() => {
+        fetchDepartments();
         let departments = [];
         dummyArticles.forEach(element => {
             const department = element["department"];

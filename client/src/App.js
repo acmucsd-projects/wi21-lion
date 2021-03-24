@@ -38,6 +38,7 @@ function App() {
               <Route exact path='/createPageOrg' component={createPageOrg} />
               <Route exact path={'/courses'} component={BlankCourse} />
               {<Route exact path='/userProfile' component={UserProfile} />}
+              <Route exact path='/courses' component={BlankCourse} />
               {dummyArticles.map((course) => (
                 <Route exact
                   path={`/courses/${course.department}/${course.name}`}
