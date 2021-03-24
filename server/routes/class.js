@@ -4,7 +4,7 @@ const { Department } = require('../models/Department');
 const router = express.Router();
 const userAuth = require('../middleware/userAuth');
 
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
     try {
         const classes = await Class.find({});
         return res.status(200).json({classes : classes});
