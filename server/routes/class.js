@@ -5,9 +5,23 @@ const router = express.Router();
 const userAuth = require('../middleware/userAuth');
 
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    try {
+        const classes = await Class.find({});
+        return res.status(200).json({classes : classes});
+    } catch(err) {
+        console.log(err.message);
+        return res.status(401).json({error : "Failed to retrieve classes"});
+    }
 });
 
+/**
+ * @api {post} /class/:dep Create a new class
+ * 
+ * @apiParam {Integer} dep The department the class falls under.
+ *
+ * @apiSuccess (Success 201) { name, description, image } Class information
+ * @apiError { error } 401/Unauthorized.
+ */
 router.post('/:dep', userAuth.authenticateUser, async function(req, res, next) {
     try {
         const { name, description, image } = req.body
