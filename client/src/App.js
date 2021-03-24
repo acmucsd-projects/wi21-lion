@@ -22,52 +22,56 @@ import {
 
 import './App.css';
 import UserProfile from './userProfile/UserProfile';
+import { UserContextProvider } from './contexts/UserContext';
 
 function App() {
 
   return (
     <div>
-      <Router>
-        <TopBar />
-        <div className="main-container">
-          <Navbar />
-          <div className="page-container">
-            <Switch>
-              <Route exact path='/' component={home} />
-              <Route exact path='/createPageClass' component={createPageClass} />
-              <Route exact path='/createPageOrg' component={createPageOrg} />
-              {<Route exact path='/userProfile' component={UserProfile} />}
-              {dummyArticles.map((course) => (
+      <UserContextProvider>
+        <Router>
+
+          <TopBar />
+          <div className="main-container">
+            <Navbar />
+            <div className="page-container">
+              <Switch>
+                <Route exact path='/' component={home} />
+                <Route exact path='/createPageClass' component={createPageClass} />
+                <Route exact path='/createPageOrg' component={createPageOrg} />
+                {<Route exact path='/userProfile' component={UserProfile} />}
+                {dummyArticles.map((course) => (
+                  <Route exact
+                    path={`/courses/${course.department}/${course.name}`}
+                    children={<CourseArticle course={course}>
+                      <CourseContent course={course}></CourseContent>
+                    </CourseArticle>}>
+                  </Route>
+                ))}
+            {dummyArticles.map((course) => (
+              course.sections.map((section) => (
                 <Route exact
-                  path={`/courses/${course.department}/${course.name}`}
-                  children={<CourseArticle course={course}>
-                    <CourseContent course={course}></CourseContent>
+                  path={`/courses/${course.department}/${course.name}/${section.season}${section.year}/${section.letter}`}
+                  children={<CourseArticle section={section} course={course} >
+                    <SectionContent section={section} course={course} />
                   </CourseArticle>}>
                 </Route>
-              ))}
-          {dummyArticles.map((course) => (
-            course.sections.map((section) => (
-              <Route exact
-                path={`/courses/${course.department}/${course.name}/${section.season}${section.year}/${section.letter}`}
-                children={<CourseArticle section={section} course={course} >
-                  <SectionContent section={section} course={course} />
-                </CourseArticle>}>
-              </Route>
-            ))
-          ))}
-          <Route exact path={`/orgs`} children={<OrgArticle></OrgArticle>}></Route>
-          {dummyOrgs.map((org) => (
-            <Route exact 
-              path={`/orgs/${org.name}`}
-              children={<OrgArticle org={org}>
-                <OrgContent org={org} />
-              </OrgArticle>}>
-              </Route>
-          ))}
-        </Switch>
-        </div>
-        </div>
-      </Router>
+              ))
+            ))}
+            <Route exact path={`/orgs`} children={<OrgArticle></OrgArticle>}></Route>
+            {dummyOrgs.map((org) => (
+              <Route exact 
+                path={`/orgs/${org.name}`}
+                children={<OrgArticle org={org}>
+                  <OrgContent org={org} />
+                </OrgArticle>}>
+                </Route>
+            ))}
+          </Switch>
+          </div>
+          </div>
+        </Router>
+      </UserContextProvider>
     </div>
   );
 }

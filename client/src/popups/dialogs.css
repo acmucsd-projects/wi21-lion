@@ -17,7 +17,7 @@
 
 
 /* LOGIN DIALOG */
-#login-dialog * {
+#user-dialog * {
   margin-block-start: 0;
   margin-block-end: 0;
   font-family: 'montserrat', sans-serif;
@@ -25,7 +25,7 @@
 }
 
 
-#login-dialog {
+#user-dialog {
   width: 500px;
   height: 450px;
   background-color: white;
@@ -40,7 +40,7 @@
   top: 10%;
 }
 
-#login-dialog form {
+#user-dialog form {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -48,42 +48,43 @@
   flex-direction: column;
   padding: 10%;
   margin: 0;
+  width: 60%;
 }
 
-#login-dialog form::before {
+#user-dialog form::before {
   content: "";
   position: absolute;
   top: -5%;
   left: -5%;
   width: 150%;
   height: 150%;
-  background-color: #FFFA;
+  background-color: #FFFC;
   display: flex;
   flex-direction: column;
   z-index: -1;
   transform: rotate(-10deg);
 }
 
-#login-dialog p {
+#user-dialog p {
   color: #555;
   font-size: small;
 }
 
-#login-dialog input {
+#user-dialog input {
   padding: 5px;
   border: 1.5px solid #888;
   outline: none;  
   transition-duration: .2s;
 }
 
-#login-dialog input:hover {
+#user-dialog input:hover {
   border-color: var(--ucsd-yellow);
 }
-#login-dialog input:focus {
+#user-dialog input:focus {
   border-color: var(--ucsd-yellow);
 }
 
-#login-dialog button {
+#user-dialog button {
   position: absolute;
   background-color: var(--ucsd-yellow);
   border: none;
@@ -93,16 +94,16 @@
   transition-duration: .2s;
 }
 
-#login-dialog button:active {
+#user-dialog button:active {
   outline: none;
 }
 
-#login-dialog button:hover {
+#user-dialog button:hover {
   outline: none;
   background-color: #b89300;
 }
 
-#login-dialog form button {
+#user-dialog form button {
   bottom: 0;
   right: 0;
   border: none;
@@ -110,8 +111,10 @@
 }
 
 #hide-btn {
-  padding: 15px;
+  padding: 0px 15px;
+  padding-bottom: 5px;
   border-bottom-right-radius: 10px;
+  font-size: xx-large;
 }
 
 #hide-btn {
@@ -119,7 +122,25 @@
   left: 0; 
 }
 
+#user-dialog #error-text {
+  color: red;
+  font-size: 11px;
+}
 
+#user-dialog label {
+  font-size: 11px;
+}
+
+#user-dialog #forgot-password {
+  position: static;
+  background-color: transparent;
+  font-size: 11px;
+  color: blue;
+  font-weight: 500;
+  padding: 0;
+  padding-left: 5px;
+  text-align: left;
+}
 
 
 
