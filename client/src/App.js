@@ -8,7 +8,7 @@ import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
 import dummyOrgs from './article/dummyOrgs.json';
 import CourseArticle, { BlankCourse } from './article/CourseArticle';
-import CourseContent from './article/CourseContent';
+// import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
 import OrgArticle from './article/OrgArticle';
 import OrgContent from './article/OrgContent';
@@ -39,14 +39,6 @@ function App() {
               <Route exact path='/userProfile' component={UserProfile} />
               <Route exact path='/courses' component={BlankCourse} />
 
-              {dummyArticles.map((course) => (
-                <Route exact
-                  path={`/courses/${course.department}/${course.name}`}
-                  children={<CourseArticle course={course}>
-                    <CourseContent course={course}></CourseContent>
-                  </CourseArticle>}>
-                </Route>
-              ))}
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
               <Route exact
