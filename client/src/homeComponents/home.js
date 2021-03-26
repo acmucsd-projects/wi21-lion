@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LoginDialog, DeleteDialog, SignupDialog, PasswordDialog } from '../popups/dialogs.js';
+import LandingPage from './landingPage/LandingPage.js';
 
 const Home = () => {
 
@@ -31,6 +32,7 @@ const Home = () => {
             <button onClick={showDeleteDialog} >delete</button>
             <button onClick={showSignupDialog} >signup</button>
             <button onClick={showPasswordDialog} >password</button>
+            {/* <LandingPage></LandingPage> */}
         </div>
     )
 }

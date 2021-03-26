@@ -9,21 +9,24 @@ const resetPasswordUrl = "http://localhost:5000/users/changePassword";
 
 const userAPI = {
   login: async function(email, password) {
+    let data = {
+      email: email,
+      password: password
+    }
     // format and make get request for user key
-    let response = await fetch(`${loginUrl}/${email}/${password}`, {
-      method: "GET",
+    let response = await fetch(loginUrl, {
+      method: "POST",
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify(data)
     })
     .then(response => (
       response.json()
     ))
     .catch(error => {
       console.log(error);
-      return false;
     });
     console.log(response)
     if ('error' in response) {
@@ -53,9 +56,7 @@ const userAPI = {
       response.json()
     ))
     .catch(error => {
-      console.log('ERROR')
       console.log(error);
-      return false
     });
     if ('error' in response) {
       return { response: false, msg: response.error };
@@ -64,35 +65,38 @@ const userAPI = {
     }
   },
   resetPassword: async function(email, password, token) {
+    let data = {
+      user_email: email,
+      new_password: password
+    }
     // format and make get request for user key
-    let response = await fetch(`${resetPasswordUrl}/${email}/${password}`, {
+    let response = await fetch(resetPasswordUrl, {
       method: "PATCH",
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
         'auth_token': token,
       },
+      body: JSON.stringify(data)
     })
     .then(response => (
       response.json()
     ))
     .catch(error => {
       console.log(error);
-      return false;
     });
     if ('error' in response) {
       return { response: false, msg: response.error };
     } else {
       return { response: response, msg: "" };
-    }
+    } 
   },
 }
 
 
 export function LoginDialog({ show, hide }) {
 
-  const { user, setUser } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem('currentSession'));
 
   async function handleLogin(e) {
     // get username and password inputs
@@ -100,10 +104,10 @@ export function LoginDialog({ show, hide }) {
     let email = document.getElementById('email');
     let password = document.getElementById('password');
     let errorText = document.getElementById('error-text');
-
+    
     let { response, msg } = await userAPI.login(email.value, password.value);
     if (response) {
-      setUser({ token: response.token, ...response.user });
+      window.localStorage.setItem('currentSession', JSON.stringify({ token: response.token, ...response.user }));
       hide(); 
       // clear input values
       email.value = "";
@@ -157,7 +161,7 @@ export function LoginDialog({ show, hide }) {
 
 export function SignupDialog({ show, hide }) {
 
-  const { user, setUser } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem('currentSession'));
 
   async function handleSignup(e) {
     // get username and password inputs
@@ -193,7 +197,7 @@ export function SignupDialog({ show, hide }) {
         lastName.value = "";
         errorText.textContent = "";
 
-        setUser({ token: loginResponse.token, ...loginResponse.user });
+        window.localStorage.setItem('currentSession', { token: loginResponse.token, ...loginResponse.user });
       } else {
         alert("user was created, please log in to access your account");
       }
@@ -250,7 +254,7 @@ export function SignupDialog({ show, hide }) {
 
 export function PasswordDialog({ show, hide }) {
 
-  const { user } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem('currentSession'));
 
   async function handlePasswordReset(e) {
     e.preventDefault();
@@ -292,13 +296,13 @@ export function PasswordDialog({ show, hide }) {
       <div className="backdrop">
         <div id="input-dialog">
           <form>
-            <label for="old-password">old password:</label>
+            <label htmlFor="old-password">old password:</label>
             <input id="old-password" type="password"/>
     
-            <label for="new-password">new password:</label>
+            <label htmlFor="new-password">new password:</label>
             <input id="new-password" type="password" />
     
-            <label for="confirm-password">confirm new password:</label>
+            <label htmlFor="confirm-password">confirm new password:</label>
             <input id="confirm-password" type="password" />
     
             <p><span id="error-text"></span></p>

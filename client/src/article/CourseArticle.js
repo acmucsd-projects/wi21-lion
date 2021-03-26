@@ -34,7 +34,12 @@ function updateSelectedArticleType(element) {
 function CourseArticle(props) {
 
     const { section, course } = props;
+    const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...");
     const [departmentList, setDepartmentList] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [selectedCourseName, setSelectedCourseName] = useState("Select a course...");
+    const [courseList, setCourseList] = useState([]);
     const [selectedQuarter, setSelectedQuarter] = useState(null);
     const [quarterList, setQuarterList] = useState([]);
     const [selectedQuarterName, setSelectedQuarterName] = useState("Select a quarter...");
@@ -49,10 +54,10 @@ function CourseArticle(props) {
     /**
      * Called when department is changed
      */
-    function updateSelectedDepartment() {
-
+    function updateSelectedDepartment(element) {
+        setSelectedDepartment(element.department)
+        setSelectedDepartmentName(element.department)
     }
-
 
     /**
      * Update the currently selected quarter 
@@ -183,6 +188,21 @@ function CourseArticle(props) {
     }, [course, getListOfQuarters]);
 
     useEffect(() => {
+        if(selectedDepartment) {
+            setCourseList(dummyArticles.filter(course => course.department===selectedDepartment));
+        }
+        if(course && selectedDepartment !== course.department) {
+            setSelectedCourse(null);
+            setSelectedCourseName("Select a Course ...");
+            setSelectedQuarter(null);
+            setSelectedSectionName(null);
+        } else {
+            setSelectedCourse(course);
+            setSelectedCourseName(course.name);
+        }
+    }, [selectedDepartment, course]);
+
+    useEffect(() => {
         if (selectedQuarter) {
             setSectionList(getListOfSections(selectedQuarter));
             updateSelectedQuarter(selectedQuarter);
@@ -209,6 +229,15 @@ function CourseArticle(props) {
     }, [sectionList, formatSectionList]);
 
     useEffect(() => {
+        if(course) {
+            setSelectedDepartment(course.department);
+            setSelectedDepartmentName(course.department);
+            setSelectedCourse(course);
+            setSelectedCourseName(course.name);
+        }
+    }, [course])
+
+    useEffect(() => {
         let departments = [];
         dummyArticles.forEach(element => {
             const department = element["department"];
@@ -223,6 +252,7 @@ function CourseArticle(props) {
         })
         setDepartmentList(departmentsObjs);
     }, []);
+
 
     // if(!course) {
     //     return (
@@ -264,27 +294,27 @@ function CourseArticle(props) {
                             updateSelection={updateSelectedArticleType}
                             selectedItem={"Courses"} />
                     </PathItem>
-                    <PathItem name={course.department}>
+                    <PathItem name={selectedDepartmentName}>
                         <PathDropdownMenu
                             list={departmentList}
                             type={"department"}
                             updateSelection={updateSelectedDepartment}
-                            selectedItem={course.department} />
+                            selectedItem={selectedDepartmentName} />
                     </PathItem>
-                    <PathItem name={course.name}>
+                    <PathItem name={selectedCourseName}>
                         <PathDropdownMenu
-                            list={dummyArticles}
+                            list={courseList}
                             type={"name"}
                             updateSelection={updateSelectedCourse}
-                            selectedItem={course.name} />
+                            selectedItem={selectedCourseName} />
                     </PathItem>
-                    <PathItem name={selectedQuarterName}>
+                    {selectedCourse && <PathItem name={selectedQuarterName}>
                         <PathDropdownMenu
                             list={quarterList}
                             type={"quarter"}
                             updateSelection={updateSelectedQuarter}
                             selectedItem={selectedQuarterName} />
-                    </PathItem>
+                    </PathItem>}
                     {selectedQuarter &&
                         <PathItem name={selectedSectionName}>
                             <PathDropdownMenu
@@ -309,6 +339,7 @@ export function BlankCourse() {
     const [departmentList, setDepartmentList] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState()
     const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...")
+    const [courseList, setCourseList] = useState([]);
     // /**
     //  * Called when article type is changed
     //  */
@@ -342,6 +373,12 @@ export function BlankCourse() {
         setDepartmentList(departmentsObjs);
     }, []);
 
+    useEffect(() => {
+        if(selectedDepartment) {
+            setCourseList(dummyArticles.filter(course => course.department===selectedDepartment));
+        }
+    }, [selectedDepartment]);
+
     return (
         <div id="article">
             <img className="article-banner" src={banner} alt={"banner"}></img>
@@ -363,7 +400,7 @@ export function BlankCourse() {
                     </PathItem>
                     {selectedDepartment && <PathItem name={"Select a course ..."}>
                         <PathDropdownMenu
-                            list={dummyArticles}
+                            list={courseList}
                             type={"name"}
                             updateSelection={updateSelectedCourse}
                             selectedItem={""} />
