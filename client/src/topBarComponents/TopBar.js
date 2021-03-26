@@ -47,7 +47,6 @@ const TopBar = () => {
     const [displayCreatePageDropdown, setCreatePageDropdown] = useState(false);
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
     const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
-    const [currentSearchValue, setCurrentSearchValue] = useState("");
 
 
     function hideProfileDropdown() {
@@ -72,14 +71,6 @@ const TopBar = () => {
 
     function updateShowResults(showResults) {
         setDisplayResults(showResults);
-    }
-
-    function updateSearchValue(value) {
-        setCurrentSearchValue(value);
-    }
-
-    function showResults(){
-        setDisplayResults(true);
     }
 
     function toggleProfileDropdown(event) {
@@ -122,8 +113,8 @@ const TopBar = () => {
                     <Link className="home-button topbar-item" exact to='' >
                         <HomeSVG className="topbar-home-svg" />
                     </Link>
-                <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={showResults} tabIndex="2">
-                    <SearchBar updateQuery={updateQuery} displayResults={displayResults} updateClickOnInput={showResults} currentSearchValue={currentSearchValue}/>
+                <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
+                    <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
                 <div id="topbar-buttons" >
                     <div className="topbar-button topbar-item" onBlur={toggleCreatePageDropdown} onFocus={toggleCreatePageDropdown} tabIndex="1">
@@ -135,7 +126,7 @@ const TopBar = () => {
                 </div>
             </div>
             {displayResults &&
-                <SearchResults query={searchQuery} updateShowResults={updateShowResults} updateSearchValue={updateSearchValue} />
+                <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
             }
             {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
             {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin}/>}

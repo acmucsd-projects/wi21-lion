@@ -32,6 +32,8 @@ import './TopBar.css';
 
 
 
+import dummyCourses from './dummyCourses.json';
+
 /**
  * 
  * @param {*} courses 
@@ -42,7 +44,7 @@ const querySearch = (courses, query) => {
         return [];
     }
     return courses.filter((course) => {
-        const courseName = course.name.toUpperCase();
+        const courseName = course.code;
         return courseName.includes(query.toUpperCase());
     })
 }
@@ -50,52 +52,10 @@ const querySearch = (courses, query) => {
 
 const SearchResults = (props) => {
 
-    const { query, updateShowResults, updateSearchValue } = props;
+    const { query, updateShowResults } = props;
 
-    const [contentList, setContentList] = useState([]);
     const [results, setResults] = useState([]);
     const [displayResults, setDisplayResults] = useState([]);
-
-    function onCourseClick(courseName) {
-        console.log(courseName);
-        updateSearchValue(courseName);
-        updateShowResults(false);
-    }
-
-    function onOrgClick (orgName) {
-        updateSearchValue(orgName);
-        updateShowResults(false);
-    }
-
-
-    function fetchContentList() {
-        let entries = [];
-        fetch(`http://localhost:5000/department`)
-            .then(response => response.json())
-            .then(data => {
-                data.departments.forEach(department => {
-                    department.classes.forEach(course => {
-                        fetch(`http://localhost:5000/class/${course}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                data.department = department.name;
-                                entries.push(data);
-                            })
-                    })
-                });
-            })
-            .catch(error => {
-                console.error(error);
-            })
-        fetch(`http://localhost:5000/organization`)
-            .then(response => response.json())
-            .then(data => {
-                data.organizations.forEach(element => {
-                    entries.push(element);
-                });
-            })
-        setContentList(entries);
-    }
 
 
     useEffect(() => {
@@ -114,38 +74,23 @@ const SearchResults = (props) => {
 
 
     useEffect(() => {
-        if (contentList) {
-            setResults(querySearch(contentList, query));
-            if (!query || query.length === 0) {
-                updateShowResults(false);
-            } else {
-                updateShowResults(true);
-            }
+        setResults(querySearch(dummyCourses, query))
+        if (!query || query.length === 0) {
+            updateShowResults(false);
+        } else {
+            updateShowResults(true);
         }
-    }, [query, updateShowResults, contentList]);
-
-    useEffect(() => {
-        if (!contentList || contentList.length === 0) {
-            fetchContentList();
-        }
-        // eslint-disable-next-line
-    }, [])
+    }, [query, updateShowResults]);
 
     return (
-        &lt;div id="search-results-container" >
-                &lt;ul id="search-results">
-                    {displayResults.map((element) => {
-                        return element.department ?
-                            &lt;Link id="result-item-link" to={`/courses/${element.department}/${element.name}`} onClick={() => onCourseClick(element.name)} >
-                                &lt;li id="result-item">{element.name}&lt;/li>
-                            &lt;/Link>
-                            :
-                            &lt;Link id="result-item-link" to={`/orgs/${element.name}`} onClick={() => onOrgClick(element.name)} >
-                                &lt;li id="result-item">{element.name}&lt;/li>
-                            &lt;/Link>
-                    }
-                    )}
-                &lt;/ul>
+        &lt;div id="search-results-container"  >
+            &lt;ul id="search-results">
+                {displayResults.map((course) =>
+                    &lt;Link id="result-item-link" to={`/courses/${course.department}/${course.code}`} onClick={(() => updateShowResults(false))} >
+                        &lt;li id="result-item">{course.code}&lt;/li>
+                    &lt;/Link>
+                )}
+            &lt;/ul>
         &lt;/div>
     );
 }
@@ -160,13 +105,13 @@ export default SearchResults</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CourseArticle">CourseArticle</a></li><li><a href="global.html#LinkEntry">LinkEntry</a></li><li><a href="global.html#LinksPanel">LinksPanel</a></li><li><a href="global.html#OrgArticle">OrgArticle</a></li><li><a href="global.html#PathItem">PathItem</a></li><li><a href="global.html#querySearch">querySearch</a></li><li><a href="global.html#SectionContent">SectionContent</a></li><li><a href="global.html#updateSelectedArticleType">updateSelectedArticleType</a></li><li><a href="global.html#updateSelectedCourse">updateSelectedCourse</a></li><li><a href="global.html#useOutsideAlerter">useOutsideAlerter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CourseArticle">CourseArticle</a></li><li><a href="global.html#LinkEntry">LinkEntry</a></li><li><a href="global.html#LinksPanel">LinksPanel</a></li><li><a href="global.html#OrgArticle">OrgArticle</a></li><li><a href="global.html#PathItem">PathItem</a></li><li><a href="global.html#querySearch">querySearch</a></li><li><a href="global.html#SectionArticle">SectionArticle</a></li><li><a href="global.html#SectionContent">SectionContent</a></li><li><a href="global.html#updateSelectedArticleType">updateSelectedArticleType</a></li><li><a href="global.html#useOutsideAlerter">useOutsideAlerter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Mar 26 2021 23:29:50 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Mar 26 2021 23:44:35 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
