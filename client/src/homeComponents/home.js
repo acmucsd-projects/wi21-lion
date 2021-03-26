@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { LoginDialog, DeleteDialog } from '../popups/dialogs.js';
-import LandingPage from './landingPage/LandingPage.js';
 
 const Home = () => {
 
@@ -21,7 +20,6 @@ const Home = () => {
             
             <button onClick={showLoginDialog}>login</button>
             <button onClick={showDeleteDialog} >delete</button>
-            <LandingPage></LandingPage>
         </div>
     )
 }
