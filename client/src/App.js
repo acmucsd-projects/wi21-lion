@@ -8,7 +8,7 @@ import home from './homeComponents/home'
 import dummyArticles from './article/dummyArticle.json';
 import dummyOrgs from './article/dummyOrgs.json';
 import CourseArticle, { BlankCourse } from './article/CourseArticle';
-import CourseContent from './article/CourseContent';
+// import CourseContent from './article/CourseContent';
 import SectionContent from './article/SectionContent';
 import OrgArticle from './article/OrgArticle';
 import OrgContent from './article/OrgContent';
@@ -22,7 +22,6 @@ import {
 
 import './App.css';
 import UserProfile from './userProfile/UserProfile';
-import { UserContextProvider } from './contexts/UserContext';
 
 function App() {
 
