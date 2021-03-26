@@ -17,7 +17,7 @@ function createPageClass(){
             Description: contentInput.value
         }
 
-        fetch("https..", {
+        fetch("/class/:dep", {
             method: 'POST', 
             //headers: {
            //     'Content-Type': 'application/json'
@@ -28,20 +28,20 @@ function createPageClass(){
 
     return(
         
-        <div class="spacing" style={{marginLeft: "30%", marginRight: "17%", marginTop: "0", paddingTop: "0", fontFamily: "Montserrat, sans-serif", fontWeight: "600", style: "normal"}}>
-            <div id="buttonsDiv">
+        <div className="spacing" className="fullPage">
+            <div id="buttonsDiv"  style={{backgroundColor: "A6E5FF"}}>
                 <button style={{backgroundColor: "transparent", border: "none"}}>
-                    Back<i class='fas fa-arrow-left'></i>
+                    Back<i className='fas fa-arrow-left'></i>
                 </button>
-                <button style={{backgroundColor: "#414141", float: "right", color: "#FFFFFF", border: "none", borderRadius: "10px"}}>
+                <button className="previewpage-button">
                     Preview Page
                 </button>
             </div>
-            <div id="formDiv" class="spacing">
+            <div id="formDiv" className="spacing">
                 <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
-                    <label class="spacing">
+                    <label className="spacing">
                         Department
-                        <select class="textbox">
+                        <select className="textbox">
                             <option>Class</option>
                             <option>Club Sport</option>
                             <option>NCAA Sport</option>
@@ -53,18 +53,18 @@ function createPageClass(){
                     <label id="largetextbox" class="spacing">Title</label>
                     <input id="titleInput" class="textbox" style={{type: "text"}}></input>
 
-                    <label class="spacing">Content</label>
+                    <label className="spacing">Content</label>
                     <textarea id="contentInput" class="textbox" style={{height: "392px"}}/>
 
-                    <label class="spacing">Images</label>
+                    <label className="spacing">Images</label>
                     <textarea placeholder="" id="imagesInput" class="textbox" style={{height: "156px"}}/>
                 </form>
 
-                <div class="spacing" style={{float: "right"}}>
-                    <button class="saveforlater-button" style={{backgroundColor: "#42F3E9", margin: "0px 20px", color: "#FFFFFF", border: "none", borderRadius: "10px"}}>
+                <div className="spacing" style={{float: "right"}}>
+                    <button className="saveforlater-button">
                         Save For Later
                     </button>
-                    <button class="publish-button" onClick={handleSubmit} style={{backgroundColor: "#00F16F", color: "#FFFFFF", border: "none", borderRadius: "10px"}}>
+                    <button className="publish-button" onClick={handleSubmit}>
                         Publish
                     </button>
                 </div>

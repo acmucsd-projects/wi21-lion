@@ -26,7 +26,7 @@ function createPageOrg(){
 
     return(
         
-        <div class="spacing" style={{marginLeft: "30%", marginRight: "17%", marginTop: "0", paddingTop: "0", fontFamily: "Montserrat", fontWeight: "600", style: "normal"}}>
+        <div class="spacing" style={{marginLeft: "30%", marginRight: "17%", marginTop: "0", paddingTop: "0", fontFamily: "Montserrat", fontWeight: "600", style: "normal", backgroundColor: "A6E5FF"}}>
             <div id="buttonsDiv">
                 <button style={{backgroundColor: "transparent", border: "none"}}>
                     Back<i class='fas fa-arrow-left'></i>
