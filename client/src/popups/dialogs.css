@@ -122,10 +122,6 @@
   left: 0; 
 }
 
-#user-dialog #error-text {
-  color: red;
-  font-size: 11px;
-}
 
 #user-dialog label {
   font-size: 11px;
@@ -146,7 +142,7 @@
 
 
 /* DELETE DIALOG */
-#delete-dialog {
+#input-dialog {
   background-color: white;
   width: min-content;
   z-index: 9999;
@@ -159,7 +155,7 @@
   box-shadow: 0 0 20px -10px #000;
 }
 
-#delete-dialog::before {
+#input-dialog::before {
   content: "";
   position: absolute;
   top: 0;
@@ -170,31 +166,31 @@
   z-index: 1;
 }
 
-#delete-dialog * {
+#input-dialog * {
   font-family: 'montserrat', sans-serif;
   margin: 5px;
 }
 
-#delete-dialog h2, p {
+#input-dialog h2, p {
   margin-block-start: 0;
   margin-block-end: 0;
 }
 
-#delete-dialog h2 {
+#input-dialog h2 {
   font-size: larger;
 }
 
-#delete-dialog p {
+#input-dialog p {
   font-size: small;
   color: #555;
 }
 
-#delete-dialog form {
+#input-dialog form {
   margin: auto;
   margin-left: 20px;
 }
 
-#delete-dialog button {
+#input-dialog button {
   border-radius: 20px;
   padding: 8px 30px;
   outline: none;
@@ -202,20 +198,30 @@
   transition-duration: .2s;
 }
 
-#delete-dialog button:nth-of-type(1) {
+#input-dialog button:nth-of-type(1) {
   background-color: var(--ucsd-yellow);
 }
-#delete-dialog button:nth-of-type(1):hover {
+#input-dialog button:nth-of-type(1):hover {
   background-color: #d6ac00;
   border-color: #d6ac00;
 }
-#delete-dialog button:nth-of-type(2) {
+#input-dialog button:nth-of-type(2) {
   background-color: transparent;
 }
-#delete-dialog button:nth-of-type(2):hover {
+#input-dialog button:nth-of-type(2):hover {
   border-color: #d6ac00;
 }
 
-#delete-dialog form div {
+#input-dialog form div {
   display: flex;
+}
+
+#input-dialog input {
+  padding: 5px;
+  margin: 5px;
+}
+
+#error-text {
+  color: red;
+  font-size: 11px;
 }

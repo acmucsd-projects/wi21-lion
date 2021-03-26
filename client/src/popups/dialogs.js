@@ -3,52 +3,9 @@ import { UserContext } from '../contexts/UserContext';
 import './dialogs.css';
 
 
-export function DeleteDialog({ show, hide, pageType, pageName }) {
-
-  // should I implement the delete post here or inside of whatever page we are calling it on?
-  function onSubmit() {
-    console.log('you deleted!!');
-
-    // make api call to delete
-    // if (pageType === 'class') {
-    //   fetch(url, {
-    //     method: 'DELETE',
-    //     className: pageName
-    //   })
-    //   .then(response => {});
-    // } else {
-    //   fetch(url, {
-    //     method: 'DELETE',
-    //     className: pageName
-    //   })
-    //   .then(response => {});
-    // }
-   
-    hide();
-  }
-
-  if(show) {
-    return (
-      <div className="backdrop">
-        <div id="delete-dialog">
-          <form>
-            <h2>Are you sure you want to delete this page?</h2>
-            <p>once a post is deleted it cannot be restored</p>
-            <div>
-              <button onClick={hide}>cancel</button>
-              <button onClick={onSubmit}>confirm</button>
-            </div>
-          </form>
-        </div>
-      </div> 
-    )
-  } else {
-    return null;
-  }
-}
-
 const loginUrl = "http://localhost:5000/users/login";
 const signupUrl = "http://localhost:5000/users/register";
+const resetPasswordUrl = "http://localhost:5000/users/changePassword";
 
 const userAPI = {
   login: async function(email, password) {
@@ -68,6 +25,7 @@ const userAPI = {
       console.log(error);
       return false;
     });
+    console.log(response)
     if ('error' in response) {
       return { response: false, msg: response.error };
     } else {
@@ -104,14 +62,37 @@ const userAPI = {
     } else {
       return { response: response, msg: "" };
     }
-  }
+  },
+  resetPassword: async function(email, password, token) {
+    // format and make get request for user key
+    let response = await fetch(`${resetPasswordUrl}/${email}/${password}`, {
+      method: "PATCH",
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Origin': '*',
+        'auth_token': token,
+      },
+    })
+    .then(response => (
+      response.json()
+    ))
+    .catch(error => {
+      console.log(error);
+      return false;
+    });
+    if ('error' in response) {
+      return { response: false, msg: response.error };
+    } else {
+      return { response: response, msg: "" };
+    }
+  },
 }
 
 
 export function LoginDialog({ show, hide }) {
 
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
 
   async function handleLogin(e) {
     // get username and password inputs
@@ -159,7 +140,7 @@ export function LoginDialog({ show, hide }) {
             <button 
               onClick={e => handleLogin(e)}
             >Lets Go!</button>
-            <p id="error-text"></p>
+            <p><span id="error-text"></span></p>
             <button 
               id="forgot-password" 
               onClick={e => handleForgotPassword(e)}
@@ -177,7 +158,6 @@ export function LoginDialog({ show, hide }) {
 export function SignupDialog({ show, hide }) {
 
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
 
   async function handleSignup(e) {
     // get username and password inputs
@@ -256,10 +236,124 @@ export function SignupDialog({ show, hide }) {
               type="text" 
               placeholder="last name" />  
             <button onClick={e => handleSignup(e)}>Lets Go!</button>
-            <p id="error-text"><span></span></p>
+            <p><span id="error-text"></span></p>
           </form>
         </div>
       </div>
+    )
+  } else {
+    return null;
+  }
+}
+
+
+
+export function PasswordDialog({ show, hide }) {
+
+  const { user } = useContext(UserContext);
+
+  async function handlePasswordReset(e) {
+    e.preventDefault();
+
+    let oldpw = document.querySelector('#old-password');
+    let newpw = document.querySelector('#new-password');
+    let confirmpw = document.querySelector('#confirm-password');
+    let errorText = document.querySelector('#error-text');
+
+    if (newpw.value !== confirmpw.value) {
+      errorText.textContent = "passwords do not match";
+      return;
+    } 
+
+    let { response } = await userAPI.login(user.email, oldpw.value);
+    if (response) {
+      console.log(user.email, newpw.value);
+
+      let { response, msg } = await userAPI.resetPassword(user.email, newpw.value, user.token);
+      if (response) {
+        hide();
+        // clear input values
+        oldpw.value = "";
+        newpw.value = "";
+        confirmpw.value = "";
+
+        alert("password updated successfully");
+
+      } else {
+        errorText.textContent = msg;
+      }
+    } else {
+      errorText.textContent = "old password was incorrect";
+    }
+  }
+
+  if (show) {
+    return (
+      <div className="backdrop">
+        <div id="input-dialog">
+          <form>
+            <label for="old-password">old password:</label>
+            <input id="old-password" type="password"/>
+    
+            <label for="new-password">new password:</label>
+            <input id="new-password" type="password" />
+    
+            <label for="confirm-password">confirm new password:</label>
+            <input id="confirm-password" type="password" />
+    
+            <p><span id="error-text"></span></p>
+            <div>
+              <button onClick={hide}>cancel</button>
+              <button onClick={e => handlePasswordReset(e)}>reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    )
+  } else {
+    return null;
+  }
+}
+
+
+export function DeleteDialog({ show, hide, pageType, pageName }) {
+
+  // should I implement the delete post here or inside of whatever page we are calling it on?
+  function onSubmit() {
+    console.log('you deleted!!');
+
+    // make api call to delete
+    // if (pageType === 'class') {
+    //   fetch(url, {
+    //     method: 'DELETE',
+    //     className: pageName
+    //   })
+    //   .then(response => {});
+    // } else {
+    //   fetch(url, {
+    //     method: 'DELETE',
+    //     className: pageName
+    //   })
+    //   .then(response => {});
+    // }
+   
+    hide();
+  }
+
+  if(show) {
+    return (
+      <div className="backdrop">
+        <div id="input-dialog">
+          <form>
+            <h2>Are you sure you want to delete this page?</h2>
+            <p>once a post is deleted it cannot be restored</p>
+            <div>
+              <button onClick={hide}>cancel</button>
+              <button onClick={onSubmit}>confirm</button>
+            </div>
+          </form>
+        </div>
+      </div> 
     )
   } else {
     return null;
