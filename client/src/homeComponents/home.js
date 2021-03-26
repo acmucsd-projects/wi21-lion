@@ -32,7 +32,7 @@ const Home = () => {
             <button onClick={showDeleteDialog} >delete</button>
             <button onClick={showSignupDialog} >signup</button>
             <button onClick={showPasswordDialog} >password</button>
-            <LandingPage></LandingPage>
+            {/* <LandingPage></LandingPage> */}
         </div>
     )
 }

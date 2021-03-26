@@ -362,3 +362,4 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
     return null;
   }
 }
+
