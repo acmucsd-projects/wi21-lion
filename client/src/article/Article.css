@@ -237,6 +237,16 @@
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
 }
 
+.article-inner-body {
+    margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
+}
+
 
 .org-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
@@ -249,8 +259,17 @@
     border-radius: 5px;
 }
 
-.org-img {
+.course-img {
     width: 100%;
+    height: auto;
+}
+
+.course-img:scale, .org-img:scale {
+    object-fit: scale-down;
+}
+
+.org-img {
+    width: 50%;
     padding: 2%;
 }
 
