@@ -153,6 +153,15 @@
     top: 0;
 }
 
+.section-content-header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+	align-content: stretch;
+}
+
 .enroll-button {
     transition: all 500ms;
     display: inline-block;
@@ -160,10 +169,12 @@
     color: #000000;
     text-align: center;
     cursor: pointer;
-    padding: 3%;
-    margin: 2%;
+    padding: 2%;
+    /* margin: 2%; */
     border-radius: 10px;
     border: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .enroll-button span {
@@ -216,14 +227,14 @@
 }
 
 .section-description {
-    margin: 0 2% 0 2%;
+    /* margin: 2% % 2% 2%; */
+    padding: 2%;
     word-wrap: break-word;
 }
 
 .section-schedule {
     margin: 0 2% 0 2%;
     padding: 2% 0 0 0;
-
 }
 
 .section-calendar {

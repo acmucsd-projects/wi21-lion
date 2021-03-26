@@ -28,21 +28,25 @@ function SectionContent(props) {
     }
     return (
         <div>
-            <h1 className="article-body">{course.name}: {section.professor} {section.letter}</h1>
+            <div className="section-content-header article-body">
+                <h1>{course.name}: {section.professor} - {section.quarter} {section.year}</h1>
+                <button className="enroll-button">
+                    <span>Enroll</span>
+                </button>
+            </div>
             <div id="section-content">
                 <div>
+                    {/* <div className="section-content-header"> */}
                     <div id="section-info">
                         <h3>Section: <span>{section.section_id}</span></h3>
                         <h3>Instructor: <span>{section.professor}</span></h3>
                         <h3>Lecture: <span>{section.lecture_times}</span></h3>
                     </div>
-                    <button className="enroll-button">
-                        <span>Enroll</span>
-                    </button>
+                    {/* </div> */}
                     <p className="section-description">
                         {section.description}
                     </p>
-                    <h2 className="section-schedule">Schedule:</h2>
+                    <h3 className="section-schedule">Schedule:</h3>
                     <div className="section-calendar">
                         <Calendar
                             localizer={localizer}

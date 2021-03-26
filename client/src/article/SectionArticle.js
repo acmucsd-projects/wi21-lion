@@ -158,8 +158,10 @@ function SectionArticle() {
      * Called when department is changed
      */
     function updateSelectedDepartment(element) {
-        setSelectedDepartment(element.name)
-        setSelectedDepartmentName(element.name)
+        setSelectedDepartment(element.name);
+        setSelectedDepartmentName(element.name);
+        setSelectedCourseName(null);
+        setSelectedQuarter(null);
     }
 
     /**
@@ -325,20 +327,20 @@ function SectionArticle() {
                             updateSelection={updateSelectedCourse}
                             selectedItem={selectedCourseName} />
                     </PathItem>
-                    <PathItem name={selectedQuarterName}>
+                    {selectedCourseName && <PathItem name={selectedQuarterName}>
                         <PathDropdownMenu
                             list={quarterList}
                             type={"fullQuarter"}
                             updateSelection={updateSelectedQuarter}
                             selectedItem={selectedQuarterName} />
-                    </PathItem>
-                    <PathItem name={selectedSectionName}>
+                    </PathItem>}
+                    {selectedQuarter && <PathItem name={selectedSectionName}>
                         <PathDropdownMenu
                             list={sectionList}
                             type={"formattedVersion"}
                             updateSelection={updateSelectedSection}
                             selectedItem={selectedSectionName} />
-                    </PathItem>
+                    </PathItem>}
                 </ul>
             </div>
             <SectionContent course={course} section={section} />

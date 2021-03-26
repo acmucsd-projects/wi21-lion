@@ -22,6 +22,16 @@ function updateSelectedArticleType(element) {
     }
 }
 
+function compareCourses(a, b) {
+    if (a.name < b.name) {
+        return -1;
+    }
+    if (a.name > b.name) {
+        return 1;
+    }
+    return 0;
+}
+
 /**
  * General course article template.
  *  
@@ -288,14 +298,10 @@ function CourseArticle() {
     }, [selectedQuarterName]);
 
     useEffect(() => {
-        if (sectionList) {
-            // formatSectionList();
+        if(courseList) {
+            courseList.sort(compareCourses);
         }
-    }, [sectionList]);
-
-    useEffect(() => {
-        console.log(quarterList);
-    }, [quarterList])
+    }, [courseList])
 
     useEffect(() => {
         fetchDepartments();
@@ -375,7 +381,6 @@ export function BlankCourse() {
         fetch(`${rootBackendURL}/department/${departmentName}`)
             .then(response => response.json())
             .then(data => {
-                // setCourseList(data);
                 let courses = []
                 data.classes.forEach(class_id =>
                     fetch(`${rootBackendURL}/class/${class_id}`)
@@ -384,6 +389,16 @@ export function BlankCourse() {
                             courses.push(courseData)
                         })
                 );
+                let j;
+                for (let i = 0; i < courses.length; i++) {
+                    const element = courses[i].name;
+
+                    while (j >= 0 && courses[j].name > element) {
+                        courses[j + 1] = courses[j];
+                        j = j - 1;
+                    }
+                    courses[j + 1] = element;
+                }
                 setCourseList(courses);
             })
     }
