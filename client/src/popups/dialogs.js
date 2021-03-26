@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import React from 'react';
 import './dialogs.css';
 
 
@@ -96,7 +95,7 @@ const userAPI = {
 
 export function LoginDialog({ show, hide }) {
 
-  const user = JSON.parse(localStorage.getItem('currentSession'));
+  // const user = JSON.parse(localStorage.getItem('currentSession'));
 
   async function handleLogin(e) {
     // get username and password inputs
@@ -161,7 +160,7 @@ export function LoginDialog({ show, hide }) {
 
 export function SignupDialog({ show, hide }) {
 
-  const user = JSON.parse(localStorage.getItem('currentSession'));
+  // const user = JSON.parse(localStorage.getItem('currentSession'));
 
   async function handleSignup(e) {
     // get username and password inputs
