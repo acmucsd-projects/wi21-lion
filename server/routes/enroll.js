@@ -4,14 +4,6 @@ const router = express.Router();
 const userAuth = require('../middleware/userAuth');
 const { EnrolledSection } = require('../models/EnrolledSection');
 
-/**
- * @api {post} /enroll/:section_id Enroll is a specific section
- * 
- * @apiParam {ObjectId} section_id The id of the section the user is enrolling in.
- *
- * @apiSuccess (Success 200) { _id, section_id, lecture_zoom, discussion_zoom, lab_zoom, oh_zoom, piazza, gradescope } EnrolledSection information.
- * @apiError { error } 400/Bad Request.
- */
 router.post('/:section_id', userAuth.authenticateUser, async function(req, res, next){
     try {
         const { user_email } = req;
@@ -24,7 +16,7 @@ router.post('/:section_id', userAuth.authenticateUser, async function(req, res, 
     }
     catch (err) {
         console.log(err.message);
-        return res.status(400).json({error : "Could not enroll in section."});
+        return res.status(401).json({error : "Could not enroll in section."});
     }
 });
 

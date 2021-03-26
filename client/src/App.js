@@ -22,6 +22,7 @@ import {
 
 import './App.css';
 import UserProfile from './userProfile/UserProfile';
+import { UserContextProvider } from './contexts/UserContext';
 
 function App() {
 
@@ -39,13 +40,14 @@ function App() {
               <Route exact path='/userProfile' component={UserProfile} />
               <Route exact path='/courses' component={BlankCourse} />
 
-              {dummyArticles.map((course) => (
+              {dummyArticles.map((course, section) => (
                 <Route exact
-                  path={`/courses/${course.department}/${course.name}`}
-                  children={<CourseArticle course={course}>
-                    <CourseContent course={course}></CourseContent>
+                  path={`/courses/${course.department}/${course.name}/${section.season}${section.year}/${section.letter}`}
+                  children={<CourseArticle section={section} course={course} >
+                    <SectionContent section={section} course={course} />
                   </CourseArticle>}>
                 </Route>
+
               ))}
           {dummyArticles.map((course) => (
             course.sections.map((section) => (
