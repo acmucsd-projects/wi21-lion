@@ -7,10 +7,10 @@ import { ReactComponent as CreateSVG } from './res/create.svg';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom';
-import { LoginDialog, SignupDialog } from '../popups/dialogs';
+import { LoginDialog } from '../popups/dialogs';
 
 const ProfileDropdown = (props) => {
-    const { hideProfileDropdown, showLogin, showRegister } = props;
+    const { hideProfileDropdown, showLogin } = props;
     return (
         <ul className="profile-dropdown" onClick={() => hideProfileDropdown()}>
             <Link exact to='/userProfile' className="profile-item" >
@@ -18,9 +18,6 @@ const ProfileDropdown = (props) => {
             </Link>
             <Link className="profile-item" onClick={() => showLogin()}>
                 Login
-            </Link>
-            <Link className="profile-item" onClick={() => showRegister()}>
-                Register
             </Link>
             <Link className="profile-item" onClick={() => alert("signed out")}>
                 Sign Out
@@ -50,8 +47,6 @@ const TopBar = () => {
     const [displayCreatePageDropdown, setCreatePageDropdown] = useState(false);
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
     const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
-    const [displayRegisterPrompt, setDisplayRegisterPrompt] = useState(false);
-    const [currentSearchValue, setCurrentSearchValue] = useState("");
 
 
     function hideProfileDropdown() {
@@ -70,28 +65,12 @@ const TopBar = () => {
         setDisplayLoginPrompt(false);
     }
 
-    function showRegister() {
-        setDisplayRegisterPrompt(true);
-    }
-
-    function hideRegister() {
-        setDisplayRegisterPrompt(false);
-    }
-
     function updateQuery(query) {
         setSearchQuery(query);
     }
 
     function updateShowResults(showResults) {
         setDisplayResults(showResults);
-    }
-
-    function updateSearchValue(value) {
-        setCurrentSearchValue(value);
-    }
-
-    function showResults(){
-        setDisplayResults(true);
     }
 
     function toggleProfileDropdown(event) {
@@ -134,8 +113,8 @@ const TopBar = () => {
                     <Link className="home-button topbar-item" exact to='' >
                         <HomeSVG className="topbar-home-svg" />
                     </Link>
-                <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={showResults} tabIndex="2">
-                    <SearchBar updateQuery={updateQuery} displayResults={displayResults} updateClickOnInput={showResults} currentSearchValue={currentSearchValue}/>
+                <div className="topbar-item" onBlur={toggleResultsDropdown} onFocus={toggleResultsDropdown} tabIndex="2">
+                    <SearchBar updateQuery={updateQuery} displayResults={displayResults} />
                 </div>
                 <div id="topbar-buttons" >
                     <div className="topbar-button topbar-item" onBlur={toggleCreatePageDropdown} onFocus={toggleCreatePageDropdown} tabIndex="1">
@@ -147,15 +126,12 @@ const TopBar = () => {
                 </div>
             </div>
             {displayResults &&
-                <SearchResults query={searchQuery} updateShowResults={updateShowResults} updateSearchValue={updateSearchValue} />
+                <SearchResults query={searchQuery} updateShowResults={updateShowResults} />
             }
             {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
-            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin} showRegister={showRegister}/>}
+            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin}/>}
             <div className="login-wrapper">
-                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin} />}
-            </div>
-            <div className="login-wrapper">
-                {displayRegisterPrompt && <SignupDialog show={showRegister} hide={hideRegister}/>}
+                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin}></LoginDialog>}
             </div>
         </div>
     );

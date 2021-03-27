@@ -36,10 +36,6 @@
     font-family: Hind;
 }
 
-#search-input:focus {
-    outline: none;
-}
-
 .search-input-top-borders {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -139,12 +135,6 @@
     padding-right: 0.25vw;
     margin-left: 1vw;
     transition: all 200ms;
-}
-
-.topbar-button:focus {
-    outline: none;
-    margin-top: 0.5vh;
-    margin-bottom: 0.5vh;
 }
 
 .topbar-button:hover, .home-button:hover {
