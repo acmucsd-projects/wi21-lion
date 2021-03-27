@@ -1,24 +1,29 @@
+import React from 'react';
+
 import createPageOrg from './homeComponents/createPageOrg';
 import createPageClass from './homeComponents/createPageClass';
 import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
+import dummyArticles from './article/dummyArticle.json';
+import dummyOrgs from './article/dummyOrgs.json';
 import CourseArticle, { BlankCourse } from './article/CourseArticle';
-import OrgArticle, { BlankOrg } from './article/OrgArticle';
+// import CourseContent from './article/CourseContent';
+import SectionContent from './article/SectionContent';
+import OrgArticle from './article/OrgArticle';
+import OrgContent from './article/OrgContent';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  // Link,
+  // Redirect,
 } from 'react-router-dom';
 
 import './App.css';
 import UserProfile from './userProfile/UserProfile';
-// import { LoginDialog } from './popups/dialogs';
-import SectionArticle from './article/SectionArticle';
-
 
 function App() {
-
 
   return (
     <div>
@@ -33,21 +38,28 @@ function App() {
               <Route exact path='/createPageOrg' component={createPageOrg} />
               <Route exact path='/userProfile' component={UserProfile} />
               <Route exact path='/courses' component={BlankCourse} />
+
+          {dummyArticles.map((course) => (
+            course.sections.map((section) => (
               <Route exact
-                path={`/courses/:dep/:courseName`}
-                component={CourseArticle}>
+                path={`/courses/${course.department}/${course.name}/${section.season}${section.year}/${section.letter}`}
+                children={<CourseArticle section={section} course={course} >
+                  <SectionContent section={section} course={course} />
+                </CourseArticle>}>
               </Route>
-              <Route exact
-                path={`/courses/:dep/:courseName/:quarter/:year/:sectionLetter`}
-                component={SectionArticle}>
+            ))
+          ))}
+          <Route exact path={`/orgs`} component={OrgArticle} />
+          {dummyOrgs.map((org) => (
+            <Route exact 
+              path={`/orgs/${org.name}`}
+              children={<OrgArticle org={org}>
+                <OrgContent org={org} />
+              </OrgArticle>}>
               </Route>
-              <Route exact path={`/orgs`} component={BlankOrg} />
-              <Route exact
-                path={`/orgs/:orgName`}
-                component={OrgArticle}>
-              </Route>
-            </Switch>
-          </div>
+          ))}
+        </Switch>
+        </div>
         </div>
       </Router>
     </div>

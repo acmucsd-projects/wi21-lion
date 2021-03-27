@@ -153,15 +153,6 @@
     top: 0;
 }
 
-.section-content-header {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-items: stretch;
-	align-content: stretch;
-}
-
 .enroll-button {
     transition: all 500ms;
     display: inline-block;
@@ -169,12 +160,10 @@
     color: #000000;
     text-align: center;
     cursor: pointer;
-    padding: 2%;
-    /* margin: 2%; */
+    padding: 3%;
+    margin: 2%;
     border-radius: 10px;
     border: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
 }
 
 .enroll-button span {
@@ -227,14 +216,14 @@
 }
 
 .section-description {
-    /* margin: 2% % 2% 2%; */
-    padding: 2%;
+    margin: 0 2% 0 2%;
     word-wrap: break-word;
 }
 
 .section-schedule {
     margin: 0 2% 0 2%;
     padding: 2% 0 0 0;
+
 }
 
 .section-calendar {
@@ -246,16 +235,6 @@
 
 .article-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
-}
-
-.article-inner-body {
-    margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
-    display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-	align-content: stretch;
 }
 
 
@@ -270,17 +249,8 @@
     border-radius: 5px;
 }
 
-.course-img {
-    width: 100%;
-    height: auto;
-}
-
-.course-img:scale, .org-img:scale {
-    object-fit: scale-down;
-}
-
 .org-img {
-    width: 50%;
+    width: 100%;
     padding: 2%;
 }
 
@@ -453,17 +423,11 @@
     z-index: 12;
 }
 
-.section-dropdown :first-child {
-    border-radius: 5px 5px 0 0;
-}
-
-.section-dropdown :last-child {
-    border-radius: 0 0 5px 5px;
-}
 .section-item {
     height: 50px;
     display: flex;
     align-items: center;
+    border-radius: 5px;
     transition: background 200ms;
     padding: 0.5rem;
     background-color: #C4C4C4;
