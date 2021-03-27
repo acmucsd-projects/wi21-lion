@@ -10,24 +10,16 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    /* height: 75px; */
-    height: 7vh;
+    height: 85px;
+    /* height: 7vh; */
     position: sticky;
     /* Misc */
     background-color: #3771CD;
 }
 
-.searchbar-container {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 75px;
-    position: sticky;
-}
-
 #search-bar {
-    padding-left: 15vw;
+    position: absolute;
+    left: 15vw;
     margin-top: 1vh;
     margin-bottom: 1vh;
     min-height: 20px;
@@ -42,6 +34,10 @@
     width: 30vw;
     padding-left: 0.5vw;
     font-family: Hind;
+}
+
+#search-input:focus {
+    outline: none;
 }
 
 .search-input-top-borders {
@@ -67,7 +63,7 @@
 
 #search-results {
     /* top: -2.2vh; */
-    top: -20px;
+    top: -26px;
     font-family: Hind;
     position: absolute;
     list-style-type: none;
@@ -113,6 +109,10 @@
     height: 47%;
 }
 
+.topbar-home-svg {
+    height: 70%;
+}
+
 #topbar-buttons {
     display: flex;
     flex-direction: row;
@@ -125,17 +125,33 @@
     padding-left: 1vw;
 }
 
+.home-button {
+    background-color: #3771CD;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    margin-left: 1vw;
+    transition: all 200ms;
+}
+
 .topbar-button {
     background-color: #3771CD;
     padding-left: 0.25vw;
     padding-right: 0.25vw;
     margin-left: 1vw;
+    transition: all 200ms;
 }
 
-.topbar-button:hover {
+.topbar-button:focus {
+    outline: none;
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
-    filter: brightness(1.5);
+}
+
+.topbar-button:hover, .home-button:hover {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    /* filter: brightness(1.5); */
+    /* background-color: #68a4d8; */
     cursor: pointer;
     border-radius: 5px;
 }
@@ -146,7 +162,6 @@
     top: 65px;
     width: auto;
     min-width: 100px;
-    border-radius: 5px;
     padding: 1rem;
     overflow: hidden;
     z-index: 51;
@@ -158,19 +173,19 @@
     top: 65px;
     width: auto;
     min-width: 100px;
-    border-radius: 5px;
     padding: 1rem;
     overflow: hidden;
     z-index: 50;
 }
 
-.profile-dropdown, .create-page-dropdown :first-child {
+.profile-dropdown :first-child, .create-page-dropdown :first-child {
     border-radius: 5px 5px 0 0;
 }
 
-.profile-dropdown, .create-page-dropdown :last-child {
+.profile-dropdown :last-child, .create-page-dropdown :last-child {
     border-radius: 0 0 5px 5px;
 }
+
 
 .profile-item, .create-page-item {
     height: 30px;
@@ -189,4 +204,10 @@
 .profile-item:hover, .create-page-item:hover {
     background-color: #3771CD;
     cursor: pointer;
+}
+
+.login-wrapper {
+    position: absolute;
+    top: 0;
+    z-index: 999;
 }
