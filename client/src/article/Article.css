@@ -453,11 +453,17 @@
     z-index: 12;
 }
 
+.section-dropdown :first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+.section-dropdown :last-child {
+    border-radius: 0 0 5px 5px;
+}
 .section-item {
     height: 50px;
     display: flex;
     align-items: center;
-    border-radius: 5px;
     transition: background 200ms;
     padding: 0.5rem;
     background-color: #C4C4C4;

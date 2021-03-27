@@ -29,7 +29,7 @@ function SectionContent(props) {
     return (
         <div>
             <div className="section-content-header article-body">
-                <h1>{course.name}: {section.professor} - {section.quarter} {section.year}</h1>
+                <h1>{course.name}: {section.professor}</h1>
                 <button className="enroll-button">
                     <span>Enroll</span>
                 </button>
