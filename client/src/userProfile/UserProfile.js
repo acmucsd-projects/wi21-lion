@@ -47,7 +47,7 @@ const ProfileAPI = {
     .catch(error => {
       console.log(error) 
     })
-    console.log(response);
+    return response;
   },
   getClass: async function(classId, token) {
     let response = {};
@@ -63,7 +63,7 @@ const ProfileAPI = {
     .catch(error => {
       console.log(error) 
     })
-    console.log(response);
+    return response; 
   },
   getEnrolledSection: async function(enrolledSectionId, token) {
     let response = {};
