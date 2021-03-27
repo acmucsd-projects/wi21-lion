@@ -312,7 +312,7 @@
 }
 
 #top-section-content {
-    margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+    /* margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin)); */
     min-width: fit-content;
     display: flex;
     flex-direction: row;
