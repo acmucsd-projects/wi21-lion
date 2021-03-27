@@ -4,8 +4,6 @@ import './TopBar.css';
 
 
 
-import dummyCourses from './dummyCourses.json';
-
 /**
  * 
  * @param {*} courses 
@@ -16,7 +14,7 @@ const querySearch = (courses, query) => {
         return [];
     }
     return courses.filter((course) => {
-        const courseName = course.code;
+        const courseName = course.name.toUpperCase();
         return courseName.includes(query.toUpperCase());
     })
 }
@@ -24,10 +22,52 @@ const querySearch = (courses, query) => {
 
 const SearchResults = (props) => {
 
-    const { query, updateShowResults } = props;
+    const { query, updateShowResults, updateSearchValue } = props;
 
+    const [contentList, setContentList] = useState([]);
     const [results, setResults] = useState([]);
     const [displayResults, setDisplayResults] = useState([]);
+
+    function onCourseClick(courseName) {
+        console.log(courseName);
+        updateSearchValue(courseName);
+        updateShowResults(false);
+    }
+
+    function onOrgClick (orgName) {
+        updateSearchValue(orgName);
+        updateShowResults(false);
+    }
+
+
+    function fetchContentList() {
+        let entries = [];
+        fetch(`http://localhost:5000/department`)
+            .then(response => response.json())
+            .then(data => {
+                data.departments.forEach(department => {
+                    department.classes.forEach(course => {
+                        fetch(`http://localhost:5000/class/${course}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.department = department.name;
+                                entries.push(data);
+                            })
+                    })
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        fetch(`http://localhost:5000/organization`)
+            .then(response => response.json())
+            .then(data => {
+                data.organizations.forEach(element => {
+                    entries.push(element);
+                });
+            })
+        setContentList(entries);
+    }
 
 
     useEffect(() => {
@@ -46,23 +86,38 @@ const SearchResults = (props) => {
 
 
     useEffect(() => {
-        setResults(querySearch(dummyCourses, query))
-        if (!query || query.length === 0) {
-            updateShowResults(false);
-        } else {
-            updateShowResults(true);
+        if (contentList) {
+            setResults(querySearch(contentList, query));
+            if (!query || query.length === 0) {
+                updateShowResults(false);
+            } else {
+                updateShowResults(true);
+            }
         }
-    }, [query, updateShowResults]);
+    }, [query, updateShowResults, contentList]);
+
+    useEffect(() => {
+        if (!contentList || contentList.length === 0) {
+            fetchContentList();
+        }
+        // eslint-disable-next-line
+    }, [])
 
     return (
-        <div id="search-results-container"  >
-            <ul id="search-results">
-                {displayResults.map((course) =>
-                    <Link id="result-item-link" to={`/courses/${course.department}/${course.code}`} onClick={(() => updateShowResults(false))} >
-                        <li id="result-item">{course.code}</li>
-                    </Link>
-                )}
-            </ul>
+        <div id="search-results-container" >
+                <ul id="search-results">
+                    {displayResults.map((element) => {
+                        return element.department ?
+                            <Link id="result-item-link" to={`/courses/${element.department}/${element.name}`} onClick={() => onCourseClick(element.name)} >
+                                <li id="result-item">{element.name}</li>
+                            </Link>
+                            :
+                            <Link id="result-item-link" to={`/orgs/${element.name}`} onClick={() => onOrgClick(element.name)} >
+                                <li id="result-item">{element.name}</li>
+                            </Link>
+                    }
+                    )}
+                </ul>
         </div>
     );
 }
