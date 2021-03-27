@@ -1,4 +1,3 @@
-import React from 'react'
 
 function CourseContent(props) {
 
@@ -6,11 +5,17 @@ function CourseContent(props) {
 
     return (
         <div>
-            <h1 className="article-body">{course.name + ": " + course.shortDescription}</h1>
-            <div className="article-body">
+            <div className="section-content-header article-body">
+            <h1>{course.name}</h1>
+            <button className="edit-button">
+                <span>Edit</span>
+            </button>
+            </div>
+            <div className="article-inner-body">
                 <p className="long-description">
-                    {course.longDescription}
+                    {course.description}
                 </p>
+                <img className="course-img" src={course.image} alt={course.name}></img>
             </div>
         </div>
     )
