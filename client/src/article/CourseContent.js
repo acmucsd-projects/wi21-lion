@@ -5,7 +5,12 @@ function CourseContent(props) {
 
     return (
         <div>
-            <h1 className="article-body">{course.name}</h1>
+            <div className="section-content-header article-body">
+            <h1>{course.name}</h1>
+            <button className="edit-button">
+                <span>Edit</span>
+            </button>
+            </div>
             <div className="article-inner-body">
                 <p className="long-description">
                     {course.description}

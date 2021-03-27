@@ -38,6 +38,7 @@ function SectionArticle() {
     const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...");
     const [departmentList, setDepartmentList] = useState([]);
 
+    const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedCourseName, setSelectedCourseName] = useState("Select a course...");
     const [courseList, setCourseList] = useState([]);
 
@@ -148,6 +149,9 @@ function SectionArticle() {
                     }
                 })
                 setSelectedQuarterName(`${params.quarter} ${params.year}`);
+                if(course && course.department === selectedDepartment) {
+                    setSelectedQuarter(`${params.quarter} ${params.year}`);
+                }
                 setSectionList(getListOfSections(`${params.quarter} ${params.year}`));
             }
             )
@@ -160,8 +164,10 @@ function SectionArticle() {
     function updateSelectedDepartment(element) {
         setSelectedDepartment(element.name);
         setSelectedDepartmentName(element.name);
-        setSelectedCourseName(null);
-        setSelectedQuarter(null);
+        // setSelectedCourse(null);
+        // setSelectedCourseName(null);
+        // setSelectedQuarter(null);
+        // setSelectedQuarterName(null);
     }
 
     /**
@@ -268,6 +274,7 @@ function SectionArticle() {
         if (course) {
             setSelectedDepartment(course.department);
             setSelectedDepartmentName(course.department);
+            setSelectedCourse(course);
         }
         if (course.sections) {
             fetchSectionsFromCourse();
@@ -280,11 +287,14 @@ function SectionArticle() {
             fetchClassesOfDep(selectedDepartment);
         }
         if (course && selectedDepartment && selectedDepartment !== course.department) {
+            setSelectedCourse(null);
             setSelectedCourseName("Select a Course ...");
             setSelectedQuarter(null);
+            setSelectedQuarterName(null);
             setSelectedSectionName(null);
         } else {
             setSelectedCourseName(course.name);
+            setSelectedCourse(course);
         }
     // eslint-disable-next-line
     }, [selectedDepartment, course]);
@@ -327,7 +337,7 @@ function SectionArticle() {
                             updateSelection={updateSelectedCourse}
                             selectedItem={selectedCourseName} />
                     </PathItem>
-                    {selectedCourseName && <PathItem name={selectedQuarterName}>
+                    {selectedCourse && <PathItem name={selectedQuarterName}>
                         <PathDropdownMenu
                             list={quarterList}
                             type={"fullQuarter"}
