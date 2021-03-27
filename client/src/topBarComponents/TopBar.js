@@ -7,10 +7,10 @@ import { ReactComponent as CreateSVG } from './res/create.svg';
 import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom';
-import { LoginDialog } from '../popups/dialogs';
+import { LoginDialog, SignupDialog } from '../popups/dialogs';
 
 const ProfileDropdown = (props) => {
-    const { hideProfileDropdown, showLogin } = props;
+    const { hideProfileDropdown, showLogin, showRegister } = props;
     return (
         <ul className="profile-dropdown" onClick={() => hideProfileDropdown()}>
             <Link exact to='/userProfile' className="profile-item" >
@@ -18,6 +18,9 @@ const ProfileDropdown = (props) => {
             </Link>
             <Link className="profile-item" onClick={() => showLogin()}>
                 Login
+            </Link>
+            <Link className="profile-item" onClick={() => showRegister()}>
+                Register
             </Link>
             <Link className="profile-item" onClick={() => alert("signed out")}>
                 Sign Out
@@ -47,6 +50,7 @@ const TopBar = () => {
     const [displayCreatePageDropdown, setCreatePageDropdown] = useState(false);
     const [displayProfileDropdown, setDisplayProfileDropdown] = useState(false);
     const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
+    const [displayRegisterPrompt, setDisplayRegisterPrompt] = useState(false);
     const [currentSearchValue, setCurrentSearchValue] = useState("");
 
 
@@ -64,6 +68,14 @@ const TopBar = () => {
 
     function hideLogin() {
         setDisplayLoginPrompt(false);
+    }
+
+    function showRegister() {
+        setDisplayRegisterPrompt(true);
+    }
+
+    function hideRegister() {
+        setDisplayRegisterPrompt(false);
     }
 
     function updateQuery(query) {
@@ -138,9 +150,12 @@ const TopBar = () => {
                 <SearchResults query={searchQuery} updateShowResults={updateShowResults} updateSearchValue={updateSearchValue} />
             }
             {displayCreatePageDropdown && <CreatePageDropdown hideCreatePageDropdown={hideCreatePageDropdown}/>}
-            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin}/>}
+            {displayProfileDropdown && <ProfileDropdown hideProfileDropdown={hideProfileDropdown} showLogin={showLogin} showRegister={showRegister}/>}
             <div className="login-wrapper">
-                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin}></LoginDialog>}
+                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin} />}
+            </div>
+            <div className="login-wrapper">
+                {displayRegisterPrompt && <SignupDialog show={showRegister} hide={hideRegister}/>}
             </div>
         </div>
     );
