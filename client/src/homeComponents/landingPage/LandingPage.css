@@ -40,7 +40,7 @@
 
 .landing-icon-container a:hover {
 	cursor: pointer;
-	color: #3771CD;
+	/* color: #3771CD; */
 	background-color: var(--ucsd-yellow);
 }
 
