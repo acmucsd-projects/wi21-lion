@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LinksPanel from './LinksPanel';
 
 import './Article.css';
+import makeUrls from 'add-event-to-calendar';
 
 
 function getLectureDays(lecture_times) {
@@ -68,17 +69,18 @@ const SectionSchedule = ({ course }) => {
         "thursday": false,
         "friday": false
     });
+
     const [eventPos, setEventPos] = useState({
         top: "0px",
         height: "0px"
     });
 
     const lecture_times = "MWF 10:00AM-11:45AM";
+
     useEffect(() => {
         setDays(getLectureDays(lecture_times));
         setEventPos(getLectureTimes(lecture_times));
     }, [])
-
 
     return (
         <div className="schedule-container section-schedule">
@@ -92,9 +94,38 @@ const SectionSchedule = ({ course }) => {
     );
 }
 
+const AddToCalendarDialog = () => {
+
+    const getCalendarEvent = (lesson) => ({
+        name: "Event Name",
+        details: "UCSD",
+        startsAt: "10:00AM",
+        endsAt: "11:00AM",
+    });
+
+    const eventUrls = makeUrls(getCalendarEvent);
+    console.log(eventUrls);
+
+    return (
+        <div>
+            Add To Calendar
+        </div>
+    )
+}
+
 const SectionScheduleDay = (props) => {
 
     const { showEvent, pos, course } = props
+    const [displayAddToCalendar, setDisplayAddToCalendar] = useState(false);
+
+    function showAddToCalendar() {
+        setDisplayAddToCalendar(true);
+    }
+
+    function hideAddToCalendar() {
+        setDisplayAddToCalendar(false);
+    }
+
 
     const today = new Date().getDay();
     let day = 0;
@@ -121,7 +152,7 @@ const SectionScheduleDay = (props) => {
         <div style={{ textAlign: 'center' }}>
             {props.children}
             <div style={{ backgroundColor: today === day ? '#ade6e6' : 'white' }} className="schedule-wrapper">
-                {showEvent && <div style={{ top: pos.top, height: pos.height }} className="schedule-event">{course.name} Lecture</div>}
+                {showEvent && <div style={{ top: pos.top, height: pos.height }} className="schedule-event" onClick={showAddToCalendar}>{course.name} Lecture</div>}
                 <div></div>
                 <div></div>
                 <div></div>
@@ -147,6 +178,7 @@ const SectionScheduleDay = (props) => {
                 <div></div>
                 <div></div>
             </div>
+            {displayAddToCalendar && <AddToCalendarDialog onBlur={hideAddToCalendar}/>}
         </div>
     );
 }
