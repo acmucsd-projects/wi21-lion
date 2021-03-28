@@ -18,10 +18,10 @@ const CanvasIMG = (
 function LinkEntry(props) {
     const { name, url, icon } = props
     return (
-            <a href={url} id="link-container">
-                <i>{icon}</i>
-                {name}
-            </a>
+        <a href={url} id="link-container">
+            <i>{icon}</i>
+            {name}
+        </a>
     );
 }
 
@@ -32,15 +32,19 @@ function LinkEntry(props) {
 function LinksPanel(props) {
     const { section, org } = props;
     if (section) {
+        if (((!section.website || section.website.length === 0) &&
+            (!section.canvas || section.canvas.length === 0) &&
+            (!section.discord || section.discord.length === 0))) {
+                return (
+                    <div></div>
+                )
+        }
         return (
             <div id="links-container">
                 <h4 id="link-name">Useful Links</h4>
-                <LinkEntry name="Website" url={section.website} icon={<WebsiteSVG className="link-glyph" />} />
-                <LinkEntry name="Canvas" url={section.canvas} icon={CanvasIMG} />
-                <LinkEntry name="Discord" url={section.discord} icon={<DiscordSVG className="link-glyph" />} />
-                {/* {section.additionalLinks.map((link) => (
-                <LinkEntry name={link.name} url={link.url} />
-            ))} */}
+                {section.website && section.website.length !== 0 && <LinkEntry name="Website" url={section.website} icon={<WebsiteSVG className="link-glyph" />} />}
+                {section.canvas && section.canvas.length !== 0 && <LinkEntry name="Canvas" url={section.canvas} icon={CanvasIMG} />}
+                {section.discord && section.discord !== 0 && <LinkEntry name="Discord" url={section.discord} icon={<DiscordSVG className="link-glyph" />} />}
             </div>
         );
     }
