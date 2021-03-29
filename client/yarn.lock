@@ -2111,10 +2111,10 @@ acorn@^7.1.0, acorn@^7.1.1, acorn@^7.4.0:
   resolved "https://registry.npmjs.org/acorn/-/acorn-7.4.1.tgz"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-add-event-to-calendar@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/add-event-to-calendar/-/add-event-to-calendar-1.0.7.tgz#e37ec7e2034b2461c5e374b93d5a7a9ba95fa05e"
-  integrity sha512-XadkJJ48WnBq56/oG2kxJCCmj3T1fQFBvBvDkTykMzfQak/0zqbgN6hx29pPN4t+u7hJqXPstfEujksgl+q5GQ==
+add2calendar@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/add2calendar/-/add2calendar-1.1.5.tgz#8103c153c9bdfe4415fa16cb635c76a23a62da33"
+  integrity sha512-ycu3jUkLY10ySZds+91a+39hUU3mEvWMDVB//zPdS53yYpeQ1uiLiGSng/IZqHb1dsGkfVkGeOvV0Me/iglgbA==
 
 address@1.1.2, address@^1.0.1:
   version "1.1.2"
@@ -4350,7 +4350,7 @@ es6-iterator@2.0.3, es6-iterator@~2.0.3:
     es5-ext "^0.10.35"
     es6-symbol "^3.1.1"
 
-es6-symbol@^3.1.0, es6-symbol@^3.1.1, es6-symbol@~3.1.3:
+es6-symbol@^3.1.1, es6-symbol@~3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/es6-symbol/-/es6-symbol-3.1.3.tgz"
   integrity sha512-NJ6Yn3FuDinBaBRWl/q5X/s4koRHBrgKAu+yGI6JCBeiu3qrcbJhwT2GeR/EXVfylRk8dpQVJoLEFhK+Mu31NA==
@@ -7312,13 +7312,6 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
-
-moment-range@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/moment-range/-/moment-range-4.0.2.tgz#f7c3863df2a1ed7fd1822ba5a7bcf53a78701be9"
-  integrity sha512-n8sceWwSTjmz++nFHzeNEUsYtDqjgXgcOBzsHi+BoXQU2FW+eU92LUaK8gqOiSu5PG57Q9sYj1Fz4LRDj4FtKA==
-  dependencies:
-    es6-symbol "^3.1.0"
 
 move-concurrently@^1.0.1:
   version "1.0.1"

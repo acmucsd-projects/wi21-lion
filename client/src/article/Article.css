@@ -590,3 +590,13 @@
     top: 0;
     z-index: 999;
 }
+
+.add-to-calendar-dialog {
+    position: absolute;
+    z-index: 500;
+    background-color: lightblue;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+}

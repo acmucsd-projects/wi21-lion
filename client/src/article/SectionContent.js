@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import * as Add2Calendar from "add2calendar"
+import 'add2calendar/css/add2calendar.css'
 
 import LinksPanel from './LinksPanel';
 
 import './Article.css';
-import makeUrls from 'add-event-to-calendar';
 import { EnrollDialog } from '../popups/dialogs';
 
 
@@ -61,7 +62,7 @@ function getLectureTimes(lecture_times) {
 }
 
 
-const SectionSchedule = ({ course }) => {
+const SectionSchedule = ({ course, section }) => {
 
     const [days, setDays] = useState({
         "monday": false,
@@ -76,55 +77,67 @@ const SectionSchedule = ({ course }) => {
         height: "0px"
     });
 
-    const lecture_times = "MWF 10:00AM-11:45AM";
+    // const lecture_times = "MWF 10:00AM-11:45AM";
 
     useEffect(() => {
-        setDays(getLectureDays(lecture_times));
-        setEventPos(getLectureTimes(lecture_times));
-    }, [])
+        if (section && section.lecture_times) {
+            setDays(getLectureDays(section.lecture_times));
+            setEventPos(getLectureTimes(section.lecture_times));
+        }
+    }, [section, section.lecture_times])
 
     return (
         <div className="schedule-container section-schedule">
             <TimeSchedule />
-            <SectionScheduleDay showEvent={days.monday} pos={eventPos} course={course}>Monday</SectionScheduleDay>
-            <SectionScheduleDay showEvent={days.tuesday} pos={eventPos} course={course}>Tuesday</SectionScheduleDay>
-            <SectionScheduleDay showEvent={days.wednesday} pos={eventPos} course={course}>Wednesday</SectionScheduleDay>
-            <SectionScheduleDay showEvent={days.thursday} pos={eventPos} course={course}>Thursday</SectionScheduleDay>
-            <SectionScheduleDay showEvent={days.friday} pos={eventPos} course={course}>Friday</SectionScheduleDay>
+            <SectionScheduleDay showEvent={days.monday} pos={eventPos} course={course} section={section}>Monday</SectionScheduleDay>
+            <SectionScheduleDay showEvent={days.tuesday} pos={eventPos} course={course} section={section}>Tuesday</SectionScheduleDay>
+            <SectionScheduleDay showEvent={days.wednesday} pos={eventPos} course={course} section={section}>Wednesday</SectionScheduleDay>
+            <SectionScheduleDay showEvent={days.thursday} pos={eventPos} course={course} section={section}>Thursday</SectionScheduleDay>
+            <SectionScheduleDay showEvent={days.friday} pos={eventPos} course={course} section={section}>Friday</SectionScheduleDay>
         </div>
     );
 }
 
-const AddToCalendarDialog = () => {
+const AddToCalendarDialog = ({ pos, course, section, day }) => {
+    // get next day of the week
+    let nextDate = new Date();
+    nextDate.setDate(nextDate.getDate() + (day + 7 - nextDate.getDay()) % 7);
+    var months = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+    const startTime = section.lecture_times.split(" ")[1].split("-")[0];
+    const endTime = section.lecture_times.split(" ")[1].split("-")[1];
+    var singleEventArgs = {
+        title: `${course.name} Lecture`,
+        start: `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 4)} ${startTime.substring(4, 7)}`,
+        end: `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 4)} ${endTime.substring(4, 7)}`,
+        location: 'UCSD',
+        description: `${course.name} - ${section.quarter} ${section.year} - ${section.professor}`,
+        isAllDay: false,
+    };
 
-    const getCalendarEvent = (lesson) => ({
-        name: "Event Name",
-        details: "UCSD",
-        startsAt: "10:00AM",
-        endsAt: "11:00AM",
-    });
+    var singleEvent = new Add2Calendar(singleEventArgs);
 
-    const eventUrls = makeUrls(getCalendarEvent);
-    console.log(eventUrls);
+    const googleUrl = singleEvent.getGoogleUrl();
+    const iCalUrl = singleEvent.getICalUrl();
+    // const outlookUrl = singleEvent.getOutlookUrl(); 
+    // const yahooUrl = singleEvent.getYahooUrl(); 
 
     return (
-        <div>
-            Add To Calendar
+        <div className="add-to-calendar-dialog" style={{ top: pos }}>
+            Add To:
+            <a href={googleUrl}>Google Calendar</a>
+            <a href={iCalUrl}>Apple Calendar</a>
         </div>
     )
 }
 
 const SectionScheduleDay = (props) => {
 
-    const { showEvent, pos, course } = props
+    const { showEvent, pos, course, section } = props
     const [displayAddToCalendar, setDisplayAddToCalendar] = useState(false);
 
-    function showAddToCalendar() {
-        setDisplayAddToCalendar(true);
-    }
-
-    function hideAddToCalendar() {
-        setDisplayAddToCalendar(false);
+    function toggleAddToCalendar() {
+        setDisplayAddToCalendar(!displayAddToCalendar);
     }
 
 
@@ -150,10 +163,10 @@ const SectionScheduleDay = (props) => {
             break;
     }
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', position: 'relative' }}>
             {props.children}
             <div style={{ backgroundColor: today === day ? '#ade6e6' : 'white' }} className="schedule-wrapper">
-                {showEvent && <div style={{ top: pos.top, height: pos.height }} className="schedule-event" onClick={showAddToCalendar}>{course.name} Lecture</div>}
+                {showEvent && <div style={{ top: pos.top, height: pos.height }} className="schedule-event" onClick={toggleAddToCalendar}>{course.name} Lecture</div>}
                 <div></div>
                 <div></div>
                 <div></div>
@@ -179,7 +192,9 @@ const SectionScheduleDay = (props) => {
                 <div></div>
                 <div></div>
             </div>
-            {displayAddToCalendar && <AddToCalendarDialog onBlur={hideAddToCalendar} />}
+            <div onClick={toggleAddToCalendar}>
+                {displayAddToCalendar && <AddToCalendarDialog pos={pos.top} course={course} section={section} day={day}/>}
+            </div>
         </div>
     );
 }
@@ -275,7 +290,7 @@ function SectionContent(props) {
                     </div>
                 </div>
                 <h2 className="section-schedule">Schedule:</h2>
-                <SectionSchedule course={course} />
+                <SectionSchedule course={course} section={section} />
             </div>
             <div className="enroll-dialog-wrapper">
                 {displayEnrollDialog && <EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} />}
