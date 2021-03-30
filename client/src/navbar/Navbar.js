@@ -131,7 +131,7 @@ export default function Navbar() {
         // add sections to class's section lsit
         for await (let sectionId of classData.sections) {
           let sectionData = await NavBarAPI.getSection(sectionId);
-          sections.push({ name: sectionData.section_id });
+          sections.push({ ...sectionData, name: sectionData.section_id });
         }
         classes.push({ name: classData.name, sections: sections });
       }
@@ -145,6 +145,7 @@ export default function Navbar() {
     let orgs = await NavBarAPI.getOrgs();
     orgs = orgs['organizations'];
     routeTree[1].children = orgs;
+
     return routeTree;
   }
 
@@ -168,17 +169,36 @@ export default function Navbar() {
       default: displayRow = undefined;
     } 
 
+   
+
     // check if query data returned a list
     if (displayRow === undefined) {
-      console.log('leaf');
-      // route to page
-      let routeName = activeItems[activeItems.length - 1].name;
-      history.push(`/${routeName}/${name}`);
+
+      let articleType = activeItems[0].name;
+      let routeName = '';
+
+      if (articleType === 'CLASSES') {
+        // route to page
+        let classData = sections[sections.length - 1][0];
+        let sectionData = sections[sections.length - 1][1];
+        let className = classData.name.replace(' ', '');        
+        routeName = `/courses/${className}/${sectionData.quarter}/${sectionData.year}/${sectionData.section_id}`;
+
+      } else {
+        let orgData = sections[sections.length - 1][id];
+        routeName = `/orgs/${orgData.name}`;
+      }
+      console.log(routeName)
+     
+      history.push(`${routeName}`);
+      displayRow = [];
       return;
+    } else {
+      // add selected section to new list
+      displayRow = [{ id: 0, name: name}, ...displayRow];
     }
 
-    // add selected section to new list
-    displayRow = [{ id: 0, name: name}, ...displayRow];
+
 
     // set the state
     let updatedSections = [...sections];
@@ -186,6 +206,7 @@ export default function Navbar() {
 
     updatedSections[depth] = displayRow;
     updatedSections.length = depth + 1;
+
 
     updatedActiveItems[depth] = { id: id - 1, name: name };
     updatedActiveItems.length = depth + 1;
@@ -217,14 +238,12 @@ export default function Navbar() {
         <ul key={index+list[0].name} style={{ zIndex: 0 - index }}>
           {list.map((listItem, i) => {
             let isActive = false;
-            console.log(activeItems[index + 1])
-            console.log(i + 1);
             return <TabItem 
               listItem={listItem}
               isActive={isActive}
               depth={index+1} 
               id={i}
-              key={listItem.name} 
+              key={i} 
               handleTabItemClick={handleTabClick}/>
           })}
         </ul>
