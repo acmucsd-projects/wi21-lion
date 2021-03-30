@@ -353,7 +353,7 @@ function SectionArticle() {
                     </PathItem>}
                 </ul>
             </div>
-            <SectionContent course={course} section={section} />
+            <SectionContent course={course} section={section} fetchSectionData={fetchCurrentSection} />
         </div>
     );
 }
