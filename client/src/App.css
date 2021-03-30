@@ -28,6 +28,6 @@
   width: 70%;
   margin: 0 !important;
   background-color: #FFF;
-  box-shadow: 0 0 0 -5px #000;
-  height: 100vh; /* Temp fix for now */
+  padding: 100px;
+  box-shadow: 0 0 20px -5px #000;
 }

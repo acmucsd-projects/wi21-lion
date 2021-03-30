@@ -6,57 +6,69 @@ import banner from './icons/ded 1.jpg';
 import PathItem from './PathItem';
 import PathDropdownMenu from './PathDropdownMenu';
 
-import { useParams } from 'react-router';
-import CourseContent from './CourseContent';
-
-const rootBackendURL = "http://localhost:5000"
+import dummyArticles from './dummyArticle.json';
 
 /**
  * Called when article type is changed
  */
 function updateSelectedArticleType(element) {
-    if (element.type === "Orgs") {
+    if(element.type === "Orgs"){
         window.location = `/orgs`;
     } else {
         window.location = `/courses`;
     }
 }
 
-function compareCourses(a, b) {
-    if (a.name < b.name) {
-        return -1;
+    /**
+     * Called when a new course is selected. Current URL is updated accordingly 
+     * @param {*} element 
+     */
+    function updateSelectedCourse(element) {
+        window.location = `/courses/${element.department}/${element.name}`;
     }
-    if (a.name > b.name) {
-        return 1;
-    }
-    return 0;
-}
-
 /**
  * General course article template.
  *  
  * @param {*} props 
  */
-function CourseArticle() {
+function CourseArticle(props) {
 
-    const [course, setCourse] = useState({});
-    const params = useParams();
-
-    const [selectedDepartment, setSelectedDepartment] = useState(null);
-    const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...");
+    const { section, course } = props;
     const [departmentList, setDepartmentList] = useState([]);
-
-    const [selectedCourse, setSelectedCourse] = useState(null);
-    const [selectedCourseName, setSelectedCourseName] = useState("Select a course...");
-    const [courseList, setCourseList] = useState([]);
-
     const [selectedQuarter, setSelectedQuarter] = useState(null);
-    const [selectedQuarterName, setSelectedQuarterName] = useState("Select a quarter...");
     const [quarterList, setQuarterList] = useState([]);
-
+    const [selectedQuarterName, setSelectedQuarterName] = useState("Select a quarter...");
     const [selectedSectionName, setSelectedSectionName] = useState("Select a section...");
     const [sectionList, setSectionList] = useState([]);
-    const [totalSectionList, setTotalSectionList] = useState([]);
+
+
+
+
+
+
+    /**
+     * Called when department is changed
+     */
+    function updateSelectedDepartment() {
+
+    }
+
+
+    /**
+     * Update the currently selected quarter 
+     * @param {*} element 
+     */
+    function updateSelectedQuarter(element) {
+        const quarter = element.quarter
+        if(quarter) {
+            setSelectedQuarter(quarter);
+            setSelectedQuarterName(quarter)
+        }
+    }
+
+    function updateSelectedSection(sectionParam) {
+        window.location = `/courses/${course.department}/${course.name}/${sectionParam.season}${sectionParam.year}/${sectionParam.letter}`;
+    }
 
     const compareQuarters = useCallback((quarter1, quarter2) => {
         const quarter1Arry = quarter1.split(" ");
@@ -64,173 +76,29 @@ function CourseArticle() {
         const quarter2Arry = quarter2.split(" ");
         const year2 = quarter2Arry[1];
 
-        if (year1 > year2) {
+        if(year1 > year2) {
             return 1;
-        } else if (year1 < year2) {
+        } else if(year1 < year2) {
             return -1;
-        }
+        } 
 
         const season1 = quarter1Arry[0];
         const season2 = quarter2Arry[0];
 
         const season1Val = getSeasonVal(season1);
         const season2Val = getSeasonVal(season2);
-        if (season1Val > season2Val) {
+        if(season1Val > season2Val) {
             return 1;
         } else {
             return -1;
         }
-    }, [])
-
-    /**
-     * Adds a formatted section key value pair to each section object. This new value is used
-     * for each entry in the section selection dropdown
-     */
-    const formatSectionList = useCallback(() => {
-        let formattedSections = [];
-
-        sectionList.forEach(element => {
-            element.formattedVersion = `${element.professor} ${element.section_id}`;
-            formattedSections.push(element);
-        })
-        return formattedSections;
-    }, [sectionList]);
-
-    const fetchCourseData = useCallback((class_id, department) => {
-        fetch(`${rootBackendURL}/class/${class_id}`)
-            .then(response => response.json())
-            .then(courseData => {
-                if (courseData.name === params.courseName) {
-                    const newCourse = {
-                        "course_id": courseData._id,
-                        "name": courseData.name,
-                        "description": courseData.description,
-                        "image": courseData.image,
-                        "department": department.name,
-                        "sections": courseData.sections
-                    }
-                    setCourse(newCourse);
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }, [params.courseName])
-
-    const fetchDepartments = useCallback(() => {
-        fetch(`${rootBackendURL}/department/`)
-            .then(reponse => reponse.json())
-            .then(data => {
-                setDepartmentList(data.departments);
-                data.departments.forEach(department => {
-                    department.classes.forEach(element => {
-                        fetchCourseData(element, department)
-                    })
-                })
-            }).catch(error => {
-                console.error(error);
-            });
-    }, [fetchCourseData])
-
-    function fetchClassesOfDep(departmentName) {
-        fetch(`${rootBackendURL}/department/${departmentName}`)
-            .then(response => response.json())
-            .then(data => {
-                let courses = []
-                data.classes.forEach(class_id =>
-                    fetch(`${rootBackendURL}/class/${class_id}`)
-                        .then(response => response.json())
-                        .then(courseData => {
-                            courses.push(courseData)
-                        })
-                );
-                setCourseList(courses);
-            })
-    }
-
-    const fetchSectionsFromCourse = useCallback(() => {
-        let sections = [];
-        course.sections.forEach((section => {
-            fetch(`${rootBackendURL}/section/${section}`)
-                .then(response => response.json())
-                .then(data => {
-                    let newSections = sectionList;
-                    newSections.push(data);
-                    sections.push(data);
-                    setSectionList(newSections);
-                    formatSectionList();
-
-                    const fullQuarter = {
-                        "fullQuarter": `${data.quarter} ${data.year}`
-                    }
-                    if (!quarterList.includes(fullQuarter)) {
-                        let newQuarterList = quarterList;
-                        newQuarterList.push(fullQuarter);
-                        let i, key, j;
-                        for (i = 1; i < newQuarterList.length; i++) {
-                            key = newQuarterList[i].fullQuarter;
-                            j = i - 1;
-                            while (j >= 0 && compareQuarters(newQuarterList[j].fullQuarter, key) === -1) {
-                                newQuarterList[j + 1].fullQuarter = newQuarterList[j].fullQuarter;
-                                j = j - 1;
-                            }
-                            newQuarterList[j + 1].fullQuarter = key;
-                        }
-                        setQuarterList(newQuarterList);
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        }))
-        setTotalSectionList(sections);
-        // eslint-disable-next-line
-    }, [course])
-
-
-    /**
-     * Called when department is changed
-     */
-    function updateSelectedDepartment(element) {
-        setSelectedDepartment(element.name)
-        setSelectedDepartmentName(element.name)
-    }
-
-    /**
-     * Called when a new course is selected. Current URL is updated accordingly 
-     * @param {*} element 
-     */
-    function updateSelectedCourse(element) {
-        console.log(element);
-        if (selectedDepartment) {
-            window.location = `/courses/${selectedDepartment}/${element.name}`;
-        } else {
-            window.location = `/courses/${course}/${element.name}`;
-        }
-    }
-
-    /**
-     * Update the currently selected quarter 
-     * @param {*} element 
-     */
-    function updateSelectedQuarter(element) {
-        const quarter = element.fullQuarter;
-        if (quarter) {
-            setSelectedQuarter(quarter);
-            setSelectedQuarterName(quarter);
-        }
-    }
-
-    function updateSelectedSection(sectionParam) {
-        window.location = `/courses/${course.department}/${course.name}/${sectionParam.quarter}/${sectionParam.year}/${sectionParam.section_id}`;
-    }
-
+    },[])
 
     function getSeasonVal(season) {
         switch (season) {
             case "Winter":
                 return 1;
-
+       
             case "Spring":
                 return 2;
 
@@ -243,71 +111,147 @@ function CourseArticle() {
     }
 
     /**
+     * Retrieves an array of quarters available for the current course
+     */
+    const getListOfQuarters = useCallback(() => {
+        let quarters = [];
+        let quarterObjs = [];
+        for (let index = 0; index < course.sections.length; index++) {
+            const tmpSection = course.sections[index];
+            if (Object.hasOwnProperty.call(tmpSection, "season") && Object.hasOwnProperty.call(tmpSection, "year")) {
+                const season = tmpSection["season"];
+                const year = tmpSection["year"];
+                const quarter = `${season} ${year}`
+                if (!quarters.includes(quarter)) {
+                    quarters.push(quarter)
+                }
+            }
+        }
+        for (let index = 0; index < quarters.length; index++) {
+            const element = quarters[index];
+            quarterObjs.push({ "quarter": element });
+        }
+        let i, key, j;
+        for(i = 1; i < quarterObjs.length; i++) {
+            key = quarterObjs[i].quarter;
+            j = i -1;
+
+            while(j>=0 && compareQuarters(quarterObjs[j].quarter, key)) {
+                quarterObjs[j + 1].quarter = quarterObjs[j].quarter;
+                j = j -1;
+            }
+            quarterObjs[j + 1].quarter = key;
+        }
+
+        return quarterObjs;
+    }, [course.sections, compareQuarters]);
+
+    /**
      * Retrives the available sections for the current course and a given quarter 
      * @param {string} quarter quarter string used to search for sections
      */
     const getListOfSections = useCallback((quarter) => {
         let sections = [];
-        console.log(totalSectionList);
-        totalSectionList.forEach(element => {
-            const sectionQuarter = `${element.quarter} ${element.year}`
+
+
+        course.sections.forEach(element => {
+            const sectionQuarter = `${element.season} ${element.year}`
             if (sectionQuarter === quarter) {
                 sections.push(element)
             }
         });
         return sections;
-    }, [totalSectionList]);
+    }, [course.sections]);
 
+    /**
+     * Adds a formatted section key value pair to each section object. This new value is used
+     * for each entry in the section selection dropdown
+     */
+    const formatSectionList = useCallback(() => {
+        let formattedSections = [];
+
+        sectionList.forEach(element => {
+            element.formattedVersion = `${element.professor} ${element.letter}`;
+            formattedSections.push(element);
+        })
+        return formattedSections;
+    }, [sectionList])
 
 
     useEffect(() => {
-        if (course) {
-            setSelectedDepartment(course.department);
-            setSelectedDepartmentName(course.department);
-            setSelectedCourse(course);
-            setSelectedCourseName(course.name);
-        }
-        if (course.sections) {
-            fetchSectionsFromCourse();
-        }
-        // eslint-disable-next-line
-    }, [course]);
+        setQuarterList(getListOfQuarters());
+    }, [course, getListOfQuarters]);
 
     useEffect(() => {
-        if (selectedDepartment) {
-            fetchClassesOfDep(selectedDepartment);
+        if (selectedQuarter) {
+            setSectionList(getListOfSections(selectedQuarter));
+            updateSelectedQuarter(selectedQuarter);
+            if(section && selectedQuarter !== `${section.season} ${section.year}`) {
+                setSelectedSectionName("Select a Section ...");
+            }
         }
-        if (course && selectedDepartment && selectedDepartment !== course.department) {
-            setSelectedCourse(null);
-            setSelectedCourseName("Select a Course ...");
-            setSelectedQuarter(null);
-            setSelectedSectionName(null);
+    }, [selectedQuarter, section, getListOfSections]);
+
+    useEffect(() => {
+        if (!section) {
+            setSelectedSectionName("Select a section ...");
         } else {
-            setSelectedCourse(course);
-            setSelectedCourseName(course.name);
+            setSelectedSectionName(section.professor);
+            setSelectedQuarter(`${section.season} ${section.year}`);
+            setSelectedQuarterName(`${section.season} ${section.year}`);
+            setQuarterList(getListOfQuarters());
+            // setSectionList(getListOfSections(selectedQuarter));
         }
-    }, [selectedDepartment, course]);
+    }, [section, getListOfQuarters, getListOfSections]);
 
     useEffect(() => {
-        console.log(selectedQuarterName);
-        console.log(selectedQuarter);
-        if (selectedQuarterName && selectedQuarter) {
-            setSectionList(getListOfSections(selectedQuarterName));
-        }
-        // eslint-disable-next-line
-    }, [selectedQuarterName]);
+        formatSectionList();
+    }, [sectionList, formatSectionList]);
 
     useEffect(() => {
-        if(courseList) {
-            courseList.sort(compareCourses);
-        }
-    }, [courseList])
+        let departments = [];
+        dummyArticles.forEach(element => {
+            const department = element["department"];
+            if(!departments.includes(department)) {
+                departments.push(department);
+            }
+        });
+        let departmentsObjs = [];
+        departments.forEach(element => {
+            const obj = {"department": element};
+            departmentsObjs.push(obj);
+        })
+        setDepartmentList(departmentsObjs);
+    }, []);
 
-    useEffect(() => {
-        fetchDepartments();
-    }, [fetchDepartments]);
+    // if(!course) {
+    //     return (
+    //     <div id="article">
+    //         <img className="article-banner" src={banner} alt={course.name + " banner"}></img>
+    //         <div className="article-header">
+    //             <ul className="article-path">
+    //                 <PathItem name="Courses">
+    //                     <PathDropdownMenu
+    //                         list={[{ "type": "Courses" }, { "type": "Orgs" }]}
+    //                         type={"type"}
+    //                         updateSelection={updateSelectedArticleType}
+    //                         selectedItem={"Courses"} />
+    //                 </PathItem>
+    //                 <PathItem name={"Select a department ..."}>
+    //                     <PathDropdownMenu
+    //                         list={departmentList}
+    //                         type={"department"}
+    //                         updateSelection={updateSelectedDepartment}
+    //                         selectedItem={""} />
+    //                 </PathItem>
+    //             </ul>
+    //         </div>
+    //         <h3 className="article-body">Select a Course from the dropdown, search bar or navbar.</h3>
+    //     </div>
+    //     )
+    // }
 
-
+    //TODO: make the banner/header its own component
     return (
         <div id="article">
             <img className="article-banner" src={banner} alt={course.name + " banner"}></img>
@@ -320,27 +264,27 @@ function CourseArticle() {
                             updateSelection={updateSelectedArticleType}
                             selectedItem={"Courses"} />
                     </PathItem>
-                    <PathItem name={selectedDepartmentName}>
+                    <PathItem name={course.department}>
                         <PathDropdownMenu
                             list={departmentList}
-                            type={"name"}
+                            type={"department"}
                             updateSelection={updateSelectedDepartment}
-                            selectedItem={selectedDepartmentName} />
+                            selectedItem={course.department} />
                     </PathItem>
-                    <PathItem name={selectedCourseName}>
+                    <PathItem name={course.name}>
                         <PathDropdownMenu
-                            list={courseList}
+                            list={dummyArticles}
                             type={"name"}
                             updateSelection={updateSelectedCourse}
-                            selectedItem={selectedCourseName} />
+                            selectedItem={course.name} />
                     </PathItem>
-                    {selectedCourse && <PathItem name={selectedQuarterName}>
+                    <PathItem name={selectedQuarterName}>
                         <PathDropdownMenu
                             list={quarterList}
-                            type={"fullQuarter"}
+                            type={"quarter"}
                             updateSelection={updateSelectedQuarter}
                             selectedItem={selectedQuarterName} />
-                    </PathItem>}
+                    </PathItem>
                     {selectedQuarter &&
                         <PathItem name={selectedSectionName}>
                             <PathDropdownMenu
@@ -352,12 +296,12 @@ function CourseArticle() {
                     }
                 </ul>
             </div>
-            <CourseContent course={course} />
+            {props.children}
         </div>
     );
 }
 
-export default CourseArticle
+export default CourseArticle 
 
 
 export function BlankCourse() {
@@ -365,68 +309,38 @@ export function BlankCourse() {
     const [departmentList, setDepartmentList] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState()
     const [selectedDepartmentName, setSelectedDepartmentName] = useState("Select a department...")
-    const [courseList, setCourseList] = useState([]);
-
-    function fetchDepartments() {
-        fetch(`${rootBackendURL}/department/`)
-            .then(reponse => reponse.json())
-            .then(data => {
-                setDepartmentList(data.departments);
-            }).catch(error => {
-                console.error(error);
-            });
-    }
-
-    function fetchClassesOfDep(departmentName) {
-        fetch(`${rootBackendURL}/department/${departmentName}`)
-            .then(response => response.json())
-            .then(data => {
-                let courses = []
-                data.classes.forEach(class_id =>
-                    fetch(`${rootBackendURL}/class/${class_id}`)
-                        .then(response => response.json())
-                        .then(courseData => {
-                            courses.push(courseData)
-                        })
-                );
-                let j;
-                for (let i = 0; i < courses.length; i++) {
-                    const element = courses[i].name;
-
-                    while (j >= 0 && courses[j].name > element) {
-                        courses[j + 1] = courses[j];
-                        j = j - 1;
-                    }
-                    courses[j + 1] = element;
-                }
-                setCourseList(courses);
-            })
-    }
+    // /**
+    //  * Called when article type is changed
+    //  */
+    // function updateSelectedArticleType(element) {
+    //     if(element.type === "Orgs"){
+    //         window.location = `/orgs`
+    //     }
+    // }
 
     /**
      * Called when department is changed
      */
     function updateSelectedDepartment(element) {
-        setSelectedDepartment(element.name);
-        setSelectedDepartmentName(element.name);
+        setSelectedDepartment(element.department)
+        setSelectedDepartmentName(element.department)
     }
 
-    /**
-     * Called when a new course is selected. Current URL is updated accordingly 
-     * @param {*} element 
-     */
-    function updateSelectedCourse(element) {
-        window.location = `/courses/${element.department}/${element.name}`;
-    }
     useEffect(() => {
-        fetchDepartments();
+        let departments = [];
+        dummyArticles.forEach(element => {
+            const department = element["department"];
+            if(!departments.includes(department)) {
+                departments.push(department);
+            }
+        });
+        let departmentsObjs = [];
+        departments.forEach(element => {
+            const obj = {"department": element};
+            departmentsObjs.push(obj);
+        })
+        setDepartmentList(departmentsObjs);
     }, []);
-
-    useEffect(() => {
-        if (selectedDepartment) {
-            fetchClassesOfDep(selectedDepartment);
-        }
-    }, [selectedDepartment]);
 
     return (
         <div id="article">
@@ -443,13 +357,13 @@ export function BlankCourse() {
                     <PathItem name={selectedDepartmentName}>
                         <PathDropdownMenu
                             list={departmentList}
-                            type={"name"}
+                            type={"department"}
                             updateSelection={updateSelectedDepartment}
                             selectedItem={selectedDepartment} />
                     </PathItem>
                     {selectedDepartment && <PathItem name={"Select a course ..."}>
                         <PathDropdownMenu
-                            list={courseList}
+                            list={dummyArticles}
                             type={"name"}
                             updateSelection={updateSelectedCourse}
                             selectedItem={""} />

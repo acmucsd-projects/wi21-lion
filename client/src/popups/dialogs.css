@@ -17,7 +17,7 @@
 
 
 /* LOGIN DIALOG */
-#user-dialog * {
+#login-dialog * {
   margin-block-start: 0;
   margin-block-end: 0;
   font-family: 'montserrat', sans-serif;
@@ -25,7 +25,7 @@
 }
 
 
-#user-dialog {
+#login-dialog {
   width: 500px;
   height: 450px;
   background-color: white;
@@ -40,7 +40,7 @@
   top: 10%;
 }
 
-#user-dialog form {
+#login-dialog form {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -48,43 +48,42 @@
   flex-direction: column;
   padding: 10%;
   margin: 0;
-  width: 60%;
 }
 
-#user-dialog form::before {
+#login-dialog form::before {
   content: "";
   position: absolute;
   top: -5%;
   left: -5%;
   width: 150%;
   height: 150%;
-  background-color: #FFFC;
+  background-color: #FFFA;
   display: flex;
   flex-direction: column;
   z-index: -1;
   transform: rotate(-10deg);
 }
 
-#user-dialog p {
+#login-dialog p {
   color: #555;
   font-size: small;
 }
 
-#user-dialog input {
+#login-dialog input {
   padding: 5px;
   border: 1.5px solid #888;
   outline: none;  
   transition-duration: .2s;
 }
 
-#user-dialog input:hover {
+#login-dialog input:hover {
   border-color: var(--ucsd-yellow);
 }
-#user-dialog input:focus {
+#login-dialog input:focus {
   border-color: var(--ucsd-yellow);
 }
 
-#user-dialog button {
+#login-dialog button {
   position: absolute;
   background-color: var(--ucsd-yellow);
   border: none;
@@ -94,16 +93,16 @@
   transition-duration: .2s;
 }
 
-#user-dialog button:active {
+#login-dialog button:active {
   outline: none;
 }
 
-#user-dialog button:hover {
+#login-dialog button:hover {
   outline: none;
   background-color: #b89300;
 }
 
-#user-dialog form button {
+#login-dialog form button {
   bottom: 0;
   right: 0;
   border: none;
@@ -111,10 +110,8 @@
 }
 
 #hide-btn {
-  padding: 0px 15px;
-  padding-bottom: 5px;
+  padding: 15px;
   border-bottom-right-radius: 10px;
-  font-size: xx-large;
 }
 
 #hide-btn {
@@ -123,26 +120,12 @@
 }
 
 
-#user-dialog label {
-  font-size: 11px;
-}
-
-#user-dialog #forgot-password {
-  position: static;
-  background-color: transparent;
-  font-size: 11px;
-  color: blue;
-  font-weight: 500;
-  padding: 0;
-  padding-left: 5px;
-  text-align: left;
-}
 
 
 
 
 /* DELETE DIALOG */
-#input-dialog {
+#delete-dialog {
   background-color: white;
   width: min-content;
   z-index: 9999;
@@ -155,7 +138,7 @@
   box-shadow: 0 0 20px -10px #000;
 }
 
-#input-dialog::before {
+#delete-dialog::before {
   content: "";
   position: absolute;
   top: 0;
@@ -166,31 +149,31 @@
   z-index: 1;
 }
 
-#input-dialog * {
+#delete-dialog * {
   font-family: 'montserrat', sans-serif;
   margin: 5px;
 }
 
-#input-dialog h2, p {
+#delete-dialog h2, p {
   margin-block-start: 0;
   margin-block-end: 0;
 }
 
-#input-dialog h2 {
+#delete-dialog h2 {
   font-size: larger;
 }
 
-#input-dialog p {
+#delete-dialog p {
   font-size: small;
   color: #555;
 }
 
-#input-dialog form {
+#delete-dialog form {
   margin: auto;
   margin-left: 20px;
 }
 
-#input-dialog button {
+#delete-dialog button {
   border-radius: 20px;
   padding: 8px 30px;
   outline: none;
@@ -198,30 +181,20 @@
   transition-duration: .2s;
 }
 
-#input-dialog button:nth-of-type(1) {
+#delete-dialog button:nth-of-type(1) {
   background-color: var(--ucsd-yellow);
 }
-#input-dialog button:nth-of-type(1):hover {
+#delete-dialog button:nth-of-type(1):hover {
   background-color: #d6ac00;
   border-color: #d6ac00;
 }
-#input-dialog button:nth-of-type(2) {
+#delete-dialog button:nth-of-type(2) {
   background-color: transparent;
 }
-#input-dialog button:nth-of-type(2):hover {
+#delete-dialog button:nth-of-type(2):hover {
   border-color: #d6ac00;
 }
 
-#input-dialog form div {
+#delete-dialog form div {
   display: flex;
-}
-
-#input-dialog input {
-  padding: 5px;
-  margin: 5px;
-}
-
-#error-text {
-  color: red;
-  font-size: 11px;
 }

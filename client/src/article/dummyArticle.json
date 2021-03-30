@@ -136,10 +136,5 @@
                 ]
             }
         ]
-    },
-    {
-        "department":"ECE",
-        "name": "ECE45",
-        "sections": []
     }
 ]
