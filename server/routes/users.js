@@ -19,6 +19,7 @@ router.post('/register', async function(req, res, next) {
   } else {
     try {
       const user_entry = new User(user);
+      await user_entry.hashPassword();
       await user_entry.save();
       return res.status(200).json({ user : user_entry });
     } catch(err) {
@@ -70,6 +71,7 @@ router.patch('/changePassword', userAuth.authenticateUser, async function(req, r
     const { new_password } = req.body;
     const user = await User.findOne({email : user_email});
     user.password = new_password;
+    await user.hashPassword();
     user.save()
     return res.status(200).json({message : "Password successfully changed."});
   } catch (err) {
