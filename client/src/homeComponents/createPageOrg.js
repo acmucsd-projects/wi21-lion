@@ -101,7 +101,7 @@ function createPageOrg(){
                     <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
                         <label className="spacing yellow">
                             Org Type
-                            <select className="textbox" id="typeInput">
+                            <select className="textbox" id="typeInput" required>
                                 <option>Club Sport</option>
                                 <option>NCAA Sport</option>
                                 <option>Academic Org</option>
@@ -110,7 +110,7 @@ function createPageOrg(){
                         </label>
 
                         <label id="largetextbox" class="spacing yellow">Org Name</label>
-                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
 
                         <label className="spacing yellow">Content</label>
                         <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>

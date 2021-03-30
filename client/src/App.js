@@ -17,6 +17,7 @@ import './App.css';
 import UserProfile from './userProfile/UserProfile';
 // import { LoginDialog } from './popups/dialogs';
 import SectionArticle from './article/SectionArticle';
+import { UserContextProvider } from './contexts/UserContext';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <div>
+      <UserContextProvider>
       <Router>
         <TopBar />
         <div className="main-container">
@@ -52,8 +54,9 @@ function App() {
               </Route>
             </Switch>
           </div>
-        </div>
-      </Router>
+          </div>
+        </Router>
+      </UserContextProvider>
     </div>
   );
 }

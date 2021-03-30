@@ -14,6 +14,7 @@ const { EnrolledSection } = require('../models/EnrolledSection');
  */
 router.post('/:section_id', userAuth.authenticateUser, async function(req, res, next){
     try {
+        console.log("POST request");
         const { user_email } = req;
         const user = await User.findOne({email : user_email});
         const newEnrolledSection = new EnrolledSection({section_id : req.params.section_id});
