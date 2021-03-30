@@ -26,7 +26,7 @@
 
 /* main navbar wrapper */
 #navbar ul {
-  z-index: 999;
+  z-index: 99;
   list-style: none;
   margin: 0;
   padding: 0;
