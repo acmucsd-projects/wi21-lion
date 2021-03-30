@@ -4,7 +4,7 @@ import LinksPanel from './LinksPanel';
 
 
 function OrgContent(props) {
-    const { org } = props;
+    const { org, fetchOrgData } = props;
     const [displayEditOrg, setDisplayEditOrg] = useState(false);
 
     function showEditOrg() {
@@ -24,7 +24,7 @@ function OrgContent(props) {
     return (
         <div>
             <div className="section-content-header article-body">
-                <h1 className="article-body">{org.name}</h1>
+                <h1>{org.name}</h1>
                 <button className="edit-button" onClick={showEditOrg}>
                     <span>Edit</span>
                 </button>
@@ -37,7 +37,7 @@ function OrgContent(props) {
             {displayEditOrg &&
                 <div className="edit-backdrop" onClick={handleClickOff}>
                     <div className="edit-section-wrapper">
-                        <EditOrg org={org} closeOrgEdit={hideEditOrg}/>
+                        <EditOrg org={org} closeOrgEdit={hideEditOrg} fetchOrgData={fetchOrgData}/>
                     </div>
                 </div>}
         </div>

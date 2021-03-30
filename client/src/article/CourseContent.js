@@ -3,7 +3,7 @@ import { EditCourse } from "./EditArticle";
 
 function CourseContent(props) {
 
-    const { course } = props;
+    const { course, fetchCourseData } = props;
     const [displayEditCourse, setDisplayEditCourse] = useState(false);
 
     function showEditCourse() {
@@ -19,6 +19,9 @@ function CourseContent(props) {
             hideEditCourse();
         }
     }
+
+    // const context = useContext(UserContext);
+    // console.log(context);
 
 
     return (
@@ -37,7 +40,7 @@ function CourseContent(props) {
             </div>
             {displayEditCourse && <div className="edit-backdrop" onClick={handleClickOff}>
                 <div className="edit-section-wrapper" >
-                <EditCourse course={course} closeCourseEdit={hideEditCourse}/>
+                <EditCourse course={course} closeCourseEdit={hideEditCourse} fetchCourseData={fetchCourseData} />
             </div>
             </div>}
         </div>

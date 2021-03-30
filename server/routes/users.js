@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const userAuth = require('../middleware/userAuth');
 const { EnrolledSection } = require('../models/EnrolledSection');
+const { log } = require('debug');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -36,6 +37,8 @@ router.post('/login', async function(req, res, next) {
     if(!user){
       return res.status(401).json({ error : "Wrong email provided."});
     } else {
+      console.log(email);
+      console.log(password);
       if (await user.validatePassword(password)){
         const jwt_token = jwt.sign({email : email}, config.authentication.JWT_SECRET, {expiresIn : '2hr'});
         return res.status(200).json({ user : user, email : email, token : jwt_token})

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as Add2Calendar from "add2calendar"
 import 'add2calendar/css/add2calendar.css'
 
@@ -7,6 +7,7 @@ import LinksPanel from './LinksPanel';
 import './Article.css';
 import { EnrollDialog } from '../popups/dialogs';
 import { EditSection } from './EditArticle';
+import { UserContext } from '../contexts/UserContext';
 
 
 function getLectureDays(lecture_times) {
@@ -252,12 +253,10 @@ const TimeSchedule = () => {
  * @param {*} props 
  */
 function SectionContent(props) {
-    const { section, course } = props;
+    const { section, course, fetchSectionData } = props;
     const [displayEnrollDialog, setDisplayEnrollDialog] = useState(false);
     const [displayEditSection, setDisplayEditSection] = useState(false);
-    const [user, setUser] = useState(
-        localStorage.getItem('currentSession')
-    )
+    const context = useContext(UserContext);
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -283,13 +282,15 @@ function SectionContent(props) {
 
 
     useEffect(() => {
-        let user = JSON.parse(localStorage.getItem('currentSession'));
-        if (user) {
-            // let JWTtoken = user.token;
-            // console.log(JWTtoken);
-            setUser(user);
-        }
-    }, [])
+        // let user = JSON.parse(localStorage.getItem('currentSession'));
+        // if (user) {
+        //     // let JWTtoken = user.token;
+        //     // console.log(JWTtoken);
+        //     setUser(user);
+        // }
+        // console.log(context);
+    }, [context])
+
 
     return (
         <div>
@@ -312,7 +313,7 @@ function SectionContent(props) {
                         </p>
                     </div>
                     <div>
-                        {user && <button className="enroll-button" onClick={showEnrollDialog}>
+                        {<button className="enroll-button" onClick={showEnrollDialog}>
                             <span>Enroll</span>
                         </button>}
                         <LinksPanel section={section} />
@@ -327,7 +328,7 @@ function SectionContent(props) {
             {displayEditSection &&
                 <div className="edit-backdrop" onClick={handleClickOff}>
                     <div className="edit-section-wrapper">
-                        <EditSection course={course} section={section} closeSectionEdit={hideEditSection} />
+                        <EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData}/>
                     </div>
                 </div>}
         </div>

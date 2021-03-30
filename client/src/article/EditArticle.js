@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../contexts/UserContext';
 
 const rootBackendURL = "http://localhost:5000"
 
-export const EditSection = ({ course, section, closeSectionEdit }) => {
+export const EditSection = ({ course, section, closeSectionEdit, fetchSectionData }) => {
 
     const [sectionIdVal, setSectionIdVal] = useState(section.section_id);
     const [instructorVal, setInstructorVal] = useState(section.professor);
@@ -227,6 +228,7 @@ export const EditSection = ({ course, section, closeSectionEdit }) => {
                                                 }).then(response => response.json())
                                                     .then(() => {
                                                         closeSectionEdit();
+                                                        fetchSectionData();
                                                     })
                                                     .catch(error => {
                                                         alert("Error with updating section");
@@ -337,7 +339,7 @@ export const EditSection = ({ course, section, closeSectionEdit }) => {
     )
 }
 
-export const EditCourse = ({ course, closeCourseEdit }) => {
+export const EditCourse = ({ course, closeCourseEdit, fetchCourseData }) => {
 
     const [courseNameVal, setCourseNameVal] = useState(course.name);
     const [descriptionVal, setDescriptionVal] = useState(course.description);
@@ -399,6 +401,7 @@ export const EditCourse = ({ course, closeCourseEdit }) => {
                                 }).then(response => response.json())
                                     .then(() => {
                                         closeCourseEdit();
+                                        fetchCourseData();
                                     })
                                     .catch(error => {
                                         alert("Error with updating section");
@@ -455,20 +458,27 @@ export const EditCourse = ({ course, closeCourseEdit }) => {
     )
 }
 
-export const EditOrg = ({ org, closeOrgEdit }) => {
+export const EditOrg = ({ org, closeOrgEdit, fetchOrgData }) => {
     const [orgNameVal, setOrgNameVal] = useState(org.name);
+    const [websiteVal, setWebsiteVal] = useState(org.website);
     const [descriptionVal, setDescriptionVal] = useState(org.description);
     const [previewImgSrc, setPreviewImgSrc] = useState(org.picture);
 
-    let user = JSON.parse(localStorage.getItem('currentSession'));
-    let JWTtoken = user.token;
-    if (!JWTtoken) {
-        alert("not logged in");
-        return;
-    }
+    const { user } = useContext(UserContext);
+
+    // let user = JSON.parse(localStorage.getItem('currentSession'));
+    // let JWTtoken = user.token;
+    // if (!JWTtoken) {
+        // alert("not logged in");
+        // return;
+    // }
 
     const updateOrgNameVal = event => {
         setOrgNameVal(event.target.value);
+    }
+
+    const updateWebsiteVal = event => {
+        setWebsiteVal(event.target.value);
     }
 
     const updateDescriptionVal = event => {
@@ -492,7 +502,13 @@ export const EditOrg = ({ org, closeOrgEdit }) => {
         }
     }
 
-    const saveCourse = () => {
+    const saveOrg = () => {
+        if(!user.token) {
+            alert("Please Login before making changes");
+            closeOrgEdit();
+            return;
+        }
+            console.log(previewImgSrc);
         fetch(`${rootBackendURL}/organization`)
             .then(repsonse => repsonse.json())
             .then(data => {
@@ -501,17 +517,19 @@ export const EditOrg = ({ org, closeOrgEdit }) => {
                         fetch(`${rootBackendURL}/organization/${tmpOrg._id}`, {
                             method: "PATCH",
                             headers: {
-                                'auth_token': JWTtoken,
+                                'auth_token': user.token,
                                 'content-type': 'application/json'
                             },
                             body: JSON.stringify({
                                 name: orgNameVal,
                                 description: descriptionVal,
-                                image: previewImgSrc
+                                website: websiteVal,
+                                picture: previewImgSrc
                             })
                         }).then(response => response.json())
                             .then(() => {
                                 closeOrgEdit();
+                                fetchOrgData();
                             })
                             .catch(error => {
                                 alert("Error with updating section");
@@ -543,8 +561,11 @@ export const EditOrg = ({ org, closeOrgEdit }) => {
             <div id="formDiv" class="spacing">
                 <form style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
 
-                    <label id="largetextbox" class="spacing">Course Name</label>
+                    <label id="largetextbox" class="spacing">Org Name</label>
                     <input id="titleInput" class="textbox" value={orgNameVal} onInput={updateOrgNameVal} style={{ type: "text" }}></input>
+
+                    <label id="largetextbox" class="spacing">Website</label>
+                    <input id="titleInput" class="textbox" value={websiteVal} onInput={updateWebsiteVal} style={{ type: "text" }}></input>
 
                     <label class="spacing">Description</label>
                     <textarea id="contentInput" class="textbox" value={descriptionVal} onInput={updateDescriptionVal} style={{ height: "200px", resize: "none" }} />
@@ -558,7 +579,7 @@ export const EditOrg = ({ org, closeOrgEdit }) => {
                     {/* <button class="saveforlater-button" style={{ backgroundColor: "#42F3E9", margin: "0px 20px", color: "#FFFFFF", border: "none", borderRadius: "10px" }}>
                         Save For Later
                     </button> */}
-                    <button class="publish-button" onClick={saveCourse} style={{ backgroundColor: "#00F16F", color: "#FFFFFF", border: "none", borderRadius: "10px" }}>
+                    <button class="publish-button" onClick={saveOrg} style={{ backgroundColor: "#00F16F", color: "#FFFFFF", border: "none", borderRadius: "10px" }}>
                         Save
                     </button>
                 </div>
