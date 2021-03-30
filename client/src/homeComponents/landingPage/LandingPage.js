@@ -12,8 +12,6 @@ const LandingPage = () => {
     function showLoginDialog() { setShowLoginDialog(true); }
     function showSignupDialog() { setShowSignupDialog(true); }
     return (
-        <div style={{position: 'relative'}}>
-            <div className="landing-wrapper"></div>
         <div className="landing-container">
             <h1>UCSD</h1>
             <h2>Wiki</h2>
@@ -32,7 +30,6 @@ const LandingPage = () => {
                 {loginDialogShown && <LoginDialog show={showLoginDialog} hide={hideLoginDialog} />}
                 {signupDialogShown && <SignupDialog show={showSignupDialog} hide={hideSignupDialog} />}
             </div>
-        </div>
         </div>
     )
 }
