@@ -7,10 +7,15 @@ function createPageOrg(){
         let typeInput; 
         let contentInput;
         let coverImageInput;
-        let headerImageInput;
         let websiteInput;
         let discordInput;
-        let reader = new FileReader();
+
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
 
         if(document.getElementById("titleInput").value == null){
             titleInput = " ";
@@ -33,18 +38,11 @@ function createPageOrg(){
             contentInput = document.getElementById("contentInput");    
         }
 
-        if(reader.readAsDataURL(document.getElementById("coverImageInput")) == null){
+        if(!document.getElementById("coverImageInput").files){
             coverImageInput = " ";
         }
         else{
-            coverImageInput = reader.readAsDataURL(document.getElementById("coverImageInput"));    
-        }
-
-        if(document.getElementById("headerImageInput").value == null){
-            headerImageInput = " ";
-        }
-        else{
-            headerImageInput = document.getElementById("headerImageInput");    
+            coverImageInput = toBase64(document.getElementById("coverImageInput").files[0]);    
         }
 
         if(document.getElementById("websiteInput").value == null){
@@ -70,8 +68,7 @@ function createPageOrg(){
             Date: new Date().getTime()/1000,
             Department: typeInput.value,
             Description: contentInput.value,
-            // CoverImage: coverImageInput.value,
-            // HeaderImage: headerImageInput.value,
+            CoverImage: coverImageInput.value,
             Website: websiteInput.value,
             Discord: discordInput.value,
         }
@@ -119,7 +116,7 @@ function createPageOrg(){
                         <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
 
                         <label class="spacing yellow">Cover Photo</label>
-                        <input id="coverImageInput" type="file" id="myFile" name="filename" className="yellow"></input>
+                        <input id="coverImageInput" type="file" name="filename" className="yellow"></input>
 
                         <label id="largetextbox" class="spacing yellow">Website</label>
                         <input id="websiteInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
@@ -127,9 +124,6 @@ function createPageOrg(){
                         <label id="largetextbox" class="spacing yellow">Discord</label>
                         <input id="discordInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
-                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "20px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
-                        
                     </form>
 
                     <div className="spacing" style={{float: "right", marginTop: "3%"}}>

@@ -9,70 +9,59 @@ function createPageClass(){
         let typeInput; 
         let contentInput;
         let coverImageInput;
-        // let headerImageInput;
         let linksInput;
 
-        if(document.getElementById("titleInput").value == null){
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+
+        if(document.getElementById("titleInput").value === null){
             titleInput = " ";
         }
         else{
             titleInput = document.getElementById("titleInput");    
         }
         
-        if(document.getElementById("typeInput").value == null){
+        if(document.getElementById("typeInput").value === null){
             typeInput = " ";
         }
         else{
             typeInput = document.getElementById("typeInput");    
         }
 
-        if(document.getElementById("contentInput").value == null){
+        if(document.getElementById("contentInput").value === null){
             contentInput = " ";
         }
         else{
             contentInput = document.getElementById("contentInput");    
         }
 
-        // if(document.getElementById("coverImageInput").length == 0){
-        //     coverImageInput = " ";
-        // }
-        // else{
-            coverImageInput = document.getElementById("coverImageInput");    
-        // }
+        if(!document.getElementById("coverImageInput").files){
+            coverImageInput = " ";
+        }
+        else{
+            coverImageInput = toBase64(document.getElementById("coverImageInput").files[0]);    
+        }
 
-        // if(document.getElementById("headerImageInput") == 0){
-        //     headerImageInput = " ";
-        // }
-        // else{
-        //     headerImageInput = document.getElementById("headerImageInput")[0];   
-        // }
-
-        if(document.getElementById("linksInput").value == null){
+        if(document.getElementById("linksInput").value === null){
             linksInput = " ";
         }
         else{
             linksInput = document.getElementById("linksInput");    
         }
 
-        // let titleInput = document.getElementById("titleInput");
-        // let typeInput = document.getElementById("typeInput"); 
-        // let contentInput = document.getElementById("contentInput");
-        // let coverImageInput = document.getElementById("coverImageInput");
-        // let headerImageInput = document.getElementById("headerImageInput");
-        // let linksInput = document.getElementById("linksInput");
         let user = JSON.parse(localStorage.getItem('currentSession'));
         let JWTtoken = user.token;
-
-        // console.log(titleInput.value);
-        // console.log(contentInput.toSource());
 
         let postBody = {
             Name: titleInput.value,
             Date: new Date().getTime()/1000,
             Department: typeInput.value,
             Description: contentInput.value,
-            // CoverImage: coverImageInput.value,
-            // HeaderImage: headerImageInput.value,
+            CoverImage: coverImageInput,
             Links: linksInput.value,
         }
 
@@ -119,14 +108,11 @@ function createPageClass(){
                         <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
 
                         <label class="spacing yellow">Cover Photo</label>
-                        <input id="coverImageInput" className="yellow" type="file" id="myFile" name="filename"></input>
+                        <input id="coverImageInput" className="yellow" type="file" name="filename"></input>
 
 
                         <label className="spacing yellow">Additional Links</label>
                         <input id="linksInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
-
-                        {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
-                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "20px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
                         
                     </form>
 

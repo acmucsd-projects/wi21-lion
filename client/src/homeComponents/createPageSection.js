@@ -160,9 +160,6 @@ function createPageSection(){
 
                         <label id="largetextbox" className="spacing yellow" style={{zIndex: "5"}}>Discord</label>
                         <input id="discordInput" className="textbox yellow" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
-
-                        {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
-                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "20px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
                         
                     </form>
 
