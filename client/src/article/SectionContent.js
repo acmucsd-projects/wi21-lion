@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as Add2Calendar from "add2calendar"
 import 'add2calendar/css/add2calendar.css'
 
@@ -6,6 +6,8 @@ import LinksPanel from './LinksPanel';
 
 import './Article.css';
 import { EnrollDialog } from '../popups/dialogs';
+import { EditSection } from './EditArticle';
+import { UserContext } from '../contexts/UserContext';
 
 
 function getLectureDays(lecture_times) {
@@ -102,14 +104,26 @@ const AddToCalendarDialog = ({ pos, course, section, day }) => {
     // get next day of the week
     let nextDate = new Date();
     nextDate.setDate(nextDate.getDate() + (day + 7 - nextDate.getDay()) % 7);
-    var months = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
+    var months = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
     const startTime = section.lecture_times.split(" ")[1].split("-")[0];
     const endTime = section.lecture_times.split(" ")[1].split("-")[1];
+    let startTimeString = "";
+    if (startTime.length === 7) {
+        startTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 5)} ${startTime.substring(5, 8)}`;
+    } else {
+        startTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 4)} ${startTime.substring(4, 7)}`;
+    }
+    let endTimeString = "";
+    if (endTime.length === 7) {
+        endTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 5)} ${endTime.substring(5, 8)}`;
+    } else {
+        endTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 4)} ${endTime.substring(4, 7)}`;
+    }
     var singleEventArgs = {
         title: `${course.name} Lecture`,
-        start: `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 4)} ${startTime.substring(4, 7)}`,
-        end: `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 4)} ${endTime.substring(4, 7)}`,
+        start: startTimeString,
+        end: endTimeString,
         location: 'UCSD',
         description: `${course.name} - ${section.quarter} ${section.year} - ${section.professor}`,
         isAllDay: false,
@@ -193,7 +207,7 @@ const SectionScheduleDay = (props) => {
                 <div></div>
             </div>
             <div onClick={toggleAddToCalendar}>
-                {displayAddToCalendar && <AddToCalendarDialog pos={pos.top} course={course} section={section} day={day}/>}
+                {displayAddToCalendar && <AddToCalendarDialog pos={pos.top} course={course} section={section} day={day} />}
             </div>
         </div>
     );
@@ -239,11 +253,10 @@ const TimeSchedule = () => {
  * @param {*} props 
  */
 function SectionContent(props) {
-    const { section, course } = props;
+    const { section, course, fetchSectionData } = props;
     const [displayEnrollDialog, setDisplayEnrollDialog] = useState(false);
-    const [user, setUser] = useState(
-        localStorage.getItem('currentSession')
-    )
+    const [displayEditSection, setDisplayEditSection] = useState(false);
+    const context = useContext(UserContext);
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -253,20 +266,37 @@ function SectionContent(props) {
         setDisplayEnrollDialog(false);
     }
 
-    useEffect(() => {
-        let user = JSON.parse(localStorage.getItem('currentSession'));
-        if (user) {
-            // let JWTtoken = user.token;
-            // console.log(JWTtoken);
-            setUser(user);
+    function showEditSection() {
+        setDisplayEditSection(true);
+    }
+
+    function hideEditSection() {
+        setDisplayEditSection(false);
+    }
+
+    function handleClickOff(event) {
+        if (event.target.className === "edit-backdrop") {
+            setDisplayEditSection(false);
         }
-    }, [])
+    }
+
+
+    useEffect(() => {
+        // let user = JSON.parse(localStorage.getItem('currentSession'));
+        // if (user) {
+        //     // let JWTtoken = user.token;
+        //     // console.log(JWTtoken);
+        //     setUser(user);
+        // }
+        // console.log(context);
+    }, [context])
+
 
     return (
         <div>
             <div className="section-content-header article-body">
                 <h1>{course.name}: {section.professor}</h1>
-                <button className="edit-button">
+                <button className="edit-button" onClick={showEditSection}>
                     <span>Edit</span>
                 </button>
             </div>
@@ -283,7 +313,7 @@ function SectionContent(props) {
                         </p>
                     </div>
                     <div>
-                        {user && <button className="enroll-button" onClick={showEnrollDialog}>
+                        {<button className="enroll-button" onClick={showEnrollDialog}>
                             <span>Enroll</span>
                         </button>}
                         <LinksPanel section={section} />
@@ -295,6 +325,12 @@ function SectionContent(props) {
             <div className="enroll-dialog-wrapper">
                 {displayEnrollDialog && <EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} />}
             </div>
+            {displayEditSection &&
+                <div className="edit-backdrop" onClick={handleClickOff}>
+                    <div className="edit-section-wrapper">
+                        <EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData}/>
+                    </div>
+                </div>}
         </div>
     );
 }

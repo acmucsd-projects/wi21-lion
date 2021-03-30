@@ -76,7 +76,7 @@ function OrgArticle() {
                     </PathItem>
                 </ul>
             </div>
-            <OrgContent org={org} />
+            <OrgContent org={org} fetchOrgData={fetchOrgList}/>
         </div>
     );
 }

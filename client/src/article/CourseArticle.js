@@ -352,7 +352,7 @@ function CourseArticle() {
                     }
                 </ul>
             </div>
-            <CourseContent course={course} />
+            <CourseContent course={course} fetchCourseData={() => fetchDepartments()}/>
         </div>
     );
 }
