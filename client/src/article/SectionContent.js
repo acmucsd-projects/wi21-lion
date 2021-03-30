@@ -8,6 +8,7 @@ import LinksPanel from './LinksPanel';
 
 import './Article.css';
 import { EnrollDialog } from '../popups/dialogs';
+import { EditSection } from './EditArticle';
 
 const localizer = momentLocalizer(moment)
 
@@ -19,6 +20,7 @@ const localizer = momentLocalizer(moment)
 function SectionContent(props) {
     const { section, course } = props;
     const [displayEnrollDialog, setDisplayEnrollDialog] = useState(false);
+    const [displayEditSection, setDisplayEditSection] = useState(false);
     const [user, setUser] = useState(
         localStorage.getItem('currentSession')
     )
@@ -40,6 +42,21 @@ function SectionContent(props) {
         setDisplayEnrollDialog(false);
     }
 
+    function showEditSection() {
+        setDisplayEditSection(true);
+    }
+
+    function hideEditSection() {
+        setDisplayEditSection(false);
+    }
+
+    function handleClickOff(event) {
+        if (event.target.className === "edit-backdrop") {
+            setDisplayEditSection(false);
+        }
+    }
+
+
     useEffect(() => {
         let user = JSON.parse(localStorage.getItem('currentSession'));
         if (user) {
@@ -53,7 +70,7 @@ function SectionContent(props) {
         <div>
             <div className="section-content-header article-body">
                 <h1>{course.name}: {section.professor}</h1>
-                <button className="edit-button">
+                <button className="edit-button" onClick={showEditSection}>
                     <span>Edit</span>
                 </button>
             </div>
@@ -91,6 +108,12 @@ function SectionContent(props) {
             <div className="enroll-dialog-wrapper">
                 {displayEnrollDialog && <EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} />}
             </div>
+            {displayEditSection &&
+                <div className="edit-backdrop" onClick={handleClickOff}>
+                    <div className="edit-section-wrapper">
+                        <EditSection course={course} section={section} closeSectionEdit={hideEditSection} />
+                    </div>
+                </div>}
         </div>
     );
 }
