@@ -363,30 +363,3 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
   }
 }
 
-export function EnrollDialog({ show, hide, section}) {
-
-  function onSubmit() {
-    alert("Enrolled in this section")
-    // Enroll functionality 
-    hide();
-  }
-
-  if(show) {
-    return (
-      <div className="backdrop">
-        <div id="input-dialog">
-          <form>
-            <h2>Are you sure you want to enroll in this section?</h2>
-            <p>Section: {section.professor} - {section.quarter} {section.year}</p>
-            <div>
-              <button onClick={hide}>cancel</button>
-              <button onClick={onSubmit}>confirm</button>
-            </div>
-          </form>
-        </div>
-      </div> 
-    )
-  } else {
-    return null;
-  }
-}

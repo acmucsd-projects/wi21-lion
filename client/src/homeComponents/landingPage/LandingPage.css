@@ -1,15 +1,14 @@
 .landing-container {
 	text-align: center;
 	font-family: 'Montserrat';
-	margin: 5% 0 0 0;
 }
 
-.landing-container h2 {
-	/* padding: 0 0 5% 0; */
+.landing-container h1 {
+	padding: 0 0 5% 0;
 }
 
 .landing-container h1,h2 {
-	font-size: 2.5rem;
+	font-size: 2rem;
 }
 
 .landing-icon-container {
@@ -35,13 +34,11 @@
 	padding: 10px;
 	border-radius: 5px;
 	border: 2px solid #3771CD;
-	max-width: 200px;
 }
 
 .landing-icon-container a:hover {
 	cursor: pointer;
-	/* color: #3771CD; */
-	background-color: var(--ucsd-yellow);
+	color: #3771CD;
 }
 
 .landing-svg {
