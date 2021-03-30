@@ -136,7 +136,7 @@ export default function UserProfile() {
       setEnrolledSections(enrolledSections);
     }
     fetchData();
-  }, [])
+  }, [user.email, user.token])
 
   return (
     <div id="user-profile">
