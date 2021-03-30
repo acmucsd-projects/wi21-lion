@@ -31,7 +31,6 @@
   width: 100%;
   border-bottom: 2px solid #DDD;
   padding: 10px;
-  cursor: pointer;
 }
 /* 
 #content > nav > ul > li:hover {
@@ -42,79 +41,3 @@
   border-bottom: 2px solid #006A96;
 }
 
-
-
-#links {
-  list-style: none;
-  display: flex;
-}
-
-#links li {
-  margin-right: 10px;
-}
-
-#class-item {
-  display: grid;
-  grid-template-areas: 
-    "box1 box1 box2"
-    "links links box2";
-  border-bottom: gray solid 1px;
-  padding: 20px;
-  position: relative;
-}
-
-#class-item div:nth-child(1) {
-  grid-area: box1;
-}
-
-#class-item div:nth-child(2) {
-  grid-area: box2;
-}
-
-#class-item ul:nth-child(3) {
-  grid-area: links;
-}
-
-#class-item h2 {
-  color: #006A96;
-  font-family: Monserrat, sans-serif;
-}
-
-#dots {
-  position: absolute;
-  top: 20px;
-  right: 0;
-  border-radius: 50px;  
-  height: 30px;
-  width: 30px;
-  padding: 5px;
-  transition-duration: .15s;
-}
-
-#dots:hover {
-  background-color: #BBB;
-}
-
-#lecture-days {
-  font-weight: bold;
-}
-
-#profile-info ul {
-  list-style: none;
-  padding: 20px;
-}
-
-#section-item-panel {
-  transition-duration: .2s;
-  transition-timing-function: ease-in-out;
-  overflow: hidden;
-  width: auto;
-  height: 30px; 
-}
-
-#section-item-panel.active {
- transform: scale(100%);
-}
-#section-item-panel.hidden {
-  transform: scale(0%);
-}
