@@ -42,7 +42,7 @@ function OrgArticle() {
                         setOrg(tmpOrg);
                     }
                 });
-                setOrgList(data.organizations);
+                console.log(data.organizations)
             })
             .catch(error => {
                 console.error(error);
@@ -52,7 +52,7 @@ function OrgArticle() {
     useEffect(() => {
         fetchOrgList();
         // eslint-disable-next-line
-    }, [])
+    }, [params])
 
     return (
         <div id="article">
