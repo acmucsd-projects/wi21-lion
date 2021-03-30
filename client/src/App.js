@@ -1,5 +1,7 @@
 import createPageOrg from './homeComponents/createPageOrg';
 import createPageClass from './homeComponents/createPageClass';
+import createPageSection from './homeComponents/createPageSection';
+import successPage from './homeComponents/successPage';
 import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
@@ -30,7 +32,9 @@ function App() {
             <Switch>
               <Route exact path='/' component={home} />
               <Route exact path='/createPageClass' component={createPageClass} />
+              <Route exact path='/createPageSection' component={createPageSection} />
               <Route exact path='/createPageOrg' component={createPageOrg} />
+              <Route exact path='/successPage' component={successPage} />
               <Route exact path='/userProfile' component={UserProfile} />
               <Route exact path='/courses' component={BlankCourse} />
               <Route exact
