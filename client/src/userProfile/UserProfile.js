@@ -11,10 +11,6 @@ const getProfileUrl = `${server}/users/profile`;
 const getSectionUrl = `${server}/section`;
 const getClassUrl = `${server}/class`;
 const getEnrolledSectionUrl = `${server}/enrolled_section`;
-const testSectionIds = [
-  '605d767af10976c7b32fd0bb',
-  '605d76e2f10976c7b32fd0bc'
-]
 
 const ProfileAPI = {
   getProfile: async function(email, token) {
@@ -111,32 +107,35 @@ export default function UserProfile() {
 
   }, [activeTab]);
 
-  useEffect(async () => {
-    let profileData = await ProfileAPI.getProfile(user.email, user.token);
-    setProfileData(profileData.user);
-    let enrolledSections = [];
-    // for await (let enrolledSectionId of testSectionIds) {
-    //   let enrolledSectionData = await ProfileAPI.getSection(enrolledSectionId, user.token);
-    //   let sectionData = await ProfileAPI.getSection(enrolledSectionData.section_id, user.token);
-    //   let classData = await ProfileAPI.getClass(sectionData.class_id, user.token);
-    //   enrolledSections.push({
-    //     ...enrolledSectionData,
-    //     ...sectionData,
-    //     ...classData
-    //   })
-    // }
-    // console.log('enrolled sections:',enrolledSections);
-    
-
-    let classesTest = testClasses;
-    let sectionsTest = testSections;
-    let enrolledSectionsTest = testEnrolledSections;
-
-    enrolledSections = enrolledSectionsTest.map((enrolledSection, index) => (
-      {...enrolledSection, ...classesTest[index], ...sectionsTest[index] }
-    ));
-    console.log(enrolledSections)
-    setEnrolledSections(enrolledSections);
+  useEffect(() => {
+    async function fetchData() {
+      let profileData = await ProfileAPI.getProfile(user.email, user.token);
+      setProfileData(profileData.user);
+      let enrolledSections = [];
+      // for await (let enrolledSectionId of testSectionIds) {
+      //   let enrolledSectionData = await ProfileAPI.getSection(enrolledSectionId, user.token);
+      //   let sectionData = await ProfileAPI.getSection(enrolledSectionData.section_id, user.token);
+      //   let classData = await ProfileAPI.getClass(sectionData.class_id, user.token);
+      //   enrolledSections.push({
+      //     ...enrolledSectionData,
+      //     ...sectionData,
+      //     ...classData
+      //   })
+      // }
+      // console.log('enrolled sections:',enrolledSections);
+      
+  
+      let classesTest = testClasses;
+      let sectionsTest = testSections;
+      let enrolledSectionsTest = testEnrolledSections;
+  
+      enrolledSections = enrolledSectionsTest.map((enrolledSection, index) => (
+        {...enrolledSection, ...classesTest[index], ...sectionsTest[index] }
+      ));
+      console.log(enrolledSections)
+      setEnrolledSections(enrolledSections);
+    }
+    fetchData();
   }, [])
 
   return (
