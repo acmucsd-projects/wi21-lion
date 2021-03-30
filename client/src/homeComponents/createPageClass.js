@@ -8,7 +8,7 @@ function createPageClass(){
         let titleInput;
         let typeInput; 
         let contentInput;
-        // let coverImageInput;
+        let coverImageInput;
         // let headerImageInput;
         let linksInput;
 
