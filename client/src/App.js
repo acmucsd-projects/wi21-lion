@@ -43,6 +43,7 @@ function App() {
             course.sections.map((section) => (
               <Route exact
                 path={`/courses/${course.department}/${course.name}/${section.season}${section.year}/${section.letter}`}
+                key={course.name}
                 children={<CourseArticle section={section} course={course} >
                   <SectionContent section={section} course={course} />
                 </CourseArticle>}>
@@ -53,6 +54,7 @@ function App() {
           {dummyOrgs.map((org) => (
             <Route exact 
               path={`/orgs/${org.name}`}
+              key={org.name}
               children={<OrgArticle org={org}>
                 <OrgContent org={org} />
               </OrgArticle>}>
