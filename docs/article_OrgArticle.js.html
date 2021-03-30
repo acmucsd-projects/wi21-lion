@@ -26,7 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
 
 import './Article.css';
 
@@ -34,50 +34,25 @@ import banner from './icons/ded 1.jpg';
 import PathItem from './PathItem';
 import PathDropdownMenu from './PathDropdownMenu';
 
-import dummyOrgs from './dummyOrgs.json';
+import OrgContent from './OrgContent';
+import { useParams } from 'react-router';
 
+const rootBackendURL = "http://localhost:5000"
 /**
  * General organization article template.
  *  
  * @param {*} props 
  */
-function OrgArticle(props) {
+function OrgArticle() {
 
-    const { org } = props;
-    // const [orgList, setOrgList] = useState([]);
-
-    if(!org) {
-        return (
-            &lt;div id="article">
-            &lt;img className="article-banner" src={banner} alt={"org banner"}>&lt;/img>
-            &lt;div className="article-header">
-                &lt;ul className="article-path">
-                    &lt;PathItem name="Orgs">
-                        &lt;PathDropdownMenu
-                            list={[{ "type": "Courses" }, { "type": "Orgs" }]}
-                            type={"type"}
-                            updateSelection={updateSelectedArticleType}
-                            selectedItem={"Orgs"} />
-                    &lt;/PathItem>
-                    &lt;PathItem name={"Select an Org"}>
-                        &lt;PathDropdownMenu
-                            list={dummyOrgs}
-                            type={"name"}
-                            updateSelection={updateSelectedOrg}
-                            selectedItem={""}
-                        />
-                    &lt;/PathItem>
-                &lt;/ul>
-            &lt;/div>
-            &lt;h3 className="article-body">Select an Organization from the dropdown, search bar or navbar.&lt;/h3>
-            &lt;/div>
-        )
-    }
+    const [org, setOrg] = useState({});
+    const [orgList, setOrgList] = useState([]);
+    const params = useParams();
 
     function updateSelectedArticleType(element) {
-        if(element.type === "Orgs"){
+        if (element.type === "Orgs") {
             window.location = `/orgs`
-        } else if(element.type === "Courses") {
+        } else if (element.type === "Courses") {
             window.location = `/courses`
         }
     }
@@ -85,6 +60,27 @@ function OrgArticle(props) {
     function updateSelectedOrg(element) {
         window.location = `/orgs/${element.name}`
     }
+
+    function fetchOrgList() {
+        fetch(`${rootBackendURL}/organization/`)
+            .then(response => response.json())
+            .then(data => {
+                data.organizations.forEach(tmpOrg => {
+                    if (tmpOrg.name === params.orgName) {
+                        setOrg(tmpOrg);
+                    }
+                });
+                setOrgList(data.organizations);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }
+
+    useEffect(() => {
+        fetchOrgList();
+        // eslint-disable-next-line
+    }, [])
 
     return (
         &lt;div id="article">
@@ -100,7 +96,7 @@ function OrgArticle(props) {
                     &lt;/PathItem>
                     &lt;PathItem name={org.name}>
                         &lt;PathDropdownMenu
-                            list={dummyOrgs}
+                            list={orgList}
                             type={"name"}
                             updateSelection={updateSelectedOrg}
                             selectedItem={org.name}
@@ -108,13 +104,72 @@ function OrgArticle(props) {
                     &lt;/PathItem>
                 &lt;/ul>
             &lt;/div>
-            {props.children}
+            &lt;OrgContent org={org} />
         &lt;/div>
     );
 }
 
-export default OrgArticle 
-</code></pre>
+export default OrgArticle
+
+
+export const BlankOrg = () => {
+
+    const [orgList, setOrgList] = useState([]);
+
+    function updateSelectedArticleType(element) {
+        if (element.type === "Orgs") {
+            window.location = `/orgs`
+        } else if (element.type === "Courses") {
+            window.location = `/courses`
+        }
+    }
+
+    function updateSelectedOrg(element) {
+        window.location = `/orgs/${element.name}`
+    }
+
+    function fetchOrgList() {
+        fetch(`${rootBackendURL}/organization/`)
+            .then(response => response.json())
+            .then(data => {
+                setOrgList(data.organizations);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }
+
+    useEffect(() => {
+        fetchOrgList();
+    }, [])
+
+    return (
+        &lt;div id="article">
+            &lt;img className="article-banner" src={banner} alt={"org banner"}>&lt;/img>
+            &lt;div className="article-header">
+                &lt;ul className="article-path">
+                    &lt;PathItem name="Orgs">
+                        &lt;PathDropdownMenu
+                            list={[{ "type": "Courses" }, { "type": "Orgs" }]}
+                            type={"type"}
+                            updateSelection={updateSelectedArticleType}
+                            selectedItem={"Orgs"} />
+                    &lt;/PathItem>
+                    &lt;PathItem name={"Select an Org..."}>
+                        &lt;PathDropdownMenu
+                            list={orgList}
+                            type={"name"}
+                            updateSelection={updateSelectedOrg}
+                            selectedItem={""}
+                        />
+                    &lt;/PathItem>
+                &lt;/ul>
+            &lt;/div>
+            &lt;h3 className="article-body">Select an Organization from the dropdown, search bar or navbar.&lt;/h3>
+        &lt;/div>
+    )
+
+}</code></pre>
         </article>
     </section>
 
@@ -124,13 +179,13 @@ export default OrgArticle
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CourseArticle">CourseArticle</a></li><li><a href="global.html#LinkEntry">LinkEntry</a></li><li><a href="global.html#LinksPanel">LinksPanel</a></li><li><a href="global.html#OrgArticle">OrgArticle</a></li><li><a href="global.html#PathItem">PathItem</a></li><li><a href="global.html#querySearch">querySearch</a></li><li><a href="global.html#SectionContent">SectionContent</a></li><li><a href="global.html#updateSelectedArticleType">updateSelectedArticleType</a></li><li><a href="global.html#updateSelectedCourse">updateSelectedCourse</a></li><li><a href="global.html#useOutsideAlerter">useOutsideAlerter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CourseArticle">CourseArticle</a></li><li><a href="global.html#LinkEntry">LinkEntry</a></li><li><a href="global.html#LinksPanel">LinksPanel</a></li><li><a href="global.html#OrgArticle">OrgArticle</a></li><li><a href="global.html#PathItem">PathItem</a></li><li><a href="global.html#querySearch">querySearch</a></li><li><a href="global.html#SectionArticle">SectionArticle</a></li><li><a href="global.html#SectionContent">SectionContent</a></li><li><a href="global.html#updateSelectedArticleType">updateSelectedArticleType</a></li><li><a href="global.html#useOutsideAlerter">useOutsideAlerter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Tue Mar 30 2021 07:24:57 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Tue Mar 30 2021 07:36:53 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

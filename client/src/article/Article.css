@@ -1,5 +1,5 @@
 :root {
-    --article-margin: 0%;
+    --article-margin: 5%;
 }
 
 #article {
@@ -8,10 +8,10 @@
 
 .article-banner {
     object-fit: cover;
-    /* width: calc(100% - var(--article-margin)*2); */
+    width: 100%;
     max-width: 100%;
     height: 200px;
-    /* filter: blur(2px); */
+    filter: blur(0.5px);
     /* margin: 0 var(--article-margin) 0 var(--article-margin); */
 }
 
@@ -153,24 +153,35 @@
     top: 0;
 }
 
+.section-content-header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+	align-content: stretch;
+}
+
 .enroll-button {
-    transition: all 500ms;
+    transition: all 300ms;
     display: inline-block;
     background-color: var(--ucsd-yellow);
     color: #000000;
     text-align: center;
     cursor: pointer;
-    padding: 3%;
-    margin: 2%;
+    padding: 1rem;
+    margin: 1rem;
     border-radius: 10px;
     border: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .enroll-button span {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    transition: 0.5s;
+    transition: all 300ms;
 }
 
 .enroll-button span:after {
@@ -180,7 +191,7 @@
     opacity: 0;
     top: 0;
     right: -20px;
-    transition: 0.5s;
+    transition: all 300ms;
 }
 
 .enroll-button:hover {
@@ -195,6 +206,46 @@
 .enroll-button:hover span:after {
     opacity: 1;
     right: 0;
+}
+
+.enroll-button:focus {
+    outline: none;
+}
+
+.edit-button {
+    transition: all 200ms;
+    display: inline-block;
+    background-color: var(--ucsd-yellow);
+    color: #000000;
+    text-align: center;
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 10px;
+    border: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.edit-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.edit-button:hover {
+    background-color: #3771CD;
+    color: #FFFFFF;
+}
+
+.edit-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.edit-button:focus {
+    outline: none;
 }
 
 #section-info {
@@ -215,16 +266,62 @@
     font-weight: normal;
 }
 
+.schedule-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+    max-height: 500px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px gray;
+}
+
 .section-description {
-    margin: 0 2% 0 2%;
+    /* margin: 2% % 2% 2%; */
+    padding: 2%;
     word-wrap: break-word;
 }
 
 .section-schedule {
-    margin: 0 2% 0 2%;
-    padding: 2% 0 0 0;
-
+    margin: 0 5% 0 0;
+    padding: 2% 0 2% 0;
 }
+
+.schedule-wrapper {
+    position: relative;
+}
+
+.schedule-wrapper div {
+    width: 110px;
+    height: 50px;
+    border: solid gray;
+    border-width: 1px 1px 0 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.schedule-wrapper .schedule-event {
+    position: absolute;
+    background-color: rgb(255, 200, 132);
+    /* border-radius: 10px; */
+    width: 110px;
+    z-index: 400;
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+
+/* .schedule-box {
+    width: 110px;
+    height: 50px;
+    border: solid black;
+    border-width: 0.5px 0.5px 0 0;
+} */
 
 .section-calendar {
     background-color: #f7f7f7;
@@ -235,6 +332,16 @@
 
 .article-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+}
+
+.article-inner-body {
+    margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
 }
 
 
@@ -249,8 +356,18 @@
     border-radius: 5px;
 }
 
+.course-img {
+    max-width: 40%;
+    height: auto;
+}
+
+.course-img:scale, .org-img:scale {
+    object-fit: scale-down;
+}
+
 .org-img {
-    width: 100%;
+    min-width: 20%;
+    width: 50%;
     padding: 2%;
 }
 
@@ -262,15 +379,21 @@
 #section-content {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
     min-width: fit-content;
+    background-color: #b6b6b69a;
+    padding: 2% 5% 0 2%;
+    border-radius: 5px;
+}
+
+#top-section-content {
+    /* margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin)); */
+    min-width: fit-content;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: flex-start;
     align-content: stretch;
-    background-color: #b6b6b69a;
     padding: 2% 5% 0 2%;
-    border-radius: 5px;
 }
 
 #links-container {
@@ -279,7 +402,7 @@
     border-color: #3771CD;
     background-color: #C4C4C4;
     border-style: solid;
-    min-width: 200px; 
+    min-width: 200px;
     height: 100%;
     overflow-x: hidden;
     /* height: 100%; */
@@ -303,7 +426,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
     align-content: center;
     font-weight: bold;
@@ -319,9 +442,8 @@
 #link-container:hover {
     cursor: pointer;
     background-color: #aaaaaa;
-    color: #3771CD;
+    /* color: #3771CD; */
 }
-
 
 #link-container:before {
     content: "";
@@ -420,17 +542,39 @@
     border-radius: 5px;
     padding: 1rem;
     overflow: hidden;
-    z-index: 12;
+    z-index: 100;
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.section-dropdown::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+.section-dropdown :first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+.section-dropdown :last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+.section-dropdown :only-child {
+    border-radius: 5px 5px 5px 5px;
 }
 
 .section-item {
     height: 50px;
     display: flex;
     align-items: center;
-    border-radius: 5px;
     transition: background 200ms;
     padding: 0.5rem;
     background-color: #C4C4C4;
+    z-index: 900;
 }
 
 .section-item:hover {
@@ -440,4 +584,43 @@
 
 .selected-dropdown-item {
     background-color: var(--ucsd-yellow);
+}
+
+.enroll-dialog-wrapper {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+
+.edit-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.3);
+  padding: 50;
+}
+
+.edit-section-wrapper {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+    margin: 10% 25% 0 25%;
+    width: 50%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2% 0 2% 0;
+    max-height: 60%;
+    overflow-y: scroll;
+}
+
+.add-to-calendar-dialog {
+    position: absolute;
+    z-index: 500;
+    background-color: lightblue;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
 }
