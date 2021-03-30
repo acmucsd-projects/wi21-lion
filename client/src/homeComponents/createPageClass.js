@@ -5,68 +5,141 @@ function createPageClass(){
 
     
     function handleSubmit(){
-        let titleInput = document.getElementById("titleInput");
-        let contentInput = document.getElementById("contentInput");
-        // let imagesInput = document.getElementById("imagesInput");
-        console.log(titleInput.value);
-        console.log(contentInput.toSource());
+        let titleInput;
+        let typeInput; 
+        let contentInput;
+        let coverImageInput;
+        let headerImageInput;
+        let linksInput;
+
+        if(document.getElementById("titleInput").value == null){
+            titleInput = " ";
+        }
+        else{
+            titleInput = document.getElementById("titleInput");    
+        }
+        
+        if(document.getElementById("typeInput").value == null){
+            typeInput = " ";
+        }
+        else{
+            typeInput = document.getElementById("typeInput");    
+        }
+
+        if(document.getElementById("contentInput").value == null){
+            contentInput = " ";
+        }
+        else{
+            contentInput = document.getElementById("contentInput");    
+        }
+
+        // if(document.getElementById("coverImageInput").length == 0){
+        //     coverImageInput = " ";
+        // }
+        // else{
+            coverImageInput = document.getElementById("coverImageInput");    
+        // }
+
+        // if(document.getElementById("headerImageInput") == 0){
+        //     headerImageInput = " ";
+        // }
+        // else{
+        //     headerImageInput = document.getElementById("headerImageInput")[0];   
+        // }
+
+        if(document.getElementById("linksInput").value == null){
+            linksInput = " ";
+        }
+        else{
+            linksInput = document.getElementById("linksInput");    
+        }
+
+        // let titleInput = document.getElementById("titleInput");
+        // let typeInput = document.getElementById("typeInput"); 
+        // let contentInput = document.getElementById("contentInput");
+        // let coverImageInput = document.getElementById("coverImageInput");
+        // let headerImageInput = document.getElementById("headerImageInput");
+        // let linksInput = document.getElementById("linksInput");
+        let user = JSON.parse(localStorage.getItem('currentSession'));
+        let JWTtoken = user.token;
+
+        // console.log(titleInput.value);
+        // console.log(contentInput.toSource());
 
         let postBody = {
             Name: titleInput.value,
-            Date: new Date.getTime()/1000,
-            Description: contentInput.value
+            Date: new Date().getTime()/1000,
+            Department: typeInput.value,
+            Description: contentInput.value,
+            // CoverImage: coverImageInput.value,
+            // HeaderImage: headerImageInput.value,
+            Links: linksInput.value,
         }
 
         fetch("/class/:dep", {
             method: 'POST', 
-            //headers: {
-           //     'Content-Type': 'application/json'
-            //},
+            headers: {
+                'auth_token': JWTtoken
+            },
             body: JSON.stringify(postBody) 
-        }).then(response => {console.log(response)});
+        }).then(response => {window.location.assign("/successPage")});
     }
 
     return(
         
-        <div className="spacing" className="fullPage">
-            <div id="buttonsDiv"  style={{backgroundColor: "A6E5FF"}}>
-                <button style={{backgroundColor: "transparent", border: "none"}}>
-                    Back<i className='fas fa-arrow-left'></i>
-                </button>
-                <button className="previewpage-button">
-                    Preview Page
-                </button>
-            </div>
-            <div id="formDiv" className="spacing">
-                <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
-                    <label className="spacing">
-                        Department
-                        <select className="textbox">
-                            <option>Class</option>
-                            <option>Club Sport</option>
-                            <option>NCAA Sport</option>
-                            <option>Academic Org</option>
-                            <option>Social Org</option>
-                        </select>
-                    </label>
+        <div className="spacing" style={{backgroundImage: "url(https://ucsandiegobookstore.com/Images/06BookstorePerksWallpapers.png)", backgroundRepeat: "no-repeat", backgroundPosition: "center"}}>
+            <div className="fullPage">
+                <div id="buttonsDiv">
+                    <a href="/">
+                        <button style={{backgroundColor: "transparent", border: "none"}}>
+                            Back<i className='fas fa-arrow-left'></i>
+                        </button>
+                    </a>
 
-                    <label id="largetextbox" class="spacing">Title</label>
-                    <input id="titleInput" class="textbox" style={{type: "text"}}></input>
-
-                    <label className="spacing">Content</label>
-                    <textarea id="contentInput" class="textbox" style={{height: "392px"}}/>
-
-                    <label className="spacing">Images</label>
-                    <textarea placeholder="" id="imagesInput" class="textbox" style={{height: "156px"}}/>
-                </form>
-
-                <div className="spacing" style={{float: "right"}}>
-                    <button className="saveforlater-button">
-                        Save For Later
+                    <a href="/createPageSection">
+                    <button className="createsection-button">
+                        Create Section
                     </button>
-                    <button className="publish-button" onClick={handleSubmit}>
-                        Publish
+                    </a>
+
+                    <button className="previewpage-button">
+                        Preview Page
                     </button>
+                </div>
+
+                <div id="formDiv" className="spacing">
+                    <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
+                        <label className="spacing" style={{zIndex: "5"}}>Department</label>
+                        <input id="typeInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+
+                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Course Name</label>
+                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+
+                        <label className="spacing" style={{zIndex: "5"}}>Content</label>
+                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
+
+                        <label class="spacing" style={{zIndex: "5"}}>Cover Photo</label>
+                        <input id="coverImageInput" type="file" id="myFile" name="filename" style={{zIndex: "5"}}></input>
+
+                        <label class="spacing" style={{zIndex: "5"}}>Header Photo</label>
+                        <input id="headerImageInput" type="file" id="myFile" name="filename" style={{zIndex: "5"}}></input>
+
+                        <label className="spacing" style={{zIndex: "5"}}>Additional Links</label>
+                        <input id="linksInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+
+                        {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
+                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "20px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
+                        
+                    </form>
+
+                    <div className="spacing" style={{float: "right"}}>
+                        <button className="saveforlater-button">
+                            Save For Later
+                        </button>
+                        <button className="publish-button" onClick={handleSubmit}>
+                            Publish
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
