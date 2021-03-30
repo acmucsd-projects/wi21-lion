@@ -11,10 +11,6 @@ const getProfileUrl = `${server}/users/profile`;
 const getSectionUrl = `${server}/section`;
 const getClassUrl = `${server}/class`;
 const getEnrolledSectionUrl = `${server}/enrolled_section`;
-const testSectionIds = [
-  '605d767af10976c7b32fd0bb',
-  '605d76e2f10976c7b32fd0bc'
-]
 
 const ProfileAPI = {
   getProfile: async function(email, token) {
@@ -79,7 +75,9 @@ const ProfileAPI = {
     .catch(error => {
       console.log(error) 
     })
-    console.log(response);  }
+    console.log(response); 
+    return response; 
+  }
 }
 
  
@@ -95,7 +93,6 @@ export default function UserProfile() {
 
   const tabs = [
     <ClassList sections={enrolledSections}/>,
-    <PageList />,
     <Settings />,
   ]
 
@@ -111,32 +108,42 @@ export default function UserProfile() {
 
   }, [activeTab]);
 
-  useEffect(async () => {
-    let profileData = await ProfileAPI.getProfile(user.email, user.token);
-    setProfileData(profileData.user);
-    let enrolledSections = [];
-    // for await (let enrolledSectionId of testSectionIds) {
-    //   let enrolledSectionData = await ProfileAPI.getSection(enrolledSectionId, user.token);
-    //   let sectionData = await ProfileAPI.getSection(enrolledSectionData.section_id, user.token);
-    //   let classData = await ProfileAPI.getClass(sectionData.class_id, user.token);
-    //   enrolledSections.push({
-    //     ...enrolledSectionData,
-    //     ...sectionData,
-    //     ...classData
-    //   })
-    // }
-    // console.log('enrolled sections:',enrolledSections);
-    
-
-    let classesTest = testClasses;
-    let sectionsTest = testSections;
-    let enrolledSectionsTest = testEnrolledSections;
-
-    enrolledSections = enrolledSectionsTest.map((enrolledSection, index) => (
-      {...enrolledSection, ...classesTest[index], ...sectionsTest[index] }
-    ));
-    console.log(enrolledSections)
-    setEnrolledSections(enrolledSections);
+  useEffect(() => {
+    async function fetchData() {
+      let profileData = await ProfileAPI.getProfile(user.email, user.token);
+      setProfileData(profileData.user);
+      let enrolledSections = [];
+      let profileSections = profileData.user.enrolled_sections;
+      for await (let enrolledSectionId of profileSections) {
+        let enrolledSectionData = await ProfileAPI.getEnrolledSection(enrolledSectionId, user.token);
+        console.log('ENROLLED SECTION DATA', enrolledSectionData);
+        if (!enrolledSectionData) {
+          setEnrolledSections(null);
+          return;
+        }
+        let sectionData = await ProfileAPI.getSection(enrolledSectionData.section_id, user.token);
+        console.log('SECTION DATA', sectionData);
+        let classData = await ProfileAPI.getClass(sectionData.class_id, user.token);
+        enrolledSections.push({
+          ...enrolledSectionData,
+          ...sectionData,
+          ...classData
+        })
+      }
+      console.log('enrolled sections:',enrolledSections);
+      
+  
+      let classesTest = testClasses;
+      let sectionsTest = testSections;
+      let enrolledSectionsTest = testEnrolledSections;
+  
+      enrolledSections = enrolledSectionsTest.map((enrolledSection, index) => (
+        {...enrolledSection, ...classesTest[index], ...sectionsTest[index] }
+      ));
+      console.log(enrolledSections)
+      setEnrolledSections(enrolledSections);
+    }
+    fetchData();
   }, [])
 
   return (
@@ -150,12 +157,8 @@ export default function UserProfile() {
               onClick={() => setActiveTab(0)}>classes</li>
             <li 
               className="profile-nav-item item1" 
-              key="pages" 
-              onClick={() => setActiveTab(1)}>pages</li>
-            <li 
-              className="profile-nav-item item2" 
               key="settings" 
-              onClick={() => setActiveTab(2)}>settings</li>
+              onClick={() => setActiveTab(1)}>settings</li>
           </ul>
           <section>
             { 
@@ -185,7 +188,6 @@ function ClassList({ sections }) {
 
     function SectionItemPanel({ section, unenroll, sectionItemPanelShown }) {
       let className = sectionItemPanelShown ? 'active' : 'hidden';
-      console.log(className)
       function handleUnenrollment() {
         unenroll(section.id); // this should be the id of the enrolled object
       }
@@ -265,15 +267,20 @@ function ClassList({ sections }) {
     )
   }
 
-  return (
-    <ul>
-      { 
-        sections.map(section => {
-          return <ClassItem section={section}/>
-        }) 
-      }
-    </ul>
-  )
+  if (sections) {
+    return (
+      <ul>
+        { 
+          sections.map(section => {
+            return <ClassItem section={section}/>
+          }) 
+        }
+      </ul>
+    )
+  } else {
+    return <p>you are not enrolled in any classes</p>
+  }
+  
 }
 
 function PageList() {

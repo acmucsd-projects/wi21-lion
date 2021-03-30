@@ -57,6 +57,7 @@ const userAPI = {
     .catch(error => {
       console.log(error);
     });
+    console.log(response);
     if ('error' in response) {
       return { response: false, msg: response.error };
     } else {
@@ -69,7 +70,7 @@ const userAPI = {
       new_password: password
     }
     // format and make get request for user key
-    let response = await fetch(resetPasswordUrl, {
+    let response = await fetch(`${resetPasswordUrl}/${email}`, {
       method: "PATCH",
       credentials: 'same-origin',
       headers: {
@@ -363,3 +364,31 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
   }
 }
 
+
+export function EnrollDialog({ show, hide, section}) {
+
+  function onSubmit() {
+    alert("Enrolled in this section")
+    // Enroll functionality 
+    hide();
+  }
+
+  if(show) {
+    return (
+      <div className="backdrop">
+        <div id="input-dialog">
+          <form>
+            <h2>Are you sure you want to enroll in this section?</h2>
+            <p>Section: {section.professor} - {section.quarter} {section.year}</p>
+            <div>
+              <button onClick={hide}>cancel</button>
+              <button onClick={onSubmit}>confirm</button>
+            </div>
+          </form>
+        </div>
+      </div> 
+    )
+  } else {
+    return null;
+  }
+}

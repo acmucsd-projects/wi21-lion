@@ -48,9 +48,9 @@ router.post('/login', async function(req, res, next) {
   }
 });
 
-router.get('/profile', userAuth.authenticateUser, async function(req, res, next) {
+router.get('/profile/:user_email', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    const { user_email } = req;
+    const { user_email } = req.params;
     const user = await User.findOne({email : user_email});
     if(!user){
       return res.status(400).json({error : "User does not exist"});
@@ -64,10 +64,13 @@ router.get('/profile', userAuth.authenticateUser, async function(req, res, next)
 });
 
 
-router.patch('/changePassword', userAuth.authenticateUser, async function(req, res, next) {
+router.patch('/changePassword/:user_email', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    const { user_email } = req;
+    console.log('F')
+    const { user_email } = req.params;
     const { new_password } = req.body;
+    console.log(req.body);
+    console.log('new pword', new_password)
     const user = await User.findOne({email : user_email});
     user.password = new_password;
     user.save()
