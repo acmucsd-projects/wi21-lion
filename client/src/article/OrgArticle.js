@@ -18,7 +18,7 @@ const rootBackendURL = "http://localhost:5000"
 function OrgArticle() {
 
     const [org, setOrg] = useState({});
-    const [orgList, setOrgList] = useState([]);
+    const [orgList] = useState([]);
     const params = useParams();
 
     function updateSelectedArticleType(element) {
