@@ -70,7 +70,7 @@
     text-decoration: none;
     color: black;
     transition: all 200ms;
-    z-index: 0;
+    z-index: 100;
 }
 
 .path-item a {
@@ -153,24 +153,35 @@
     top: 0;
 }
 
+.section-content-header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+	align-content: stretch;
+}
+
 .enroll-button {
-    transition: all 500ms;
+    transition: all 300ms;
     display: inline-block;
     background-color: var(--ucsd-yellow);
     color: #000000;
     text-align: center;
     cursor: pointer;
-    padding: 3%;
-    margin: 2%;
+    padding: 1rem;
+    margin: 1rem;
     border-radius: 10px;
     border: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .enroll-button span {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    transition: 0.5s;
+    transition: all 300ms;
 }
 
 .enroll-button span:after {
@@ -180,7 +191,7 @@
     opacity: 0;
     top: 0;
     right: -20px;
-    transition: 0.5s;
+    transition: all 300ms;
 }
 
 .enroll-button:hover {
@@ -195,6 +206,46 @@
 .enroll-button:hover span:after {
     opacity: 1;
     right: 0;
+}
+
+.enroll-button:focus {
+    outline: none;
+}
+
+.edit-button {
+    transition: all 200ms;
+    display: inline-block;
+    background-color: var(--ucsd-yellow);
+    color: #000000;
+    text-align: center;
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 10px;
+    border: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.edit-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.edit-button:hover {
+    background-color: #3771CD;
+    color: #FFFFFF;
+}
+
+.edit-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.edit-button:focus {
+    outline: none;
 }
 
 #section-info {
@@ -216,14 +267,14 @@
 }
 
 .section-description {
-    margin: 0 2% 0 2%;
+    /* margin: 2% % 2% 2%; */
+    padding: 2%;
     word-wrap: break-word;
 }
 
 .section-schedule {
     margin: 0 2% 0 2%;
     padding: 2% 0 0 0;
-
 }
 
 .section-calendar {
@@ -235,6 +286,16 @@
 
 .article-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+}
+
+.article-inner-body {
+    margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
 }
 
 
@@ -249,8 +310,17 @@
     border-radius: 5px;
 }
 
+.course-img {
+    max-width: 40%;
+    height: auto;
+}
+
+.course-img:scale, .org-img:scale {
+    object-fit: scale-down;
+}
+
 .org-img {
-    width: 100%;
+    width: 50%;
     padding: 2%;
 }
 
@@ -319,7 +389,7 @@
 #link-container:hover {
     cursor: pointer;
     background-color: #aaaaaa;
-    color: #3771CD;
+    /* color: #3771CD; */
 }
 
 
@@ -420,17 +490,39 @@
     border-radius: 5px;
     padding: 1rem;
     overflow: hidden;
-    z-index: 12;
+    z-index: 100;
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.section-dropdown::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+.section-dropdown :first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+.section-dropdown :last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+.section-dropdown :only-child {
+    border-radius: 5px 5px 5px 5px;
 }
 
 .section-item {
     height: 50px;
     display: flex;
     align-items: center;
-    border-radius: 5px;
     transition: background 200ms;
     padding: 0.5rem;
     background-color: #C4C4C4;
+    z-index: 900;
 }
 
 .section-item:hover {
@@ -440,4 +532,10 @@
 
 .selected-dropdown-item {
     background-color: var(--ucsd-yellow);
+}
+
+.enroll-dialog-wrapper {
+    position: absolute;
+    top: 0;
+    z-index: 999;
 }
