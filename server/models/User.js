@@ -29,7 +29,7 @@ const UserSchema = new Schema({
 
 
 UserSchema.methods.hashPassword = async function() {
-    this.password = await bcrypt.hash(this.password, bcrypt.genSalt());
+    this.password = await bcrypt.hash(this.password, await bcrypt.genSalt());
 }
 
 UserSchema.methods.validatePassword = async function(password) {
