@@ -61,17 +61,9 @@ function createPageOrg(){
             discordInput = document.getElementById("discordInput");    
         }
 
-        // let titleInput = document.getElementById("titleInput");
-        // let typeInput = document.getElementById("typeInput"); 
-        // let contentInput = document.getElementById("contentInput");
-        // let coverImageInput = document.getElementById("coverImageInput");
-        // let headerImageInput = document.getElementById("headerImageInput");
-        // let linksInput = document.getElementById("linksInput");
         let user = JSON.parse(localStorage.getItem('currentSession'));
         let JWTtoken = user.token;
 
-        // console.log(titleInput.value);
-        // console.log(contentInput.toSource());
 
         let postBody = {
             Name: titleInput.value,
