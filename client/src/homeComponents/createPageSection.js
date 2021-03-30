@@ -85,24 +85,6 @@ function createPageSection(){
         }).then(response => {window.location.assign("/successPage")});
     }
 
-    function handleSave() {
-        let titleInput; 
-        let contentInput;
-        let profInput;
-        let qyInput;
-        let sectionInput;
-        let websiteInput;
-        let discordInput;
-
-        if(document.getElementById("titleInput").value == null){
-            localStorage.setItem('titleInput', " ");
-        }
-        else{
-            localStorage.setItem('titleInput', 'document.getElementById("titleInput").value');    
-        }
-        
-    }
-
     return(
         
         <div className="spacing" style={{backgroundImage: "url(https://ucsandiegobookstore.com/Images/06BookstorePerksWallpapers.png)", backgroundRepeat: "no-repeat", backgroundPosition: "center"}}>

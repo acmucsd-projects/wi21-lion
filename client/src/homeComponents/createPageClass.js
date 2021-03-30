@@ -8,8 +8,8 @@ function createPageClass(){
         let titleInput;
         let typeInput; 
         let contentInput;
-        let coverImageInput;
-        let headerImageInput;
+        // let coverImageInput;
+        // let headerImageInput;
         let linksInput;
 
         if(document.getElementById("titleInput").value == null){
