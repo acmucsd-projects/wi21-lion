@@ -110,7 +110,7 @@ function createPageOrg(){
     
                 <div id="formDiv" className="spacing">
                     <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
-                        <label className="spacing" style={{zIndex: "5"}}>
+                        <label className="spacing yellow">
                             Org Type
                             <select className="textbox" id="typeInput">
                                 <option>Club Sport</option>
@@ -120,22 +120,19 @@ function createPageOrg(){
                             </select>
                         </label>
 
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Org Name</label>
+                        <label id="largetextbox" class="spacing yellow">Org Name</label>
                         <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label className="spacing" style={{zIndex: "5"}}>Content</label>
+                        <label className="spacing yellow">Content</label>
                         <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
 
-                        <label class="spacing" style={{zIndex: "5"}}>Cover Photo</label>
-                        <input id="coverImageInput" type="file" id="myFile" name="filename" style={{zIndex: "5"}}></input>
+                        <label class="spacing yellow">Cover Photo</label>
+                        <input id="coverImageInput" type="file" id="myFile" name="filename" className="yellow"></input>
 
-                        <label class="spacing" style={{zIndex: "5"}}>Header Photo</label>
-                        <input id="headerImageInput" type="file" id="myFile" name="filename" style={{zIndex: "5"}}></input>
-
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Website</label>
+                        <label id="largetextbox" class="spacing yellow">Website</label>
                         <input id="websiteInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Discord</label>
+                        <label id="largetextbox" class="spacing yellow">Discord</label>
                         <input id="discordInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
                         {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
@@ -143,10 +140,7 @@ function createPageOrg(){
                         
                     </form>
 
-                    <div className="spacing" style={{float: "right"}}>
-                        <button className="saveforlater-button">
-                            Save For Later
-                        </button>
+                    <div className="spacing" style={{float: "right", marginTop: "3%"}}>
                         <button className="publish-button" onClick={handleSubmit}>
                             Publish
                         </button>

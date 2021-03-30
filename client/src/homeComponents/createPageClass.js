@@ -109,22 +109,20 @@ function createPageClass(){
 
                 <div id="formDiv" className="spacing">
                     <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
-                        <label className="spacing" style={{zIndex: "5"}}>Department</label>
-                        <input id="typeInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        <label className="spacing yellow">Department</label>
+                        <input id="typeInput" className="textbox " style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Course Name</label>
-                        <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        <label id="largetextbox" className="spacing yellow">Course Name</label>
+                        <input id="titleInput" className="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label className="spacing" style={{zIndex: "5"}}>Content</label>
+                        <label className="spacing yellow">Content</label>
                         <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
 
-                        <label class="spacing" style={{zIndex: "5"}}>Cover Photo</label>
-                        <input id="coverImageInput" type="file" id="myFile" name="filename" style={{zIndex: "5"}}></input>
+                        <label class="spacing yellow">Cover Photo</label>
+                        <input id="coverImageInput" className="yellow" type="file" id="myFile" name="filename"></input>
 
-                        <label class="spacing" style={{zIndex: "5"}}>Header Photo</label>
-                        <input id="headerImageInput" type="file" id="myFile" name="filename" style={{zIndex: "5"}}></input>
 
-                        <label className="spacing" style={{zIndex: "5"}}>Additional Links</label>
+                        <label className="spacing yellow">Additional Links</label>
                         <input id="linksInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
                         {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
@@ -132,10 +130,7 @@ function createPageClass(){
                         
                     </form>
 
-                    <div className="spacing" style={{float: "right"}}>
-                        <button className="saveforlater-button">
-                            Save For Later
-                        </button>
+                    <div className="spacing" style={{float: "right", marginTop: "3%"}}>
                         <button className="publish-button" onClick={handleSubmit}>
                             Publish
                         </button>

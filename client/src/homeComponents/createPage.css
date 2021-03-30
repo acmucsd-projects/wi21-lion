@@ -2,6 +2,10 @@
     margin: 10px 0;
 }
 
+.yellow {
+    color: #FFCD00;
+}
+
 .sitforward {
     z-index: 2;
 }

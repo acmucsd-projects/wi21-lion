@@ -120,74 +120,71 @@ function createPageSection(){
                 
                 <div id="formDiv" className="spacing">
                     <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
-                    <label className="spacing" style={{zIndex: "5"}}>Quarter and Year</label>
+                    <label className="spacing yellow">Quarter and Year</label>
                         <input id="qyInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label className="spacing" style={{zIndex: "5"}}>Professor</label>
+                        <label className="spacing yellow">Professor</label>
                         <input id="profInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label className="spacing" style={{zIndex: "5"}}>Section Number</label>
+                        <label className="spacing yellow">Section Number</label>
                         <input id="sectionInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Course Name</label>
+                        <label id="largetextbox" class="spacing yellow">Course Name</label>
                         <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label className="spacing" style={{zIndex: "5"}}>Content</label>
+                        <label className="spacing yellow">Content</label>
                         <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
 
-                        <p style={{padding:'2% 0 2% 0'}}>Select Lecture Times</p>
+                        <p style={{padding:'2% 0 2% 0'}} className="yellow">Select Lecture Times</p>
                         <div id="lectureInput" style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
                             <div>
                                 <div>
                                     <input type="checkbox" id="monday" name="monday" />
-                                    <label for="monday">Monday</label>
+                                    <label for="monday" className="yellow">Monday</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="tuesday" name="tuesday" />
-                                    <label for="tuesday">Tuesday</label>
+                                    <label for="tuesday" className="yellow">Tuesday</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="wednesday" name="wednesday" />
-                                    <label for="wednesday">Wednesday</label>
+                                    <label for="wednesday" className="yellow">Wednesday</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="thursday" name="thursday" />
-                                    <label for="thursday">Thursday</label>
+                                    <label for="thursday" className="yellow">Thursday</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="friday" name="friday" />
-                                    <label for="friday">Friday</label>
+                                    <label for="friday" className="yellow">Friday</label>
                                 </div>
                             </div>
                             <div>
-                                <label class="spacing">
+                                <label className="spacing yellow">
                                     Start Time
                             </label>
                                 <input type="time" id="startTime" name="startTime" required></input>
                             </div>
                             <div>
-                                <label class="spacing">
+                                <label className="spacing yellow">
                                     End Time
                             </label>
                                 <input type="time" id="endTime" name="endTime" required></input>
                             </div>
                         </div>
 
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Website</label>
-                        <input id="websiteInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        <label id="largetextbox" className="spacing yellow" style={{zIndex: "5"}}>Website</label>
+                        <input id="websiteInput" className="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Discord</label>
-                        <input id="discordInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        <label id="largetextbox" className="spacing yellow" style={{zIndex: "5"}}>Discord</label>
+                        <input id="discordInput" className="textbox yellow" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
                         {/* <label id="largetextbox" class="spacing" style={{zIndex: "5"}}>Additional Link</label>
                         <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "20px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
                         
                     </form>
 
-                    <div className="spacing" style={{float: "right"}} onClick={handleSave}>
-                        <button className="saveforlater-button">
-                            Save For Later
-                        </button>
+                    <div className="spacing" style={{float: "right", marginTop: "3%"}}>
                         <button className="publish-button" onClick={handleSubmit}>
                             Publish
                         </button>
