@@ -16,13 +16,13 @@ import {ReactComponent as Sorgs} from './res/sorgs.svg';
 
 function getIcon(id) {
   switch (id) {
-    case 1: 
+    case "classes": 
       return <Classes className="icon"/>;
     case "csports":
       return <Csports className="icon"/>;
     case "nsports":
       return <Nsports className="icon"/>;
-    case 2:
+    case "aorgs":
       return <Aorgs className="icon"/>;
     case "sorgs":
       return <Sorgs className="icon"/>;
@@ -30,9 +30,9 @@ function getIcon(id) {
   }
 }
 
-export default function TabItem({ listItem, isActive, depth, handleTabItemClick, id }) {
+export default function TabItem({ listItem, isActive, depth, handleTabItemClick }) {
 
-  const { name } = listItem;
+  const { name, id } = listItem;
   const icon = depth === 0 ? getIcon(id) : "";
   const className = isActive ? "active" : "";
 

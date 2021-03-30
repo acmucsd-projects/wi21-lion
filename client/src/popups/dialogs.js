@@ -367,8 +367,8 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
   }
 }
 
-
 export function EnrollDialog({ show, hide, section }) {
+
   const { user, setUser } = useContext(UserContext);
 
   function onSubmit(e) {
