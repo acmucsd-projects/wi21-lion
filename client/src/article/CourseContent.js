@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { LoginDialog } from "../popups/dialogs";
 import { EditCourse } from "./EditArticle";
 
 function CourseContent(props) {
 
     const { course, fetchCourseData } = props;
     const [displayEditCourse, setDisplayEditCourse] = useState(false);
+    const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
+
+    const { user } = useContext(UserContext);
+
+    function showLogin() {
+        setDisplayLoginPrompt(true);
+    }
+
+    function hideLogin() {
+        setDisplayLoginPrompt(false);
+    }
 
     function showEditCourse() {
         setDisplayEditCourse(true);
@@ -15,22 +28,20 @@ function CourseContent(props) {
     }
 
     function handleClickOff(event) {
-        if(event.target.className === "edit-backdrop") {
+        if (event.target.className === "edit-backdrop") {
             hideEditCourse();
         }
     }
-
-    // const context = useContext(UserContext);
-    // console.log(context);
 
 
     return (
         <div>
             <div className="section-content-header article-body">
-            <h1>{course.name}</h1>
-            <button className="edit-button" onClick={showEditCourse}>
-                <span>Edit</span>
-            </button>
+                <h1>{course.name}</h1>
+                {user && user.token && <button className="edit-button" onClick={showEditCourse}>
+                    <span>Edit</span>
+                </button>}
+                {(!user || !user.token) && <button onClick={showLogin} className="edit-button">Login to Edit</button>}
             </div>
             <div className="article-inner-body">
                 <p className="long-description">
@@ -40,9 +51,12 @@ function CourseContent(props) {
             </div>
             {displayEditCourse && <div className="edit-backdrop" onClick={handleClickOff}>
                 <div className="edit-section-wrapper" >
-                <EditCourse course={course} closeCourseEdit={hideEditCourse} fetchCourseData={fetchCourseData} />
-            </div>
+                    <EditCourse course={course} closeCourseEdit={hideEditCourse} fetchCourseData={fetchCourseData} />
+                </div>
             </div>}
+            <div className="login-wrapper">
+                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin} />}
+            </div>
         </div>
     )
 }

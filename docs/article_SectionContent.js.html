@@ -26,14 +26,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useContext, useEffect, useState } from 'react';
+            <pre class="prettyprint source linenums"><code>import React, { useCallback, useContext, useEffect, useState } from 'react';
 import * as Add2Calendar from "add2calendar"
 import 'add2calendar/css/add2calendar.css'
 
 import LinksPanel from './LinksPanel';
 
 import './Article.css';
-import { EnrollDialog } from '../popups/dialogs';
+import { EnrollDialog, LoginDialog } from '../popups/dialogs';
 import { EditSection } from './EditArticle';
 import { UserContext } from '../contexts/UserContext';
 
@@ -284,7 +284,9 @@ function SectionContent(props) {
     const { section, course, fetchSectionData } = props;
     const [displayEnrollDialog, setDisplayEnrollDialog] = useState(false);
     const [displayEditSection, setDisplayEditSection] = useState(false);
-    const context = useContext(UserContext);
+    const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
+    const [isEnrolled, setIsEnrolled] = useState(false);
+    const { user } = useContext(UserContext);
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -302,31 +304,57 @@ function SectionContent(props) {
         setDisplayEditSection(false);
     }
 
+    function showLogin() {
+        setDisplayLoginPrompt(true);
+    }
+
+    function hideLogin() {
+        setDisplayLoginPrompt(false);
+    }
+
     function handleClickOff(event) {
         if (event.target.className === "edit-backdrop") {
             setDisplayEditSection(false);
         }
     }
 
+    const updateIsEnrolled = useCallback(() => {
+        if (user.enrolled_sections) {
+            user.enrolled_sections.forEach(element => {
+                fetch(`http://localhost:5000/enrolled_section/${element}`, {
+                    headers: {
+                        'auth_token': user.token
+                    }
+                })
+                    .then(response => response.json())
+                    .then(enrolled_section => {
+                        fetch(`http://localhost:5000/section/${enrolled_section.section_id}`)
+                            .then(response => response.json())
+                            .then(sectionData => {
+                                if (sectionData._id === section._id) {
+                                    setIsEnrolled(true);
+                                }
+                            })
+                    })
+            });
+        }
+
+    }, [section._id, user.enrolled_sections, user.token])
+
 
     useEffect(() => {
-        // let user = JSON.parse(localStorage.getItem('currentSession'));
-        // if (user) {
-        //     // let JWTtoken = user.token;
-        //     // console.log(JWTtoken);
-        //     setUser(user);
-        // }
-        // console.log(context);
-    }, [context])
+        updateIsEnrolled();
+    }, [user, updateIsEnrolled])
 
 
     return (
         &lt;div>
             &lt;div className="section-content-header article-body">
                 &lt;h1>{course.name}: {section.professor}&lt;/h1>
-                &lt;button className="edit-button" onClick={showEditSection}>
+                {user &amp;&amp; user.token &amp;&amp; &lt;button className="edit-button" onClick={showEditSection}>
                     &lt;span>Edit&lt;/span>
-                &lt;/button>
+                &lt;/button>}
+                {(!user || !user.token) &amp;&amp; &lt;h3 onClick={showLogin} className="enroll-button">Login to Edit&lt;/h3>}
             &lt;/div>
             &lt;div id="section-content">
                 &lt;div id="top-section-content">
@@ -341,9 +369,13 @@ function SectionContent(props) {
                         &lt;/p>
                     &lt;/div>
                     &lt;div>
-                        {&lt;button className="enroll-button" onClick={showEnrollDialog}>
+                        {user &amp;&amp; user.token &amp;&amp; !isEnrolled &amp;&amp; &lt;button className="enroll-button" onClick={showEnrollDialog}>
                             &lt;span>Enroll&lt;/span>
                         &lt;/button>}
+                        {user &amp;&amp; user.token &amp;&amp; isEnrolled &amp;&amp; &lt;h3 className="enrolled">
+                            {"\u2705"} Enrolled &lt;/h3>
+                        }
+                        {(!user || !user.token) &amp;&amp; &lt;h3 onClick={showLogin} className="enroll-button">Login to Enroll&lt;/h3>}
                         &lt;LinksPanel section={section} />
                     &lt;/div>
                 &lt;/div>
@@ -351,14 +383,17 @@ function SectionContent(props) {
                 &lt;SectionSchedule course={course} section={section} />
             &lt;/div>
             &lt;div className="enroll-dialog-wrapper">
-                {displayEnrollDialog &amp;&amp; &lt;EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} />}
+                {displayEnrollDialog &amp;&amp; &lt;EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} updateIsEnrolled={updateIsEnrolled} />}
             &lt;/div>
             {displayEditSection &amp;&amp;
                 &lt;div className="edit-backdrop" onClick={handleClickOff}>
                     &lt;div className="edit-section-wrapper">
-                        &lt;EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData}/>
+                        &lt;EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData} />
                     &lt;/div>
                 &lt;/div>}
+            &lt;div className="login-wrapper">
+                {displayLoginPrompt &amp;&amp; &lt;LoginDialog show={showLogin} hide={hideLogin} />}
+            &lt;/div>
         &lt;/div>
     );
 }
@@ -379,7 +414,7 @@ export default SectionContent</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Mar 31 2021 03:08:19 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Mar 31 2021 03:17:58 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
