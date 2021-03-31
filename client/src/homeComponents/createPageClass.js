@@ -90,10 +90,6 @@ function createPageClass(){
                         Create Section
                     </button>
                     </a>
-
-                    <button className="previewpage-button">
-                        Preview Page
-                    </button>
                 </div>
 
                 <div id="formDiv" className="spacing">
