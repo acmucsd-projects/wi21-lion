@@ -92,7 +92,9 @@ function createPageOrg(){
                             Back<i className='fas fa-arrow-left'></i>
                         </button>
                     </a>
-                    
+                    <button className="previewpage-button">
+                        Preview Page
+                    </button>
                 </div>
     
                 <div id="formDiv" className="spacing">
