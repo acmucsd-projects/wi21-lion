@@ -154,12 +154,20 @@
 }
 
 .section-content-header {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-items: stretch;
-	align-content: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.enrolled {
+    text-align: center;
+    background-color: lightgreen;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
 }
 
 .enroll-button {
@@ -336,13 +344,12 @@
 .article-inner-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
     display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-	align-content: stretch;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: stretch;
 }
-
 
 .org-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
@@ -592,13 +599,13 @@
 }
 
 .edit-backdrop {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0,0,0,0.3);
-  padding: 50;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 50;
 }
 
 .edit-section-wrapper {

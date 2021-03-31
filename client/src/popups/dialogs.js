@@ -367,7 +367,7 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
   }
 }
 
-export function EnrollDialog({ show, hide, section }) {
+export function EnrollDialog({ show, hide, section, updateIsEnrolled }) {
 
   const { user, setUser } = useContext(UserContext);
 
@@ -378,7 +378,6 @@ export function EnrollDialog({ show, hide, section }) {
     //   return;
     // }
     e.preventDefault();
-    console.log(user);
     fetch(`http://localhost:5000/enrolled_section/${section._id}`, {
       method: 'POST',
       credentials: 'same-origin',
@@ -395,6 +394,7 @@ export function EnrollDialog({ show, hide, section }) {
         let tmpUser = user;
         tmpUser.enrolled_sections = enrolledSections;
         setUser(tmpUser);
+        updateIsEnrolled();
       })
       .catch(error => {
         console.error(error);
