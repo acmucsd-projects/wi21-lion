@@ -8,10 +8,53 @@ function createPageSection(){
         let titleInput; 
         let contentInput;
         let profInput;
-        let qyInput;
+        let qInput;
+        let yInput;
         let sectionInput;
         let websiteInput;
         let discordInput;
+        let canvasInput;
+        let newStartTime = document.getElementById("startTime").value;
+        let newEndTime = document.getElementById("endTime").value;
+        let lecture_times = "";
+
+        // if (dayVals.monday) {
+        //     lecture_times += "M";
+        // }
+        // if (dayVals.tuesday) {
+        //     lecture_times += "Tu";
+        // }
+        // if (dayVals.wednesday) {
+        //     lecture_times += "W";
+        // }
+        // if (dayVals.thursday) {
+        //     lecture_times += "Th";
+        // }
+        // if (dayVals.friday) {
+        //     lecture_times += "F";
+        // }
+        let newStartTimeHr = newStartTime.split(":")[0];
+        let newStartTimeMin = newStartTime.split(":")[1];
+        lecture_times += " ";
+        lecture_times += newStartTimeHr % 12;
+        lecture_times += ":";
+        lecture_times += newStartTimeMin;
+        if (newStartTimeHr > 12 && newStartTimeHr !== 0) {
+            lecture_times += "PM";
+        } else {
+            lecture_times += "AM";
+        }
+        let newEndTimeHr = newEndTime.split(":")[0];
+        let newEndTimeMin = newEndTime.split(":")[1];
+        lecture_times += "-"
+        lecture_times += newEndTimeHr % 12;
+        lecture_times += ":";
+        lecture_times += newEndTimeMin;
+        if (newEndTimeHr > 12 && newStartTimeHr !== 0) {
+            lecture_times += "PM";
+        } else {
+            lecture_times += "AM";
+        }
 
         if(document.getElementById("titleInput").value == null){
             titleInput = " ";
@@ -20,11 +63,18 @@ function createPageSection(){
             titleInput = document.getElementById("titleInput");    
         }
         
-        if(document.getElementById("qyInput").value == null){
-            qyInput = " ";
+        if(document.getElementById("qInput").value == null){
+            qInput = " ";
         }
         else{
-            qyInput = document.getElementById("qyInput");    
+            qInput = document.getElementById("qInput");    
+        }
+
+        if(document.getElementById("yInput").value == null){
+            yInput = " ";
+        }
+        else{
+            yInput = document.getElementById("yInput");    
         }
 
         if(document.getElementById("profInput").value == null){
@@ -48,6 +98,13 @@ function createPageSection(){
             contentInput = document.getElementById("contentInput");    
         }
 
+        if(document.getElementById("canvasInput").value == null){
+            canvasInput = " ";
+        }
+        else{
+            canvasInput = document.getElementById("canvasInput");    
+        }
+
         if(document.getElementById("websiteInput").value == null){
             websiteInput = " ";
         }
@@ -66,23 +123,44 @@ function createPageSection(){
         let JWTtoken = user.token;
 
         let postBody = {
-            Name: titleInput.value,
-            Date: new Date().getTime()/1000,
-            QuarterYear: qyInput.value,
-            Section: sectionInput.value,
-            Professor: profInput.value,
-            Description: contentInput.value,
-            Website: websiteInput.value,
-            Discord: discordInput.value
+            name: titleInput.value,
+            //Date: new Date().getTime()/1000,
+            quarter: qInput.value,
+            year: yInput.value,
+            section_id: sectionInput.value,
+            lecture_times: lecture_times,
+            professor: profInput.value,
+            description: contentInput.value,
+            website: websiteInput.value,
+            discord: discordInput.value
         }
 
-        fetch("/class/:dep", {
-            method: 'POST', 
-            headers: {
-                'auth_token': JWTtoken
-            },
-            body: JSON.stringify(postBody) 
-        }).then(response => {window.location.assign("/successPage")});
+        let classID;
+
+        fetch(`http://localhost:5000/class`)
+        .then(response => response.json())
+        .then(data => {
+            data.classes.forEach(element => {
+                if(element.name === titleInput.value){
+                    classID = element._id
+                    console.log(classID);
+
+                    fetch(`http://localhost:5000/section/${classID}`, {
+                    method: 'POST', 
+                    headers: {
+                            'content-type': "application/json",
+                            'auth_token': JWTtoken
+                    },
+                        body: JSON.stringify(postBody) 
+                    //}).then(response => {window.location.assign("/successPage")});
+                    }).then(response => alert("Class not found"));
+                }
+
+                    
+                
+            });
+        })
+
     }
 
     return(
@@ -100,8 +178,11 @@ function createPageSection(){
                 
                 <div id="formDiv" className="spacing">
                     <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
-                    <label className="spacing yellow">Quarter and Year</label>
-                        <input id="qyInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
+                        <label className="spacing yellow">Quarter</label>
+                        <input id="qInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
+
+                        <label className="spacing yellow">Year</label>
+                        <input id="yInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
 
                         <label className="spacing yellow">Professor</label>
                         <input id="profInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
@@ -113,7 +194,7 @@ function createPageSection(){
                         <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
 
                         <label className="spacing yellow">Content</label>
-                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
+                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required/>
 
                         <p style={{padding:'2% 0 2% 0'}} className="yellow">Select Lecture Times</p>
                         <div id="lectureInput" style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
@@ -153,19 +234,23 @@ function createPageSection(){
                             </div>
                         </div>
 
+                        <label id="largetextbox" className="spacing yellow" style={{zIndex: "5"}}>Canvas</label>
+                        <input id="canvasInput" className="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+
                         <label id="largetextbox" className="spacing yellow" style={{zIndex: "5"}}>Website</label>
                         <input id="websiteInput" className="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
                         <label id="largetextbox" className="spacing yellow" style={{zIndex: "5"}}>Discord</label>
                         <input id="discordInput" className="textbox yellow" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
                         
+                        <div className="spacing" style={{float: "right", marginTop: "3%"}}>
+                            <button className="publish-button" onClick={handleSubmit}>
+                                Publish
+                            </button>
+                        </div>
+                        
                     </form>
 
-                    <div className="spacing" style={{float: "right", marginTop: "3%"}}>
-                        <button className="publish-button" onClick={handleSubmit}>
-                            Publish
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

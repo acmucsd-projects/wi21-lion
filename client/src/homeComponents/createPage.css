@@ -35,6 +35,7 @@ button {
     color: #FFFFFF;
     border: none;
     border-radius: 10px;
+    float: right;
 }
 
 .publish-button:hover {
@@ -86,6 +87,22 @@ button {
 }
 
 .createsection-button:hover {
+    border-color: #FFCD00;
+    color: #FFCD00;
+    background-color: #3771CD;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+}
+
+.homepage-button {
+    background-color: #FFCD00;
+    float: center;
+    color: #3771CD;
+    border: none;
+    border-radius: 10px;
+}
+
+.homepage-button:hover {
     border-color: #FFCD00;
     color: #FFCD00;
     background-color: #3771CD;
