@@ -4,7 +4,8 @@ import "./createPage.css";
 function createPageSection(){
 
     
-    function handleSubmit(){
+    function handleSubmit(e){
+        e.preventDefault()
         let titleInput; 
         let contentInput;
         let profInput;
@@ -135,7 +136,7 @@ function createPageSection(){
             website: websiteInput.value,
             discord: discordInput.value
         }
-
+        console.log(postBody);
         let classID;
 
         fetch(`http://localhost:5000/class`)
@@ -153,8 +154,8 @@ function createPageSection(){
                             'auth_token': JWTtoken
                     },
                         body: JSON.stringify(postBody) 
-                    //}).then(response => {window.location.assign("/successPage")});
-                    }).then(response => alert("Class not found"));
+                    }).then(response => {window.location.assign("/successPage")});
+                    // }).then(response => alert("Class not found"));
                 }
 
                     
@@ -245,7 +246,7 @@ function createPageSection(){
                         <input id="discordInput" className="textbox yellow" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
                         
                         <div className="spacing" style={{float: "right", marginTop: "3%"}}>
-                            <button className="publish-button" onClick={handleSubmit}>
+                            <button className="publish-button" onClick={e => handleSubmit(e)}>
                                 Publish
                             </button>
                         </div>

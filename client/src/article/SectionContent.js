@@ -262,7 +262,7 @@ function SectionContent(props) {
     const [displayEditSection, setDisplayEditSection] = useState(false);
     const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
     const [isEnrolled, setIsEnrolled] = useState(false);
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -303,24 +303,28 @@ function SectionContent(props) {
                     }
                 })
                     .then(response => response.json())
-                    .then(enrolled_section => {
-                        fetch(`http://localhost:5000/section/${enrolled_section.section_id}`)
-                            .then(response => response.json())
-                            .then(sectionData => {
-                                if (sectionData._id === section._id) {
-                                    setIsEnrolled(true);
-                                }
-                            })
+                    .then(data => {
+                        console.log(data);
+                        if (data) {
+                            fetch(`http://localhost:5000/section/${data["section_id"]}`)
+                                .then(response => response.json())
+                                .then(sectionData => {
+                                    if (sectionData._id === section._id) {
+                                        setIsEnrolled(true);
+                                        setUser(user);
+                                    }
+                                })
+                        }
                     })
             });
         }
 
-    }, [section._id, user.enrolled_sections, user.token])
+    }, [section._id, user, setUser])
 
 
     useEffect(() => {
         updateIsEnrolled();
-    }, [user, updateIsEnrolled])
+    }, [user, updateIsEnrolled, section, isEnrolled])
 
 
     return (

@@ -114,6 +114,7 @@ export default function UserProfile() {
     async function fetchData() {
       // get user profile to get enrolled sections
       let profileData = await ProfileAPI.getProfile(user.token);
+      console.log(profileData);
       setProfileData(profileData.user);
 
       // build enrolled sections datalist
