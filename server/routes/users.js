@@ -37,8 +37,6 @@ router.post('/login', async function(req, res, next) {
     if(!user){
       return res.status(401).json({ error : "Wrong email provided."});
     } else {
-      console.log(email);
-      console.log(password);
       if (await user.validatePassword(password)){
         const jwt_token = jwt.sign({email : email}, config.authentication.JWT_SECRET, {expiresIn : '2hr'});
         return res.status(200).json({ user : user, email : email, token : jwt_token})
@@ -52,9 +50,9 @@ router.post('/login', async function(req, res, next) {
   }
 });
 
-router.get('/profile', userAuth.authenticateUser, async function(req, res, next) {
+router.get('/profile/:user_email', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    const { user_email } = req;
+    const { user_email } = req.params;
     const user = await User.findOne({email : user_email});
     if(!user){
       return res.status(400).json({error : "User does not exist"});
@@ -68,10 +66,13 @@ router.get('/profile', userAuth.authenticateUser, async function(req, res, next)
 });
 
 
-router.patch('/changePassword', userAuth.authenticateUser, async function(req, res, next) {
+router.patch('/changePassword/:user_email', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    const { user_email } = req;
+    console.log('F')
+    const { user_email } = req.params;
     const { new_password } = req.body;
+    console.log(req.body);
+    console.log('new pword', new_password)
     const user = await User.findOne({email : user_email});
     user.password = new_password;
     await user.hashPassword();

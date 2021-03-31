@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import * as Add2Calendar from "add2calendar"
 import 'add2calendar/css/add2calendar.css'
 
 import LinksPanel from './LinksPanel';
 
 import './Article.css';
-import { EnrollDialog } from '../popups/dialogs';
+import { EnrollDialog, LoginDialog } from '../popups/dialogs';
 import { EditSection } from './EditArticle';
 import { UserContext } from '../contexts/UserContext';
 
@@ -256,7 +256,9 @@ function SectionContent(props) {
     const { section, course, fetchSectionData } = props;
     const [displayEnrollDialog, setDisplayEnrollDialog] = useState(false);
     const [displayEditSection, setDisplayEditSection] = useState(false);
-    const context = useContext(UserContext);
+    const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
+    const [isEnrolled, setIsEnrolled] = useState(false);
+    const { user } = useContext(UserContext);
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -274,31 +276,57 @@ function SectionContent(props) {
         setDisplayEditSection(false);
     }
 
+    function showLogin() {
+        setDisplayLoginPrompt(true);
+    }
+
+    function hideLogin() {
+        setDisplayLoginPrompt(false);
+    }
+
     function handleClickOff(event) {
         if (event.target.className === "edit-backdrop") {
             setDisplayEditSection(false);
         }
     }
 
+    const updateIsEnrolled = useCallback(() => {
+        if (user.enrolled_sections) {
+            user.enrolled_sections.forEach(element => {
+                fetch(`http://localhost:5000/enrolled_section/${element}`, {
+                    headers: {
+                        'auth_token': user.token
+                    }
+                })
+                    .then(response => response.json())
+                    .then(enrolled_section => {
+                        fetch(`http://localhost:5000/section/${enrolled_section.section_id}`)
+                            .then(response => response.json())
+                            .then(sectionData => {
+                                if (sectionData._id === section._id) {
+                                    setIsEnrolled(true);
+                                }
+                            })
+                    })
+            });
+        }
+
+    }, [section._id, user.enrolled_sections, user.token])
+
 
     useEffect(() => {
-        // let user = JSON.parse(localStorage.getItem('currentSession'));
-        // if (user) {
-        //     // let JWTtoken = user.token;
-        //     // console.log(JWTtoken);
-        //     setUser(user);
-        // }
-        // console.log(context);
-    }, [context])
+        updateIsEnrolled();
+    }, [user, updateIsEnrolled])
 
 
     return (
         <div>
             <div className="section-content-header article-body">
                 <h1>{course.name}: {section.professor}</h1>
-                <button className="edit-button" onClick={showEditSection}>
+                {user && user.token && <button className="edit-button" onClick={showEditSection}>
                     <span>Edit</span>
-                </button>
+                </button>}
+                {(!user || !user.token) && <h3 onClick={showLogin} className="enroll-button">Login to Edit</h3>}
             </div>
             <div id="section-content">
                 <div id="top-section-content">
@@ -313,9 +341,13 @@ function SectionContent(props) {
                         </p>
                     </div>
                     <div>
-                        {<button className="enroll-button" onClick={showEnrollDialog}>
+                        {user && user.token && !isEnrolled && <button className="enroll-button" onClick={showEnrollDialog}>
                             <span>Enroll</span>
                         </button>}
+                        {user && user.token && isEnrolled && <h3 className="enrolled">
+                            {"\u2705"} Enrolled </h3>
+                        }
+                        {(!user || !user.token) && <h3 onClick={showLogin} className="enroll-button">Login to Enroll</h3>}
                         <LinksPanel section={section} />
                     </div>
                 </div>
@@ -323,14 +355,17 @@ function SectionContent(props) {
                 <SectionSchedule course={course} section={section} />
             </div>
             <div className="enroll-dialog-wrapper">
-                {displayEnrollDialog && <EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} />}
+                {displayEnrollDialog && <EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} updateIsEnrolled={updateIsEnrolled} />}
             </div>
             {displayEditSection &&
                 <div className="edit-backdrop" onClick={handleClickOff}>
                     <div className="edit-section-wrapper">
-                        <EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData}/>
+                        <EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData} />
                     </div>
                 </div>}
+            <div className="login-wrapper">
+                {displayLoginPrompt && <LoginDialog show={showLogin} hide={hideLogin} />}
+            </div>
         </div>
     );
 }

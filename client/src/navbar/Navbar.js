@@ -1,88 +1,132 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TabItem from './TabItem';
 import './NavStyles.css';
+import { useHistory } from 'react-router';
 
+const server = 'http://localhost:5000';
+const getOrgsUrl = `${server}/organization`;
+const getSectionsUrl = `${server}/section`;
+const getDepartmentsUrl = `${server}/department`;
+const getClassesUrl = `${server}/class`;
 
+async function fetchRoutes(url) {
+  let response = {};
+    response = await fetch(url, {
+      method: 'GET',
+    })
+    .then(response => (
+      response.json()
+    ))
+    .catch(error => {
+      console.log(error);
+    })
+    return response;
+}
 
-const topSections = [
-  { id: "classes", name: "CLASSES" },
-  { id: "csports", name: "CLUB SPORTS" },
-  { id: "nsports", name: "NCAA SPORTS" },
-  { id: "aorgs", name: "ACADEMIC ORGS" },
-  { id: "sorgs", name: "SOCIAL ORGS" }, 
+const NavBarAPI = {
+  // get list of all registered student organizations in db
+  getOrgs: async function() {
+    let url = `${getOrgsUrl}`
+    let response = await fetchRoutes(url);
+    return response;
+  },
+  
+  // get list of all departments in db
+  getDepartments: async function() {
+    let url = `${getDepartmentsUrl}`;
+    let response = await fetchRoutes(url);
+    return response;
+  },
+
+  // get list of all classes for a department in db
+  getClass: async function(classId) {
+    let url = `${getClassesUrl}/${classId}`;
+    let response = await fetchRoutes(url);
+    return response;
+  },
+
+  // get list of all sections for each class in db
+  getSection: async function(sectionId) {
+    let url = `${getSectionsUrl}/${sectionId}`;
+    let response = await fetchRoutes(url);
+    return response;
+  }
+}
+
+// TODOL rerender on route (useHistory())
+
+// top level of the navbar
+let topLevelNav = [
+  { 
+    id: 0, 
+    name: "CLASSES", 
+    children: []
+  },
+  { 
+    id: 1, 
+    name: "STUDENT ORGS", 
+    children: [],
+  }
 ]
-const sectionsMid = {
-  classes: [
-    { id: "CSE", name: "CSE" },
-    { id: "MATH", name: "MATH" },
-    { id: "ECE", name: "ECE" },
-    { id: "COGS", name: "COGS" },
-    { id: "BIO", name: "BIO" },
-    { id: "CAT", name: "CAT" },
-  ],
-  csports: [
-    { id: "cswim", name: "SWIM" },
-    { id: "csoccer", name: "SOCCER" },
-    { id: "cwapo", name: "WATER POLO" },
-    { id: "csurf", name: "SURF" },
-    { id: "cbaseball", name: "BASEBALL" },
-    { id: "cbball", name: "BASEBALL" },
-  ]
-}
-const sectionsLow = {
-  CSE: [
-    { id: "3", name: "3" },
-    { id: "5", name: "5" },
-    { id: "8A", name: "8A" },
-    { id: "8B", name: "8B" },
-    { id: "11", name: "11" },
-    { id: "12", name: "12" },
-    { id: "15L", name: "15L" },
-    { id: "20", name: "20" },
-    { id: "21", name: "21" },
-    { id: "30", name: "30" },
-  ]
-}
-const dynamicDepth = {
-  gang: [{ id: "gang", name: "gang"}]
-}
-
-
-/**
- * Hook that alerts clicks outside of the passed ref
- */
-function useOutsideAlerter(ref, handleTabClick) {
-  useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
-      function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target)) {
-              handleTabClick(1, "", -1);
-          }
-      }
-      // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-          // Unbind the event listener on clean up
-          document.removeEventListener("mousedown", handleClickOutside);
-      };
-  }, [ref, handleTabClick]);
-}
-
 
 
 export default function Navbar() {
 
   // arrays of arrays, each array is a deeper section
   const [sections, setSections] = useState([]);
-  const topNav = topSections;
+  const [routeTree, setRouteTree] = useState([]);
   const [isTopNavShrunk, setIsTopNavShrunk] = useState(""); // is top nav shrunk
   const [activeItems, setActiveItems] = useState([]); // array of active list item indices
 
-  // detect click outside
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, handleTabClick);
+  let history = useHistory();
+
+  // fill out tabs of the navbar
+  useEffect(() => {
+    async function fetchData() {
+      let routeTree = [];
+      routeTree = await buildRouteTree();
+      setRouteTree(routeTree);
+    }
+    fetchData();
+  }, []);
+
+  async function buildRouteTree() {
+    let routeTree = topLevelNav;
+
+    // set all the class tab
+    // get list of departments
+    let departments = await NavBarAPI.getDepartments();
+    departments = departments['departments'];
+
+    // for each department get list of classes
+    departments.forEach(async department => {
+      let classes = [];
+
+      // for each class get list of sections
+      for await (let classId of department.classes) {
+        let sections = [];
+        let classData = await NavBarAPI.getClass(classId);
+
+        // add sections to class's section lsit
+        for await (let sectionId of classData.sections) {
+          let sectionData = await NavBarAPI.getSection(sectionId);
+          sections.push({ ...sectionData, name: sectionData.section_id });
+        }
+        classes.push({ name: classData.name, sections: sections });
+      }
+      department.classes = classes;
+    });
+
+    // set departments field of route tree
+    routeTree[0].children = departments;
+
+    // set all the organization tabs
+    let orgs = await NavBarAPI.getOrgs();
+    orgs = orgs['organizations'];
+    routeTree[1].children = orgs;
+
+    return routeTree;
+  }
 
   // open or collapse tabs
   function handleTabClick(id, name, depth) {
@@ -90,36 +134,62 @@ export default function Navbar() {
     // disable query if we click on the header
     if (id === 0) return;
 
-    // ***mock api call replace with actual backend call***
-    let queryData;
+    // set the row to be displayed
+    let displayRow;
     switch(depth) {
-      case -1: queryData = []
+      case -1: displayRow = []
       break;
-      case 0: queryData = sectionsMid[id];
+      case 0: displayRow = routeTree[id - 1].children;
       break;
-      case 1: queryData = sectionsLow[id];
+      case 1: displayRow = routeTree[activeItems[0].id].children[id - 1].classes;
       break;
-      case 2: queryData = dynamicDepth['gang'];
+      case 2: displayRow = routeTree[activeItems[0].id].children[activeItems[1].id].classes[id - 1].sections;
       break;
-      default: queryData = undefined;
+      default: displayRow = undefined;
     } 
+   
 
     // check if query data returned a list
-    if (queryData === undefined) return;
+    if (displayRow === undefined) {
 
-    // add selected section to new list
-    queryData = [{ id: 0, name: name}, ...queryData];
+      let articleType = activeItems[0].name;
+      let routeName = '';
+
+      if (articleType === 'CLASSES') {
+        // route to page
+        let department = routeTree[activeItems[0].id].children[activeItems[1].id].name;
+        let classData = sections[sections.length - 1][0];
+        let sectionData = sections[sections.length - 1][1];
+        let className = classData.name.replace(' ', '');
+       
+        routeName = `/courses/${department}/${className}/${sectionData.quarter}/${sectionData.year}/${sectionData.section_id}`;
+
+      } else {
+        let orgData = sections[sections.length - 1][id];
+        routeName = `/orgs/${orgData.name}`;
+      }
+      console.log(routeName)
+     
+      history.push(`${routeName}`);
+      displayRow = [];
+      return;
+    } else {
+      // add selected section to new list
+      displayRow = [{ id: 0, name: name}, ...displayRow];
+    }
+
+
 
     // set the state
     let updatedSections = [...sections];
     let updatedActiveItems = [...activeItems];
 
-    updatedSections[depth] = queryData;
+    updatedSections[depth] = displayRow;
     updatedSections.length = depth + 1;
 
-    updatedActiveItems[depth] = id;
+
+    updatedActiveItems[depth] = { id: id - 1, name: name };
     updatedActiveItems.length = depth + 1;
-    console.log(updatedSections)
     setSections(updatedSections);
     setActiveItems(updatedActiveItems);
 
@@ -130,28 +200,30 @@ export default function Navbar() {
 
   // separate main tab from small tabs
   return (
-    <nav id="navbar" ref={wrapperRef}>
+    <nav id="navbar">
       <ul id="top-nav" className={isTopNavShrunk ? "shrink" : ""}>
-        {topNav.map(listItem => {
+        {routeTree.map((listItem, index) => {
           let isActive = activeItems[0] === listItem.id ? true : false;
           return <TabItem 
             listItem={listItem}
             isActive={isActive}
             depth={0} 
-            key={listItem.id} 
+            key={listItem.name} 
+            id={index+1}
             handleTabItemClick={handleTabClick}/>
         })}
       </ul>
 
       {sections.map((list, index) => (
         <ul key={index+list[0].name} style={{ zIndex: 0 - index }}>
-          {list.map(listItem => {
-            let isActive = activeItems[index+1] === listItem.id ? true : false;
+          {list.map((listItem, i) => {
+            let isActive = false;
             return <TabItem 
               listItem={listItem}
               isActive={isActive}
               depth={index+1} 
-              key={listItem.id} 
+              id={i}
+              key={i} 
               handleTabItemClick={handleTabClick}/>
           })}
         </ul>

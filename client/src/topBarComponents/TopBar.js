@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './TopBar.css';
 import { ReactComponent as HomeSVG } from './res/home.svg';
 import { ReactComponent as ProfileSVG } from './res/profile.svg';
@@ -8,23 +8,33 @@ import SearchResults from './SearchResults';
 import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom';
 import { LoginDialog, SignupDialog } from '../popups/dialogs';
+import { UserContext } from '../contexts/UserContext';
 
 const ProfileDropdown = (props) => {
     const { hideProfileDropdown, showLogin, showRegister } = props;
+    const { user, setUser } = useContext(UserContext);
+
+    function signOut() {
+        setUser(null);
+        alert("Signed out!");
+        localStorage.removeItem('currentSession');
+        window.location = "/";
+    }
+
     return (
         <ul className="profile-dropdown" onClick={() => hideProfileDropdown()}>
-            <Link exact to='/userProfile' className="profile-item" >
+            {user && user.token && <Link exact to='/userProfile' className="profile-item" >
                 Profile
-            </Link>
-            <Link className="profile-item" onClick={() => showLogin()}>
-                Login
-            </Link>
-            <Link className="profile-item" onClick={() => showRegister()}>
-                Register
-            </Link>
-            <Link className="profile-item" onClick={() => alert("signed out")}>
+            </Link>}
+            {user && user.token && <Link className="profile-item" onClick={() => signOut()}>
                 Sign Out
-            </Link>
+            </Link>}
+            {(!user ||!user.token) && <Link className="profile-item" onClick={() => showLogin()}>
+                Login
+            </Link>}
+            {(!user || !user.token) && <Link className="profile-item" onClick={() => showRegister()}>
+                Register
+            </Link>}
         </ul>
     );
 }
