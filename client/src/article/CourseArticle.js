@@ -110,6 +110,7 @@ function CourseArticle() {
                         "sections": courseData.sections
                     }
                     setCourse(newCourse);
+                    return;
                 }
             })
             .catch(error => {
@@ -352,7 +353,7 @@ function CourseArticle() {
                     }
                 </ul>
             </div>
-            <CourseContent course={course} />
+            <CourseContent course={course} fetchCourseData={() => fetchDepartments()}/>
         </div>
     );
 }

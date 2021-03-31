@@ -70,7 +70,7 @@
     text-decoration: none;
     color: black;
     transition: all 200ms;
-    z-index: 100;
+    z-index: 0;
 }
 
 .path-item a {
@@ -154,12 +154,20 @@
 }
 
 .section-content-header {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-items: stretch;
-	align-content: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.enrolled {
+    text-align: center;
+    background-color: lightgreen;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
 }
 
 .enroll-button {
@@ -311,7 +319,6 @@
     background-color: rgb(255, 200, 132);
     /* border-radius: 10px; */
     width: 110px;
-    z-index: 400;
     font-family: 'Montserrat';
     font-weight: 500;
 }
@@ -337,13 +344,12 @@
 .article-inner-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
     display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-	align-content: stretch;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: stretch;
 }
-
 
 .org-body {
     margin: 0 calc(2 *var(--article-margin)) 5vh calc( 2 *var(--article-margin));
@@ -366,6 +372,7 @@
 }
 
 .org-img {
+    min-width: 20%;
     width: 50%;
     padding: 2%;
 }
@@ -542,7 +549,7 @@
     padding: 1rem;
     overflow: hidden;
     z-index: 100;
-    max-height: 500px;
+    max-height: 50vh;
     overflow-y: scroll;
     overflow-x: hidden;
     overflow: -moz-scrollbars-none;
@@ -589,6 +596,29 @@
     position: absolute;
     top: 0;
     z-index: 999;
+}
+
+.edit-backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 50;
+}
+
+.edit-section-wrapper {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+    margin: 10% 25% 0 25%;
+    width: 50%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2% 0 2% 0;
+    max-height: 60%;
+    overflow-y: scroll;
 }
 
 .add-to-calendar-dialog {

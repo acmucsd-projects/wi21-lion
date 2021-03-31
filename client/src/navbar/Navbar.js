@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TabItem from './TabItem';
 import './NavStyles.css';
-import { createBrowserHistory } from 'history';
-let history = createBrowserHistory();
+import { useHistory } from 'react-router';
 
 const server = 'http://localhost:5000';
 const getOrgsUrl = `${server}/organization`;
@@ -54,6 +53,8 @@ const NavBarAPI = {
   }
 }
 
+// TODOL rerender on route (useHistory())
+
 // top level of the navbar
 let topLevelNav = [
   { 
@@ -68,29 +69,6 @@ let topLevelNav = [
   }
 ]
 
-/**
- * Hook that alerts clicks outside of the passed ref
- */
-function useOutsideAlerter(ref, handleTabClick) {
-  useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
-      function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target)) {
-              handleTabClick(1, "", -1);
-          }
-      }
-      // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-          // Unbind the event listener on clean up
-          document.removeEventListener("mousedown", handleClickOutside);
-      };
-  }, [ref, handleTabClick]);
-}
-
-
 
 export default function Navbar() {
 
@@ -100,9 +78,7 @@ export default function Navbar() {
   const [isTopNavShrunk, setIsTopNavShrunk] = useState(""); // is top nav shrunk
   const [activeItems, setActiveItems] = useState([]); // array of active list item indices
 
-  // detect click outside
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, handleTabClick);
+  let history = useHistory();
 
   // fill out tabs of the navbar
   useEffect(() => {
@@ -134,7 +110,7 @@ export default function Navbar() {
         // add sections to class's section lsit
         for await (let sectionId of classData.sections) {
           let sectionData = await NavBarAPI.getSection(sectionId);
-          sections.push({ name: sectionData.section_id });
+          sections.push({ ...sectionData, name: sectionData.section_id });
         }
         classes.push({ name: classData.name, sections: sections });
       }
@@ -148,6 +124,7 @@ export default function Navbar() {
     let orgs = await NavBarAPI.getOrgs();
     orgs = orgs['organizations'];
     routeTree[1].children = orgs;
+
     return routeTree;
   }
 
@@ -170,18 +147,38 @@ export default function Navbar() {
       break;
       default: displayRow = undefined;
     } 
+   
 
     // check if query data returned a list
     if (displayRow === undefined) {
-      console.log('leaf');
-      // route to page
-      let routeName = activeItems[activeItems.length - 1].name;
-      history.push(`/${routeName}/${name}`);
+
+      let articleType = activeItems[0].name;
+      let routeName = '';
+
+      if (articleType === 'CLASSES') {
+        // route to page
+        let department = routeTree[activeItems[0].id].children[activeItems[1].id].name;
+        let classData = sections[sections.length - 1][0];
+        let sectionData = sections[sections.length - 1][1];
+        let className = classData.name.replace(' ', '');
+       
+        routeName = `/courses/${department}/${className}/${sectionData.quarter}/${sectionData.year}/${sectionData.section_id}`;
+
+      } else {
+        let orgData = sections[sections.length - 1][id];
+        routeName = `/orgs/${orgData.name}`;
+      }
+      console.log(routeName)
+     
+      history.push(`${routeName}`);
+      displayRow = [];
       return;
+    } else {
+      // add selected section to new list
+      displayRow = [{ id: 0, name: name}, ...displayRow];
     }
 
-    // add selected section to new list
-    displayRow = [{ id: 0, name: name}, ...displayRow];
+
 
     // set the state
     let updatedSections = [...sections];
@@ -189,6 +186,7 @@ export default function Navbar() {
 
     updatedSections[depth] = displayRow;
     updatedSections.length = depth + 1;
+
 
     updatedActiveItems[depth] = { id: id - 1, name: name };
     updatedActiveItems.length = depth + 1;
@@ -202,7 +200,7 @@ export default function Navbar() {
 
   // separate main tab from small tabs
   return (
-    <nav id="navbar" ref={wrapperRef}>
+    <nav id="navbar">
       <ul id="top-nav" className={isTopNavShrunk ? "shrink" : ""}>
         {routeTree.map((listItem, index) => {
           let isActive = activeItems[0] === listItem.id ? true : false;
@@ -220,14 +218,12 @@ export default function Navbar() {
         <ul key={index+list[0].name} style={{ zIndex: 0 - index }}>
           {list.map((listItem, i) => {
             let isActive = false;
-            console.log(activeItems[index + 1])
-            console.log(i + 1);
             return <TabItem 
               listItem={listItem}
               isActive={isActive}
               depth={index+1} 
               id={i}
-              key={listItem.name} 
+              key={i} 
               handleTabItemClick={handleTabClick}/>
           })}
         </ul>
