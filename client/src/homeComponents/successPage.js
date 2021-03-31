@@ -11,7 +11,7 @@ function successPage(){
                 <p>Thank you for creating a new page.</p>
             
             <a href="/">
-                    <button className="createsection-button">
+                    <button className="homepage-button">
                         Back to homepage
                     </button>
             </a>
