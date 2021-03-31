@@ -13,46 +13,19 @@ import {
   Route
 } from 'react-router-dom';
 
-
-
 import './App.css';
 import UserProfile from './userProfile/UserProfile';
 // import { LoginDialog } from './popups/dialogs';
 import SectionArticle from './article/SectionArticle';
-import { UserContext } from './contexts/UserContext';
-import { useContext, useEffect } from 'react';
+import { UserContextProvider } from './contexts/UserContext';
 
-const server = "http://localhost:5000"
-const getProfileUrl = `${server}/users/profile`;
 
 function App() {
 
-  const { setUser } = useContext(UserContext);
-
-  useEffect(() => {
-    async function loginUser() {
-      let currentSession = JSON.parse(localStorage.getItem('currentSession'));
-      console.log(currentSession)
-      if (currentSession) {
-        fetch(`${getProfileUrl}`, {
-          method: 'GET',
-          headers: {
-            'auth_token': currentSession.token 
-          }
-        })
-        .then(() => (
-          setUser(currentSession)
-        ))
-        .catch(error => {
-          console.log(error)
-        })
-      } 
-    }
-    loginUser();
-  }, [setUser])
 
   return (
     <div>
+      <UserContextProvider>
       <Router>
         <TopBar />
         <div className="main-container">
@@ -83,6 +56,7 @@ function App() {
           </div>
           </div>
         </Router>
+      </UserContextProvider>
     </div>
   );
 }

@@ -17,7 +17,6 @@ const ProfileDropdown = (props) => {
     function signOut() {
         setUser(null);
         alert("Signed out!");
-        localStorage.removeItem('currentSession');
         window.location = "/";
     }
 
