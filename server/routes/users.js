@@ -68,11 +68,8 @@ router.get('/profile', userAuth.authenticateUser, async function(req, res, next)
 
 router.patch('/changePassword', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    console.log('F')
     const { user_email } = req;
     const { new_password } = req.body;
-    console.log(req.body);
-    console.log('new pword', new_password)
     const user = await User.findOne({email : user_email});
     user.password = new_password;
     await user.hashPassword();
