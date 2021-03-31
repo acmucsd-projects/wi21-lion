@@ -80,6 +80,11 @@
   font-family: Monserrat, sans-serif;
 }
 
+#class-item h2:hover {
+  cursor: pointer;
+  color: #006086;
+}
+
 #dots {
   position: absolute;
   top: 20px;
