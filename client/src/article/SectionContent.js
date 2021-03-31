@@ -262,7 +262,7 @@ function SectionContent(props) {
     const [displayEditSection, setDisplayEditSection] = useState(false);
     const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
     const [isEnrolled, setIsEnrolled] = useState(false);
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -309,9 +309,9 @@ function SectionContent(props) {
                             fetch(`http://localhost:5000/section/${data["section_id"]}`)
                                 .then(response => response.json())
                                 .then(sectionData => {
-                                    alert(`${sectionData._id} ${section._id}`)
                                     if (sectionData._id === section._id) {
                                         setIsEnrolled(true);
+                                        setUser(user);
                                     }
                                 })
                         }
