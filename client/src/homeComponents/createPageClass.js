@@ -23,7 +23,9 @@ function createPageClass(){
     }
 
     
-    function handleSubmit(){
+    function handleSubmit(e){
+        e.preventDefault();
+
         let titleInput;
         let typeInput; 
         let contentInput;
