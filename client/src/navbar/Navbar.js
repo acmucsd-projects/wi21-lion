@@ -105,10 +105,13 @@ export default function Navbar() {
   useOutsideAlerter(wrapperRef, handleTabClick);
 
   // fill out tabs of the navbar
-  useEffect(async () => {
-    let routeTree = [];
-    routeTree = await buildRouteTree();
-    setRouteTree(routeTree);
+  useEffect(() => {
+    async function fetchData() {
+      let routeTree = [];
+      routeTree = await buildRouteTree();
+      setRouteTree(routeTree);
+    }
+    fetchData();
   }, []);
 
   async function buildRouteTree() {
