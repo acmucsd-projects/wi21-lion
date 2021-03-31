@@ -8,13 +8,14 @@
 #navbar {
   /* position: sticky; */
   position: absolute;
-  top: 85px;
+  top: 0;
   z-index: 200;
   left: 0;
   width: fit-content;
   display: flex;
   margin: 0px;
   color: var(--ucsd-yellow);
+  height: 100%;
 }
 
 @keyframes open {
@@ -30,7 +31,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
 }
 
 /* side lists */

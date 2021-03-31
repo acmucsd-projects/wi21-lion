@@ -33,7 +33,8 @@ const Home = () => {
             <button onClick={showSignupDialog} >signup</button>
             <button onClick={showPasswordDialog} >password</button>
              <LandingPage></LandingPage> */}
- <LandingPage></LandingPage>
+            {/* <button onClick={showPasswordDialog} >password</button> */}
+            <LandingPage />
         </div>
     )
 }
