@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const userAuth = require('../middleware/userAuth');
 const { EnrolledSection } = require('../models/EnrolledSection');
+const { log } = require('debug');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -19,6 +20,7 @@ router.post('/register', async function(req, res, next) {
   } else {
     try {
       const user_entry = new User(user);
+      await user_entry.hashPassword();
       await user_entry.save();
       return res.status(200).json({ user : user_entry });
     } catch(err) {
@@ -28,7 +30,7 @@ router.post('/register', async function(req, res, next) {
   }
 });
 
-router.get('/login', async function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   try {
     const { email, password } = req.body
     const user = await User.findOne({ email : email });
@@ -48,9 +50,9 @@ router.get('/login', async function(req, res, next) {
   }
 });
 
-router.get('/profile', userAuth.authenticateUser, async function(req, res, next) {
+router.get('/profile/:user_email', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    const { user_email } = req;
+    const { user_email } = req.params;
     const user = await User.findOne({email : user_email});
     if(!user){
       return res.status(400).json({error : "User does not exist"});
@@ -64,12 +66,16 @@ router.get('/profile', userAuth.authenticateUser, async function(req, res, next)
 });
 
 
-router.patch('/changePassword', userAuth.authenticateUser, async function(req, res, next) {
+router.patch('/changePassword/:user_email', userAuth.authenticateUser, async function(req, res, next) {
   try {
-    const { user_email } = req;
+    console.log('F')
+    const { user_email } = req.params;
     const { new_password } = req.body;
+    console.log(req.body);
+    console.log('new pword', new_password)
     const user = await User.findOne({email : user_email});
     user.password = new_password;
+    await user.hashPassword();
     user.save()
     return res.status(200).json({message : "Password successfully changed."});
   } catch (err) {

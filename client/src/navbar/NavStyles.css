@@ -8,13 +8,14 @@
 #navbar {
   /* position: sticky; */
   position: absolute;
-  top: 7vh;
+  top: 0;
   z-index: 200;
   left: 0;
   width: fit-content;
   display: flex;
   margin: 0px;
   color: var(--ucsd-yellow);
+  height: 100%;
 }
 
 @keyframes open {
@@ -26,11 +27,11 @@
 
 /* main navbar wrapper */
 #navbar ul {
-  z-index: 999;
+  z-index: 99;
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
 }
 
 /* side lists */

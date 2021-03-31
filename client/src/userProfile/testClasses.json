@@ -1,0 +1,21 @@
+
+[
+  {
+    "id": 1,
+    "sections": [],
+    "name": "CSE 110",
+    "description": "SWE"
+  },
+  {
+    "id": 2,
+    "sections": [],
+    "name": "CSE 20",
+    "description": "Discrete Math"
+  },
+  {
+    "id": 3,
+    "sections": [],
+    "name": "CSE 11",
+    "description": "OOP"
+  }
+]

@@ -3,9 +3,12 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  height: 100%;
+  align-items: center;
+  min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
 
   /* background-position: fixed; */
 }
@@ -13,7 +16,7 @@
 .page-container {
   margin-left: 10%;
   width: 90%;
-  height: 150%; /* TODO FIX THIS TO SCALE WITH PAGE SIZE */
+  min-height: 100vh;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -28,6 +31,6 @@
   width: 70%;
   margin: 0 !important;
   background-color: #FFF;
-  padding: 100px;
-  box-shadow: 0 0 20px -5px #000;
+  box-shadow: 0 0 0 -5px #000;
+  min-height: 100vh; /* Temp fix for now */
 }
