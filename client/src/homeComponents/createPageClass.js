@@ -23,7 +23,9 @@ function createPageClass(){
     }
 
     
-    function handleSubmit(){
+    function handleSubmit(e){
+        e.preventDefault();
+
         let titleInput;
         let typeInput; 
         let contentInput;
@@ -92,7 +94,7 @@ function createPageClass(){
                 </div>
 
                 <div id="formDiv" className="spacing">
-                    <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
+                    <form onSubmit={e => handleSubmit(e)} style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
                         <label className="spacing yellow">Department</label>
                         <input id="typeInput" className="textbox " style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
 
@@ -111,7 +113,7 @@ function createPageClass(){
                         <input id="linksInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
 
                         <div className="spacing" style={{float: "right", marginTop: "3%"}}>
-                            <button className="publish-button" onClick={handleSubmit}>
+                            <button type="submit" className="publish-button">
                                 Publish
                             </button>
                         </div>
