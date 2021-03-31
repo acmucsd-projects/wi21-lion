@@ -3,21 +3,31 @@ import "./createPage.css";
 //import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 function createPageClass(){
 
+    let coverImageInput;
+
+    function previewImage() {
+        const preview = document.getElementById("course-preview-img");
+        const file = document.querySelector("input[type=file]").files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", function () {
+            // convert image file to base64 string
+              preview.src = reader.result;
+              coverImageInput = reader.result;
+            //   console.log(reader.result);
+            // setPreviewImgSrc(reader.result);
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
     
     function handleSubmit(){
         let titleInput;
         let typeInput; 
         let contentInput;
-        let coverImageInput;
-        let linksInput;
-
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-
+        
         if(document.getElementById("titleInput").value === null){
             titleInput = " ";
         }
@@ -39,39 +49,28 @@ function createPageClass(){
             contentInput = document.getElementById("contentInput");    
         }
 
-        if(!document.getElementById("coverImageInput").files){
-            coverImageInput = " ";
-        }
-        else{
-            coverImageInput = toBase64(document.getElementById("coverImageInput").files[0]);    
-        }
-
-        if(document.getElementById("linksInput").value === null){
-            linksInput = " ";
-        }
-        else{
-            linksInput = document.getElementById("linksInput");    
-        }
-
         let user = JSON.parse(localStorage.getItem('currentSession'));
         let JWTtoken = user.token;
 
         let postBody = {
-            Name: titleInput.value,
-            Date: new Date().getTime()/1000,
-            Department: typeInput.value,
-            Description: contentInput.value,
-            CoverImage: coverImageInput,
-            Links: linksInput.value,
+            name: titleInput.value,
+            // date: new Date().getTime()/1000,
+            description: contentInput.value,
+            image: coverImageInput,
+            // links: linksInput.value,
         }
 
-        fetch("/class/:dep", {
+        console.log(postBody);
+
+        fetch(`http://localhost:5000/class/${typeInput.value}`, {
             method: 'POST', 
             headers: {
+                'content-type': "application/json",
                 'auth_token': JWTtoken
             },
             body: JSON.stringify(postBody) 
         }).then(response => {window.location.assign("/successPage")});
+     //}).then(response => console.log(response));
     }
 
     return(
@@ -90,10 +89,6 @@ function createPageClass(){
                         Create Section
                     </button>
                     </a>
-
-                    <button className="previewpage-button">
-                        Preview Page
-                    </button>
                 </div>
 
                 <div id="formDiv" className="spacing">
@@ -105,22 +100,25 @@ function createPageClass(){
                         <input id="titleInput" className="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
 
                         <label className="spacing yellow">Content</label>
-                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
+                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required/>
 
                         <label class="spacing yellow">Cover Photo</label>
-                        <input id="coverImageInput" className="yellow" type="file" name="filename"></input>
+                        <input id="coverImageInput" className="yellow" type="file" name="filename" onChange={previewImage}></input>
+                        <img src="" id="course-preview-img" alt="Preview..." style={{ width: "40%", maxHeight: "auto" }}></img>
 
 
-                        <label className="spacing yellow">Additional Links</label>
-                        <input id="linksInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        {/* <label className="spacing yellow">Additional Links</label>
+                        <input id="linksInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input> */}
+
+                        <div className="spacing" style={{float: "right", marginTop: "3%"}}>
+                            <button className="publish-button" onClick={handleSubmit}>
+                                Publish
+                            </button>
+                        </div>
                         
                     </form>
 
-                    <div className="spacing" style={{float: "right", marginTop: "3%"}}>
-                        <button className="publish-button" onClick={handleSubmit}>
-                            Publish
-                        </button>
-                    </div>
+
                 </div>
             </div>
         </div>
