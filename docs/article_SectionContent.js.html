@@ -26,16 +26,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useCallback, useContext, useEffect, useState } from 'react';
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
 import * as Add2Calendar from "add2calendar"
 import 'add2calendar/css/add2calendar.css'
 
 import LinksPanel from './LinksPanel';
 
 import './Article.css';
-import { EnrollDialog, LoginDialog } from '../popups/dialogs';
-import { EditSection } from './EditArticle';
-import { UserContext } from '../contexts/UserContext';
+import { EnrollDialog } from '../popups/dialogs';
 
 
 function getLectureDays(lecture_times) {
@@ -132,26 +130,14 @@ const AddToCalendarDialog = ({ pos, course, section, day }) => {
     // get next day of the week
     let nextDate = new Date();
     nextDate.setDate(nextDate.getDate() + (day + 7 - nextDate.getDay()) % 7);
-    var months = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
+    var months = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
     const startTime = section.lecture_times.split(" ")[1].split("-")[0];
     const endTime = section.lecture_times.split(" ")[1].split("-")[1];
-    let startTimeString = "";
-    if (startTime.length === 7) {
-        startTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 5)} ${startTime.substring(5, 8)}`;
-    } else {
-        startTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 4)} ${startTime.substring(4, 7)}`;
-    }
-    let endTimeString = "";
-    if (endTime.length === 7) {
-        endTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 5)} ${endTime.substring(5, 8)}`;
-    } else {
-        endTimeString = `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 4)} ${endTime.substring(4, 7)}`;
-    }
     var singleEventArgs = {
         title: `${course.name} Lecture`,
-        start: startTimeString,
-        end: endTimeString,
+        start: `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${startTime.substring(0, 4)} ${startTime.substring(4, 7)}`,
+        end: `${months[nextDate.getMonth()]} ${nextDate.getDate()}, ${nextDate.getFullYear()} ${endTime.substring(0, 4)} ${endTime.substring(4, 7)}`,
         location: 'UCSD',
         description: `${course.name} - ${section.quarter} ${section.year} - ${section.professor}`,
         isAllDay: false,
@@ -235,7 +221,7 @@ const SectionScheduleDay = (props) => {
                 &lt;div>&lt;/div>
             &lt;/div>
             &lt;div onClick={toggleAddToCalendar}>
-                {displayAddToCalendar &amp;&amp; &lt;AddToCalendarDialog pos={pos.top} course={course} section={section} day={day} />}
+                {displayAddToCalendar &amp;&amp; &lt;AddToCalendarDialog pos={pos.top} course={course} section={section} day={day}/>}
             &lt;/div>
         &lt;/div>
     );
@@ -281,12 +267,11 @@ const TimeSchedule = () => {
  * @param {*} props 
  */
 function SectionContent(props) {
-    const { section, course, fetchSectionData } = props;
+    const { section, course } = props;
     const [displayEnrollDialog, setDisplayEnrollDialog] = useState(false);
-    const [displayEditSection, setDisplayEditSection] = useState(false);
-    const [displayLoginPrompt, setDisplayLoginPrompt] = useState(false);
-    const [isEnrolled, setIsEnrolled] = useState(false);
-    const { user } = useContext(UserContext);
+    const [user, setUser] = useState(
+        localStorage.getItem('currentSession')
+    )
 
     function showEnrollDialog() {
         setDisplayEnrollDialog(true);
@@ -296,65 +281,22 @@ function SectionContent(props) {
         setDisplayEnrollDialog(false);
     }
 
-    function showEditSection() {
-        setDisplayEditSection(true);
-    }
-
-    function hideEditSection() {
-        setDisplayEditSection(false);
-    }
-
-    function showLogin() {
-        setDisplayLoginPrompt(true);
-    }
-
-    function hideLogin() {
-        setDisplayLoginPrompt(false);
-    }
-
-    function handleClickOff(event) {
-        if (event.target.className === "edit-backdrop") {
-            setDisplayEditSection(false);
-        }
-    }
-
-    const updateIsEnrolled = useCallback(() => {
-        if (user.enrolled_sections) {
-            user.enrolled_sections.forEach(element => {
-                fetch(`http://localhost:5000/enrolled_section/${element}`, {
-                    headers: {
-                        'auth_token': user.token
-                    }
-                })
-                    .then(response => response.json())
-                    .then(enrolled_section => {
-                        fetch(`http://localhost:5000/section/${enrolled_section.section_id}`)
-                            .then(response => response.json())
-                            .then(sectionData => {
-                                if (sectionData._id === section._id) {
-                                    setIsEnrolled(true);
-                                }
-                            })
-                    })
-            });
-        }
-
-    }, [section._id, user.enrolled_sections, user.token])
-
-
     useEffect(() => {
-        updateIsEnrolled();
-    }, [user, updateIsEnrolled])
-
+        let user = JSON.parse(localStorage.getItem('currentSession'));
+        if (user) {
+            // let JWTtoken = user.token;
+            // console.log(JWTtoken);
+            setUser(user);
+        }
+    }, [])
 
     return (
         &lt;div>
             &lt;div className="section-content-header article-body">
                 &lt;h1>{course.name}: {section.professor}&lt;/h1>
-                {user &amp;&amp; user.token &amp;&amp; &lt;button className="edit-button" onClick={showEditSection}>
+                &lt;button className="edit-button">
                     &lt;span>Edit&lt;/span>
-                &lt;/button>}
-                {(!user || !user.token) &amp;&amp; &lt;h3 onClick={showLogin} className="enroll-button">Login to Edit&lt;/h3>}
+                &lt;/button>
             &lt;/div>
             &lt;div id="section-content">
                 &lt;div id="top-section-content">
@@ -369,13 +311,9 @@ function SectionContent(props) {
                         &lt;/p>
                     &lt;/div>
                     &lt;div>
-                        {user &amp;&amp; user.token &amp;&amp; !isEnrolled &amp;&amp; &lt;button className="enroll-button" onClick={showEnrollDialog}>
+                        {user &amp;&amp; &lt;button className="enroll-button" onClick={showEnrollDialog}>
                             &lt;span>Enroll&lt;/span>
                         &lt;/button>}
-                        {user &amp;&amp; user.token &amp;&amp; isEnrolled &amp;&amp; &lt;h3 className="enrolled">
-                            {"\u2705"} Enrolled &lt;/h3>
-                        }
-                        {(!user || !user.token) &amp;&amp; &lt;h3 onClick={showLogin} className="enroll-button">Login to Enroll&lt;/h3>}
                         &lt;LinksPanel section={section} />
                     &lt;/div>
                 &lt;/div>
@@ -383,16 +321,7 @@ function SectionContent(props) {
                 &lt;SectionSchedule course={course} section={section} />
             &lt;/div>
             &lt;div className="enroll-dialog-wrapper">
-                {displayEnrollDialog &amp;&amp; &lt;EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} updateIsEnrolled={updateIsEnrolled} />}
-            &lt;/div>
-            {displayEditSection &amp;&amp;
-                &lt;div className="edit-backdrop" onClick={handleClickOff}>
-                    &lt;div className="edit-section-wrapper">
-                        &lt;EditSection course={course} section={section} closeSectionEdit={hideEditSection} fetchSectionData={fetchSectionData} />
-                    &lt;/div>
-                &lt;/div>}
-            &lt;div className="login-wrapper">
-                {displayLoginPrompt &amp;&amp; &lt;LoginDialog show={showLogin} hide={hideLogin} />}
+                {displayEnrollDialog &amp;&amp; &lt;EnrollDialog show={showEnrollDialog} hide={hideEnrollDialog} section={section} />}
             &lt;/div>
         &lt;/div>
     );
@@ -408,13 +337,13 @@ export default SectionContent</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CourseArticle">CourseArticle</a></li><li><a href="global.html#LinkEntry">LinkEntry</a></li><li><a href="global.html#LinksPanel">LinksPanel</a></li><li><a href="global.html#OrgArticle">OrgArticle</a></li><li><a href="global.html#PathItem">PathItem</a></li><li><a href="global.html#querySearch">querySearch</a></li><li><a href="global.html#SectionArticle">SectionArticle</a></li><li><a href="global.html#SectionContent">SectionContent</a></li><li><a href="global.html#updateSelectedArticleType">updateSelectedArticleType</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CourseArticle">CourseArticle</a></li><li><a href="global.html#LinkEntry">LinkEntry</a></li><li><a href="global.html#LinksPanel">LinksPanel</a></li><li><a href="global.html#OrgArticle">OrgArticle</a></li><li><a href="global.html#PathItem">PathItem</a></li><li><a href="global.html#querySearch">querySearch</a></li><li><a href="global.html#SectionArticle">SectionArticle</a></li><li><a href="global.html#SectionContent">SectionContent</a></li><li><a href="global.html#updateSelectedArticleType">updateSelectedArticleType</a></li><li><a href="global.html#useOutsideAlerter">useOutsideAlerter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Mar 31 2021 03:20:54 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Mar 31 2021 03:22:36 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

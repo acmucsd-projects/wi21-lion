@@ -1,7 +1,5 @@
 import createPageOrg from './homeComponents/createPageOrg';
 import createPageClass from './homeComponents/createPageClass';
-import createPageSection from './homeComponents/createPageSection';
-import successPage from './homeComponents/successPage';
 import TopBar from './topBarComponents/TopBar'
 import Navbar from './navbar/Navbar';
 import home from './homeComponents/home'
@@ -17,7 +15,6 @@ import './App.css';
 import UserProfile from './userProfile/UserProfile';
 // import { LoginDialog } from './popups/dialogs';
 import SectionArticle from './article/SectionArticle';
-import { UserContextProvider } from './contexts/UserContext';
 
 
 function App() {
@@ -25,7 +22,6 @@ function App() {
 
   return (
     <div>
-      <UserContextProvider>
       <Router>
         <TopBar />
         <div className="main-container">
@@ -34,9 +30,7 @@ function App() {
             <Switch>
               <Route exact path='/' component={home} />
               <Route exact path='/createPageClass' component={createPageClass} />
-              <Route exact path='/createPageSection' component={createPageSection} />
               <Route exact path='/createPageOrg' component={createPageOrg} />
-              <Route exact path='/successPage' component={successPage} />
               <Route exact path='/userProfile' component={UserProfile} />
               <Route exact path='/courses' component={BlankCourse} />
               <Route exact
@@ -54,9 +48,8 @@ function App() {
               </Route>
             </Switch>
           </div>
-          </div>
-        </Router>
-      </UserContextProvider>
+        </div>
+      </Router>
     </div>
   );
 }

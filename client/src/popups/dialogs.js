@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import React from 'react';
 import './dialogs.css';
 
 
 const loginUrl = "http://localhost:5000/users/login";
 const signupUrl = "http://localhost:5000/users/register";
 const resetPasswordUrl = "http://localhost:5000/users/changePassword";
-// const enrollUrl = "http://localhost:5000/enrolled_section";
 
 const userAPI = {
-  login: async function (email, password) {
+  login: async function(email, password) {
     let data = {
       email: email,
       password: password
@@ -23,12 +21,12 @@ const userAPI = {
       },
       body: JSON.stringify(data)
     })
-      .then(response => (
-        response.json()
-      ))
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => (
+      response.json()
+    ))
+    .catch(error => {
+      console.log(error);
+    });
     console.log(response)
     if ('error' in response) {
       return { response: false, msg: response.error };
@@ -36,7 +34,7 @@ const userAPI = {
       return { response: response, msg: "" };
     }
   },
-  register: async function (email, password, firstname, lastname) {
+  register: async function(email, password, firstname, lastname) {
 
     // format and make get request for user key
     let response = await fetch(`${signupUrl}`, {
@@ -53,25 +51,26 @@ const userAPI = {
         last_name: lastname,
       })
     })
-      .then(response => (
-        response.json()
-      ))
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => (
+      response.json()
+    ))
+    .catch(error => {
+      console.log(error);
+    });
+    console.log(response);
     if ('error' in response) {
       return { response: false, msg: response.error };
     } else {
       return { response: response, msg: "" };
     }
   },
-  resetPassword: async function (email, password, token) {
+  resetPassword: async function(email, password, token) {
     let data = {
       user_email: email,
       new_password: password
     }
     // format and make get request for user key
-    let response = await fetch(resetPasswordUrl, {
+    let response = await fetch(`${resetPasswordUrl}/${email}`, {
       method: "PATCH",
       credentials: 'same-origin',
       headers: {
@@ -80,23 +79,22 @@ const userAPI = {
       },
       body: JSON.stringify(data)
     })
-      .then(response => (
-        response.json()
-      ))
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => (
+      response.json()
+    ))
+    .catch(error => {
+      console.log(error);
+    });
     if ('error' in response) {
       return { response: false, msg: response.error };
     } else {
       return { response: response, msg: "" };
-    }
+    } 
   },
 }
 
 
 export function LoginDialog({ show, hide }) {
-  const { setUser } = useContext(UserContext);
 
   // const user = JSON.parse(localStorage.getItem('currentSession'));
 
@@ -106,12 +104,11 @@ export function LoginDialog({ show, hide }) {
     let email = document.getElementById('email');
     let password = document.getElementById('password');
     let errorText = document.getElementById('error-text');
-
+    
     let { response, msg } = await userAPI.login(email.value, password.value);
     if (response) {
       window.localStorage.setItem('currentSession', JSON.stringify({ token: response.token, ...response.user }));
-      setUser({ token: response.token, ...response.user});
-      hide();
+      hide(); 
       // clear input values
       email.value = "";
       password.value = "";
@@ -135,21 +132,21 @@ export function LoginDialog({ show, hide }) {
             <h1>Login</h1>
             <p>using your ucsd credentials</p>
             <label htmlFor="email">email:</label>
-            <input
-              id="email"
-              type="email"
+            <input 
+              id="email" 
+              type="email" 
               placeholder="email" />
             <label htmlFor="password">password:</label>
-            <input
-              id="password"
+            <input 
+              id="password" 
               type="password"
-              placeholder="password" />
-            <button
+              placeholder="password" /> 
+            <button 
               onClick={e => handleLogin(e)}
             >Lets Go!</button>
             <p><span id="error-text"></span></p>
-            <button
-              id="forgot-password"
+            <button 
+              id="forgot-password" 
               onClick={e => handleForgotPassword(e)}
             >forgot password</button>
           </form>
@@ -180,11 +177,11 @@ export function SignupDialog({ show, hide }) {
       errorText.textContent = "passwords must be matching";
       return;
     }
-    let { response, msg } =
+    let { response, msg } = 
       await userAPI.register(
-        email.value,
-        password.value,
-        firstName.value,
+        email.value, 
+        password.value, 
+        firstName.value, 
         lastName.value
       );
 
@@ -218,30 +215,30 @@ export function SignupDialog({ show, hide }) {
           <form>
             <h1>Sign Up</h1>
             <label htmlFor="email">email:</label>
-            <input
-              id="email"
-              type="email"
+            <input 
+              id="email" 
+              type="email" 
               placeholder="email" />
             <label htmlFor="password">password:</label>
-            <input
-              id="password"
-              type="password"
+            <input 
+              id="password" 
+              type="password" 
               placeholder="password" />
             <label htmlFor="password-confirm">confirm password:</label>
-            <input
-              id="password-confirm"
-              type="password"
+            <input 
+              id="password-confirm" 
+              type="password" 
               placeholder="confirm password" />
             <label htmlFor="first-name">first name:</label>
-            <input
-              id="first-name"
-              type="text"
-              placeholder="first name" />
+            <input 
+              id="first-name" 
+              type="text" 
+              placeholder="first name" /> 
             <label htmlFor="last-name">last name:</label>
-            <input
-              id="last-name"
-              type="text"
-              placeholder="last name" />
+            <input 
+              id="last-name" 
+              type="text" 
+              placeholder="last name" />  
             <button onClick={e => handleSignup(e)}>Lets Go!</button>
             <p><span id="error-text"></span></p>
           </form>
@@ -270,7 +267,7 @@ export function PasswordDialog({ show, hide }) {
     if (newpw.value !== confirmpw.value) {
       errorText.textContent = "passwords do not match";
       return;
-    }
+    } 
 
     let { response } = await userAPI.login(user.email, oldpw.value);
     if (response) {
@@ -300,14 +297,14 @@ export function PasswordDialog({ show, hide }) {
         <div id="input-dialog">
           <form>
             <label htmlFor="old-password">old password:</label>
-            <input id="old-password" type="password" />
-
+            <input id="old-password" type="password"/>
+    
             <label htmlFor="new-password">new password:</label>
             <input id="new-password" type="password" />
-
+    
             <label htmlFor="confirm-password">confirm new password:</label>
             <input id="confirm-password" type="password" />
-
+    
             <p><span id="error-text"></span></p>
             <div>
               <button onClick={hide}>cancel</button>
@@ -343,11 +340,11 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
     //   })
     //   .then(response => {});
     // }
-
+   
     hide();
   }
 
-  if (show) {
+  if(show) {
     return (
       <div className="backdrop">
         <div id="input-dialog">
@@ -360,49 +357,23 @@ export function DeleteDialog({ show, hide, pageType, pageName }) {
             </div>
           </form>
         </div>
-      </div>
+      </div> 
     )
   } else {
     return null;
   }
 }
 
-export function EnrollDialog({ show, hide, section, updateIsEnrolled }) {
 
-  const { user, setUser } = useContext(UserContext);
+export function EnrollDialog({ show, hide, section}) {
 
-  function onSubmit(e) {
-    // if (!context.user || context.user === {}) {
-    //   alert("Not Logged in");
-    //   hide();
-    //   return;
-    // }
-    e.preventDefault();
-    fetch(`http://localhost:5000/enrolled_section/${section._id}`, {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        'auth_token': user.token
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        let enrolledSections = user.enrolled_sections;
-        enrolledSections.push(data.section_id);
-        let tmpUser = user;
-        tmpUser.enrolled_sections = enrolledSections;
-        setUser(tmpUser);
-        updateIsEnrolled();
-      })
-      .catch(error => {
-        console.error(error);
-      })
+  function onSubmit() {
+    alert("Enrolled in this section")
+    // Enroll functionality 
     hide();
   }
 
-  if (show) {
+  if(show) {
     return (
       <div className="backdrop">
         <div id="input-dialog">
@@ -411,11 +382,11 @@ export function EnrollDialog({ show, hide, section, updateIsEnrolled }) {
             <p>Section: {section.professor} - {section.quarter} {section.year}</p>
             <div>
               <button onClick={hide}>cancel</button>
-              <button onClick={e => onSubmit(e)}>confirm</button>
+              <button onClick={onSubmit}>confirm</button>
             </div>
           </form>
         </div>
-      </div>
+      </div> 
     )
   } else {
     return null;

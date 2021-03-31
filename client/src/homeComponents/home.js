@@ -31,8 +31,9 @@ const Home = () => {
             <button onClick={showLoginDialog}>login</button>
             <button onClick={showDeleteDialog} >delete</button>
             <button onClick={showSignupDialog} >signup</button>
-            <button onClick={showPasswordDialog} >password</button> */}
-            <LandingPage />
+            <button onClick={showPasswordDialog} >password</button>
+             <LandingPage></LandingPage> */}
+ <LandingPage></LandingPage>
         </div>
     )
 }

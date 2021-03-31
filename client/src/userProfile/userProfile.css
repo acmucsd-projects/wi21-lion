@@ -19,7 +19,7 @@
 
 #content > nav > ul {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 
 #content > nav > ul > li {
@@ -78,6 +78,11 @@
 #class-item h2 {
   color: #006A96;
   font-family: Monserrat, sans-serif;
+}
+
+#class-item h2:hover {
+  cursor: pointer;
+  color: #006086;
 }
 
 #dots {
