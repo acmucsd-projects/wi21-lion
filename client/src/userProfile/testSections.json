@@ -1,0 +1,26 @@
+[
+  {
+    "class_id": 1,
+    "quarter": "Spring",
+    "year": 2021,
+    "professor": "professorA",
+    "section_id": "B",
+    "lecture_times": "MWFS"
+  },
+  {
+    "class_id": 2,
+    "quarter": "Fall",
+    "year": 2021,
+    "professor": "professorB",
+    "section_id": "B",
+    "lecture_times": "MWFS"
+  },
+  {
+    "class_id": 3,
+    "quarter": "Summer",
+    "year": 2021,
+    "professor": "professorC",
+    "section_id": "B",
+    "lecture_times": "MWFS"
+  }
+]

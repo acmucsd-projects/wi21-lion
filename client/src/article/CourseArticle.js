@@ -110,6 +110,7 @@ function CourseArticle() {
                         "sections": courseData.sections
                     }
                     setCourse(newCourse);
+                    return;
                 }
             })
             .catch(error => {
