@@ -303,14 +303,18 @@ function SectionContent(props) {
                     }
                 })
                     .then(response => response.json())
-                    .then(enrolled_section => {
-                        fetch(`http://localhost:5000/section/${enrolled_section.section_id}`)
-                            .then(response => response.json())
-                            .then(sectionData => {
-                                if (sectionData._id === section._id) {
-                                    setIsEnrolled(true);
-                                }
-                            })
+                    .then(data => {
+                        console.log(data);
+                        if (data) {
+                            fetch(`http://localhost:5000/section/${data["section_id"]}`)
+                                .then(response => response.json())
+                                .then(sectionData => {
+                                    alert(`${sectionData._id} ${section._id}`)
+                                    if (sectionData._id === section._id) {
+                                        setIsEnrolled(true);
+                                    }
+                                })
+                        }
                     })
             });
         }
@@ -320,7 +324,7 @@ function SectionContent(props) {
 
     useEffect(() => {
         updateIsEnrolled();
-    }, [user, updateIsEnrolled])
+    }, [user, updateIsEnrolled, section, isEnrolled])
 
 
     return (
