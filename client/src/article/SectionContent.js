@@ -319,7 +319,7 @@ function SectionContent(props) {
             });
         }
 
-    }, [section._id, user.enrolled_sections, user.token])
+    }, [section._id, user, setUser])
 
 
     useEffect(() => {
