@@ -18,7 +18,7 @@ const rootBackendURL = "http://localhost:5000"
 function OrgArticle() {
 
     const [org, setOrg] = useState({});
-    const [orgList, setOrgList] = useState([]);
+    const [orgList] = useState([]);
     const params = useParams();
 
     function updateSelectedArticleType(element) {
@@ -42,8 +42,7 @@ function OrgArticle() {
                         setOrg(tmpOrg);
                     }
                 });
-                // console.log(data.organizations)
-                setOrgList(data.organizations);
+                console.log(data.organizations)
             })
             .catch(error => {
                 console.error(error);

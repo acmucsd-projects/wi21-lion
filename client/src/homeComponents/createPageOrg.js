@@ -1,21 +1,33 @@
 import React from 'react'
 import "./createPage.css";
 function createPageOrg(){
+
+    let coverImageInput;
+
+    function previewImage() {
+        const preview = document.getElementById("course-preview-img");
+        const file = document.querySelector("input[type=file]").files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", function () {
+            // convert image file to base64 string
+              preview.src = reader.result;
+              coverImageInput = reader.result;
+            //   console.log(reader.result);
+            // setPreviewImgSrc(reader.result);
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
     
-    function handleSubmit(){
+    function handleSubmit(e){
+        e.preventDefault();
+
         let titleInput;
         let typeInput; 
         let contentInput;
-        let coverImageInput;
         let websiteInput;
-        let discordInput;
-
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
 
         if(document.getElementById("titleInput").value == null){
             titleInput = " ";
@@ -38,12 +50,6 @@ function createPageOrg(){
             contentInput = document.getElementById("contentInput");    
         }
 
-        if(!document.getElementById("coverImageInput").files){
-            coverImageInput = " ";
-        }
-        else{
-            coverImageInput = toBase64(document.getElementById("coverImageInput").files[0]);    
-        }
 
         if(document.getElementById("websiteInput").value == null){
             websiteInput = " ";
@@ -52,30 +58,24 @@ function createPageOrg(){
             websiteInput = document.getElementById("websiteInput");    
         }
 
-        if(document.getElementById("discordInput").value == null){
-            discordInput = " ";
-        }
-        else{
-            discordInput = document.getElementById("discordInput");    
-        }
 
         let user = JSON.parse(localStorage.getItem('currentSession'));
         let JWTtoken = user.token;
 
 
         let postBody = {
-            Name: titleInput.value,
-            Date: new Date().getTime()/1000,
-            Department: typeInput.value,
-            Description: contentInput.value,
-            CoverImage: coverImageInput.value,
-            Website: websiteInput.value,
-            Discord: discordInput.value,
+            name: titleInput.value,
+            // Date: new Date().getTime()/1000,
+            department: typeInput.value,
+            description: contentInput.value,
+            picture: coverImageInput,
+            website: websiteInput.value,
         }
 
-        fetch("/class/:dep", {
+        fetch(`http://localhost:5000/organization`, {
             method: 'POST', 
             headers: {
+                'content-type': "application/json",
                 'auth_token': JWTtoken
             },
             body: JSON.stringify(postBody) 
@@ -92,13 +92,11 @@ function createPageOrg(){
                             Back<i className='fas fa-arrow-left'></i>
                         </button>
                     </a>
-                    <button className="previewpage-button">
-                        Preview Page
-                    </button>
+                    
                 </div>
     
                 <div id="formDiv" className="spacing">
-                    <form style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
+                    <form onSubmit={e => handleSubmit(e)} style={{display: "flex", flexDirection: "column", justifyContent: "flex-start"}}>
                         <label className="spacing yellow">
                             Org Type
                             <select className="textbox" id="typeInput" required>
@@ -113,24 +111,23 @@ function createPageOrg(){
                         <input id="titleInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required></input>
 
                         <label className="spacing yellow">Content</label>
-                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}/>
+                        <textarea id="contentInput" class="textbox" style={{height: "392px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}} required/>
 
                         <label class="spacing yellow">Cover Photo</label>
-                        <input id="coverImageInput" type="file" name="filename" className="yellow"></input>
+                        <input id="coverImageInput" type="file" name="filename" className="yellow" onChange={previewImage}></input>
+                        <img src="" id="course-preview-img" alt="Preview..." style={{ width: "40%", maxHeight: "auto" }}></img>
 
                         <label id="largetextbox" class="spacing yellow">Website</label>
                         <input id="websiteInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
 
-                        <label id="largetextbox" class="spacing yellow">Discord</label>
-                        <input id="discordInput" class="textbox" style={{type: "text", height: "30px", fontSize: "18px", fontFamily: "Montserrat, sans-serif", zIndex: "5"}}></input>
+                        <div className="spacing" style={{float: "right", marginTop: "3%"}}>
+                            <button type="submit" className="publish-button">
+                                Publish
+                            </button>
+                        </div>
 
                     </form>
 
-                    <div className="spacing" style={{float: "right", marginTop: "3%"}}>
-                        <button className="publish-button" onClick={handleSubmit}>
-                            Publish
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

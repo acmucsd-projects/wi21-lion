@@ -35,9 +35,9 @@ function LinksPanel(props) {
         if (((!section.website || section.website.length === 0) &&
             (!section.canvas || section.canvas.length === 0) &&
             (!section.discord || section.discord.length === 0))) {
-            return (
-                <div></div>
-            )
+                return (
+                    <div></div>
+                )
         }
         return (
             <div id="links-container">
@@ -49,11 +49,6 @@ function LinksPanel(props) {
         );
     }
     if (org) {
-        if (!org.website || org.website.length === 0) {
-            return (
-                <div></div>
-            )
-        }
         return (
             <div id="links-container">
                 <LinkEntry name="Website" url={org.website} icon={<WebsiteSVG className="link-glyph" />} />

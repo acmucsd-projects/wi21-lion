@@ -52,7 +52,7 @@ export const EditSection = ({ course, section, closeSectionEdit, fetchSectionDat
     const startTimeMin = startTime.split(":")[1];
     const startTimePM = lecture_times.split(" ")[1].split("-")[0].substring(startSplit, startTime.length) === "PM";
     if (startTimePM) {
-        startTimeHr = parseInt(startTimeHr) + 12;
+        startTimeHr += 12;
     }
     const endTime = lecture_times.split(" ")[1].split("-")[1].substring(0, endSplit);
     let endTimeHr = endTime.split(":")[0];
@@ -60,9 +60,9 @@ export const EditSection = ({ course, section, closeSectionEdit, fetchSectionDat
         endTimeHr = "0" + endTimeHr;
     }
     const endTimeMin = endTime.split(":")[1];
-    const endTimePM = lecture_times.split(" ")[1].split("-")[1].includes("PM");
+    const endTimePM = lecture_times.split(" ")[1].split("-")[1].substring(endSplit, endTime.length) === "PM";
     if (endTimePM) {
-        endTimeHr = parseInt(endTimeHr) + 12;
+        endTimeHr += 12;
     }
     const [startTimeVal, setStartTimeVal] = useState(`${startTimeHr}:${startTimeMin}`);
     const [endTimeVal, setEndTimeVal] = useState(`${endTimeHr}:${endTimeMin}`);
