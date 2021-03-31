@@ -18,7 +18,7 @@ const rootBackendURL = "http://localhost:5000"
 function OrgArticle() {
 
     const [org, setOrg] = useState({});
-    const [orgList, setOrgList] = useState([]);
+    const [orgList] = useState([]);
     const params = useParams();
 
     function updateSelectedArticleType(element) {
@@ -42,7 +42,7 @@ function OrgArticle() {
                         setOrg(tmpOrg);
                     }
                 });
-                setOrgList(data.organizations);
+                console.log(data.organizations)
             })
             .catch(error => {
                 console.error(error);
@@ -52,7 +52,7 @@ function OrgArticle() {
     useEffect(() => {
         fetchOrgList();
         // eslint-disable-next-line
-    }, [])
+    }, [params])
 
     return (
         <div id="article">
