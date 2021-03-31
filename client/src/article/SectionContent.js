@@ -40,18 +40,22 @@ function getLectureDays(lecture_times) {
 function getLectureTimes(lecture_times) {
     const times = lecture_times.split(" ")[1];
     const firstTime = times.split("-")[0];
-    const isPM = firstTime.includes("PM");
+    const firstIsPM = firstTime.includes("PM");
     const secondTime = times.split("-")[1];
+    const secondIsPM = secondTime.includes("PM");
     const firstHour = firstTime.split(":")[0];
     const firstMin = firstTime.split(":")[1].substring(0, 2);
     const secondHour = secondTime.split(":")[0];
     const secondMin = secondTime.split(":")[1].substring(0, 2);
 
     let startPos = (firstHour * 50) + (firstMin * 55 / 60);
-    const endPos = (secondHour * 50) + (secondMin * 55 / 60);
+    let endPos = (secondHour * 50) + (secondMin * 55 / 60);
 
-    if (isPM) {
+    if (firstIsPM) {
         startPos += 50 * 13;
+    }
+    if (secondIsPM) {
+        endPos += 50 * 13;
     }
     if (firstHour === "12") {
         startPos = 0;
