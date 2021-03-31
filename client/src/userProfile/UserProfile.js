@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './userProfile.css';
-
-import testSections from './testSections.json';
-import testClasses from './testClasses.json';
-import testEnrolledSections from './testEnrolledSections.json';
 import { ReactComponent as InfoDots } from './res/info-dots.svg';
 import { PasswordDialog } from '../popups/dialogs';
+import { useHistory } from 'react-router';
 const server = "http://localhost:5000"
 const getProfileUrl = `${server}/users/profile`;
 const getSectionUrl = `${server}/section`;
@@ -13,9 +10,9 @@ const getClassUrl = `${server}/class`;
 const getEnrolledSectionUrl = `${server}/enrolled_section`;
 
 const ProfileAPI = {
-  getProfile: async function(email, token) {
+  getProfile: async function(token) {
     let response = {};
-    response = await fetch(`${getProfileUrl}/${email}`, {
+    response = await fetch(`${getProfileUrl}`, {
       method: 'GET',
       headers: {
         'auth_token': token 
@@ -75,7 +72,9 @@ const ProfileAPI = {
     .catch(error => {
       console.log(error) 
     })
-    console.log(response);  }
+    console.log(response); 
+    return response; 
+  }
 }
 
  
@@ -87,16 +86,19 @@ export default function UserProfile() {
   const [enrolledSections, setEnrolledSections] = useState([]);
 
   const user = JSON.parse(localStorage.getItem('currentSession'));
-  console.log(profileData);
 
   const tabs = [
     <ClassList sections={enrolledSections}/>,
-    <PageList />,
     <Settings />,
   ]
 
+  // use to switch tab views between settings and enrolled sections
   useEffect(() => {
+
+    // get all user profile nav tabs
     let navItems = [...document.getElementsByClassName('profile-nav-item')];
+    
+    // check if nav tab is active, then apply correct styles
     navItems.forEach(navItem => {
       if(navItem.classList.contains(`item${activeTab}`)) {
         navItem.classList.add('active');
@@ -107,36 +109,41 @@ export default function UserProfile() {
 
   }, [activeTab]);
 
+  // fetch all enrolled courses of logged in user
   useEffect(() => {
     async function fetchData() {
-      let profileData = await ProfileAPI.getProfile(user.email, user.token);
+      // get user profile to get enrolled sections
+      let profileData = await ProfileAPI.getProfile(user.token);
       setProfileData(profileData.user);
+
+      // build enrolled sections datalist
       let enrolledSections = [];
-      // for await (let enrolledSectionId of testSectionIds) {
-      //   let enrolledSectionData = await ProfileAPI.getSection(enrolledSectionId, user.token);
-      //   let sectionData = await ProfileAPI.getSection(enrolledSectionData.section_id, user.token);
-      //   let classData = await ProfileAPI.getClass(sectionData.class_id, user.token);
-      //   enrolledSections.push({
-      //     ...enrolledSectionData,
-      //     ...sectionData,
-      //     ...classData
-      //   })
-      // }
-      // console.log('enrolled sections:',enrolledSections);
+      let profileSections = profileData.user.enrolled_sections;
       
-  
-      let classesTest = testClasses;
-      let sectionsTest = testSections;
-      let enrolledSectionsTest = testEnrolledSections;
-  
-      enrolledSections = enrolledSectionsTest.map((enrolledSection, index) => (
-        {...enrolledSection, ...classesTest[index], ...sectionsTest[index] }
-      ));
-      console.log(enrolledSections)
+      // for each enrolled section fetch the class and section data
+      for await (let enrolledSectionId of profileSections) {
+        let enrolledSectionData = await ProfileAPI.getEnrolledSection(enrolledSectionId, user.token);
+        if (!enrolledSectionData) {
+          setEnrolledSections(null);
+          return;
+        }
+        let sectionData = await ProfileAPI.getSection(enrolledSectionData.section_id, user.token);
+        let classData = await ProfileAPI.getClass(sectionData.class_id, user.token);
+        
+        console.log('FETCHED DATA');
+        console.log(sectionData)
+        console.log(classData)
+        // push all data into data array
+        enrolledSections.push({
+          ...enrolledSectionData,
+          ...sectionData,
+          name: classData.name
+        })
+      }
       setEnrolledSections(enrolledSections);
     }
     fetchData();
-  }, [user.email, user.token])
+  }, [user.token])
 
   return (
     <div id="user-profile">
@@ -149,12 +156,8 @@ export default function UserProfile() {
               onClick={() => setActiveTab(0)}>classes</li>
             <li 
               className="profile-nav-item item1" 
-              key="pages" 
-              onClick={() => setActiveTab(1)}>pages</li>
-            <li 
-              className="profile-nav-item item2" 
               key="settings" 
-              onClick={() => setActiveTab(2)}>settings</li>
+              onClick={() => setActiveTab(1)}>settings</li>
           </ul>
           <section>
             { 
@@ -180,11 +183,11 @@ function ClassList({ sections }) {
 
   function ClassItem({ section }) {
 
+    const history = useHistory();
     const [sectionItemPanelShown, setSectionItemPanelShown] = useState(false);
 
     function SectionItemPanel({ section, unenroll, sectionItemPanelShown }) {
       let className = sectionItemPanelShown ? 'active' : 'hidden';
-      console.log(className)
       function handleUnenrollment() {
         unenroll(section.id); // this should be the id of the enrolled object
       }
@@ -208,10 +211,22 @@ function ClassList({ sections }) {
       setSectionItemPanelShown(true);
     }
 
+    function handleSectionClick() {
+      console.log(section);
+      console.log(section.year);
+      console.log(section.quarter);
+      console.log(section.section_id);
+      console.log(section.name);
+      // console.log(section.year);
+      let department = section.name.split(/[0-9]/)[0];
+      let routeName = `courses/${department}/${section.name}/${section.quarter}/${section.year}/${section.id}`;
+      history.push(routeName);
+    }
+
     return (
       <li id="class-item">
         <div>
-          <h2>{ section.name } section { section.section_id }</h2>
+          <h2 onClick={e => handleSectionClick(e)}>{ section.name } section { section.section_id }</h2>
           <p>{ section.description }</p>
           <p>{ section.professor }</p>
         </div>
@@ -229,58 +244,80 @@ function ClassList({ sections }) {
             unenroll={handleUnenrollment} />
         </div>
         <ul id="links">
+          { section.website && <li>
+            <a href={ section.website } rel="noreferrer" target="_blank">
+              website
+            </a>
+          </li>
+          }
+          { section.canvas && 
+          <li>
+            <a href={ section.canvas } rel="noreferrer" target="_blank">
+              canvas
+            </a>
+          </li>
+          }
+          { section.lecture_zoom &&
           <li>
             <a href={ section.lecture_zoom }>
               lecture zoom
             </a>
           </li>
+          }
+          { section.discussion_zoom && 
           <li>
             <a href={ section.discussion_zoom }>
               dicussion zoom  
             </a>
           </li>
+          }
+          { section.lab_zoom &&
           <li>
             <a href={ section.lab_zoom }>
               lab zoom
             </a>
           </li>
+          }
+          {section.oh_zoom &&
           <li>
             <a href={ section.oh_zoom }>
               professor OH
             </a>
           </li>
+          }
+          { section.piazza &&
           <li>
             <a href={ section.piazza }>
               piazza
             </a>
           </li>
+          }
+          { section.gradescope &&
           <li>
             <a href={ section.gradescope }>
               gradescope
             </a>
           </li>
+          }
         </ul>
       </li>
     )
   }
 
-  return (
-    <ul>
-      { 
-        sections.map(section => {
-          return <ClassItem section={section}/>
-        }) 
-      }
-    </ul>
-  )
-}
-
-function PageList() {
-  return (
-    <ul>
-      pagelist
-    </ul>
-  )
+  if (sections) {
+    return (
+      <ul>
+        { 
+          sections.map(section => {
+            return <ClassItem section={section}/>
+          }) 
+        }
+      </ul>
+    )
+  } else {
+    return <p>you are not enrolled in any classes</p>
+  }
+  
 }
 
 function Settings() {
