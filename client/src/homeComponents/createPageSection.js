@@ -131,6 +131,7 @@ function createPageSection(){
             lecture_times: lecture_times,
             professor: profInput.value,
             description: contentInput.value,
+            canvas: canvasInput.value,
             website: websiteInput.value,
             discord: discordInput.value
         }
